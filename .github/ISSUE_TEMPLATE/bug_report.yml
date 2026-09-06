@@ -1,0 +1,92 @@
+name: Bug report
+description: Report a reproducible problem in Rivune
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve Rivune. Do not include credentials, pairing codes, private prompts, private attachments, or unredacted logs. Report security vulnerabilities privately as described in SECURITY.md.
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I searched existing issues and did not find a duplicate.
+          required: true
+        - label: This is not a security vulnerability or private-data disclosure.
+          required: true
+        - label: I removed credentials and private content from this report and its attachments.
+          required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - macOS
+        - iPhone / iOS
+        - Mac-to-iPhone bridge
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Rivune version or commit
+      placeholder: Release tag or commit hash
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS and Xcode versions
+      placeholder: macOS/iOS version; Xcode version if building from source
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Mode involved
+      options:
+        - ChatGPT
+        - Claude
+        - Rivune
+        - Pairing / bridge
+        - Local UI or history
+        - Not provider-specific
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the problem and its impact without private content.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      placeholder: |
+        1. Open...
+        2. Select...
+        3. Observe...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Redacted diagnostics
+      description: Add only the smallest useful, fully redacted logs or screenshots. Drag files here if needed.
+      render: shell
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context

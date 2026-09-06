@@ -1,0 +1,53 @@
+name: Feature request
+description: Propose a focused improvement to Rivune
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Explain the user problem first. Rivune is independent from referenced providers; do not attach proprietary source code, assets, brand logos, private screenshots, or credentials.
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I searched existing issues and did not find this request.
+          required: true
+        - label: This proposal does not assume access to a provider's private APIs or proprietary assets.
+          required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user need or limitation should Rivune address?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Describe the experience, including permission and failure states.
+    validations:
+      required: true
+  - type: textarea
+    id: providers
+    attributes:
+      label: Provider or platform considerations
+      description: Note required CLIs or APIs, data sharing, billing, entitlement, privacy, and platform constraints.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: textarea
+    id: validation
+    attributes:
+      label: Success criteria
+      description: How could maintainers verify this works and fails safely?
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I am willing to help implement or test this feature.
