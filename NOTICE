@@ -1,0 +1,21 @@
+Rivune
+Copyright 2026 Rivune contributors
+
+Rivune is an independent open-source project. It is not affiliated with,
+endorsed by, or sponsored by OpenAI, Anthropic, Apple, Tesla, or any other
+AI provider or platform referenced by the software or documentation.
+
+ChatGPT, Codex, OpenAI, Claude, Claude Code, Anthropic, Apple, Tesla,
+Vision Pro, and other third-party names, product names, and logos are
+trademarks or registered trademarks of their respective owners. Their use
+is solely to identify compatible services or describe interoperability.
+No trademark license or endorsement is implied.
+
+The Apple sign-in mark in website/public/brand/apple-sign-in.svg is sourced
+from Apple's public website asset: https://developer.apple.com/apple-logo.svg
+It identifies the Apple sign-in option and is not Rivune artwork.
+
+The local client/runtime is Apache-2.0; no rights to a future hosted service
+or its operational infrastructure are implied. Rivune trademarks are separate
+from the source license; see TRADEMARKS.md. Dependency license texts and notices
+are listed in THIRD_PARTY_NOTICES.md and third-party-licenses/.
