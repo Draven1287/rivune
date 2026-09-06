@@ -576,20 +576,20 @@ final class RivuneStore: ObservableObject {
                 guard let self else { return }
                 if connected {
                     #if os(macOS)
-                    sendBridgeReadiness()
+                    self.sendBridgeReadiness()
                     #else
-                    refreshConnections()
+                    self.refreshConnections()
                     #endif
                 } else {
                     #if os(macOS)
-                    remoteGenerationTasks.values.forEach { $0.cancel() }
-                    remoteGenerationTasks.removeAll()
+                    self.remoteGenerationTasks.values.forEach { $0.cancel() }
+                    self.remoteGenerationTasks.removeAll()
                     #else
-                    codexReadiness = .macRequired
-                    claudeReadiness = .macRequired
-                    remoteTogetherWorkflowVersion = nil
-                    if let activeRequestID {
-                        markBridgeDisconnect(on: activeRequestID)
+                    self.codexReadiness = .macRequired
+                    self.claudeReadiness = .macRequired
+                    self.remoteTogetherWorkflowVersion = nil
+                    if let activeRequestID = self.activeRequestID {
+                        self.markBridgeDisconnect(on: activeRequestID)
                     }
                     #endif
                 }
