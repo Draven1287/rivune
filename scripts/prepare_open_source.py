@@ -13,7 +13,7 @@ RULES = {
     'private home path': rb'/Users/(?!example(?:/|\b)|test(?:/|\b))[A-Za-z0-9_.-]+/',
 }
 
-def _prepare(destination, archive_stream, checksum_stream):
+def _prepare(destination, archive_stream, checksum_stream, revision=None):
     manifest = ROOT / 'scripts/open_source_files.txt'
     paths = [p for p in manifest.read_text().splitlines() if p and not p.startswith('#')]
     if len(paths) != len(set(paths)):
@@ -58,8 +58,10 @@ def _prepare(destination, archive_stream, checksum_stream):
         raise SystemExit(json.dumps({'blocked': findings}, indent=2))
     versions = sorted(set(re.findall(r'MARKETING_VERSION = ([^;]+)', project)))
     builds = sorted(set(re.findall(r'CURRENT_PROJECT_VERSION = ([^;]+)', project)))
-    provenance = {'status': 'local-unpublished-candidate', 'version': versions, 'build': builds,
-        'revision': None, 'revisionNote': 'No repository commit exists; file hashes identify this candidate.',
+    provenance = {'status': 'source-release-candidate' if revision else 'local-unpublished-candidate', 'version': versions, 'build': builds,
+        'revision': revision,
+        'revisionNote': ('Archive generated from the identified repository revision.' if revision else
+            'No repository revision was supplied; file hashes identify this candidate.'),
         'configurationTransform': 'Official account values removed and all account providers disabled.',
         'files': {p: hashlib.sha256((destination/p).read_bytes()).hexdigest() for p in sorted(paths)}}
     (destination/'SOURCE_MANIFEST.json').write_text(json.dumps(provenance, indent=2)+'\n')
@@ -78,7 +80,7 @@ def _prepare(destination, archive_stream, checksum_stream):
     checksum_stream.write(checksum+'  '+archive.name+'\n')
     print(json.dumps({'directory':str(destination),'archive':str(archive),'sha256':checksum,'files':len(paths)},indent=2))
 
-def prepare(destination):
+def prepare(destination, revision=None):
     archive = destination.with_suffix('.zip')
     checksum = archive.with_suffix('.zip.sha256')
     owned = []
@@ -95,7 +97,7 @@ def prepare(destination):
             claim(archive)
             checksum_stream = stack.enter_context(checksum.open('x'))
             claim(checksum)
-            _prepare(destination, archive_stream, checksum_stream)
+            _prepare(destination, archive_stream, checksum_stream, revision)
     except BaseException:
         # Do not remove an output we never acquired, or one replaced afterward.
         for path, device, inode in reversed(owned):
@@ -109,4 +111,8 @@ def prepare(destination):
 if __name__ == '__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('destination', type=pathlib.Path)
-    prepare(parser.parse_args().destination.resolve())
+    parser.add_argument('--revision', help='Full Git commit ID represented by this archive')
+    arguments=parser.parse_args()
+    if arguments.revision and not re.fullmatch(r'[0-9a-f]{40}', arguments.revision):
+        parser.error('--revision must be a full 40-character lowercase Git commit ID')
+    prepare(arguments.destination.resolve(), arguments.revision)

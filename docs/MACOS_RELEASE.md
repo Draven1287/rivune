@@ -4,10 +4,13 @@ Rivune has two deliberately separate distribution paths:
 
 | Artifact | Purpose | Default location |
 | --- | --- | --- |
-| Source-preview ZIP | Auditable Xcode source for developers | `website/public/downloads/rivune-source-preview.zip` |
+| Source-release ZIP | Auditable Xcode source for developers | A maintainer-selected release path |
 | macOS DMG | Drag-to-Applications package for end users | `release/Rivune.dmg` |
 
-The DMG script never replaces or repackages the source ZIP. It builds the
+Generate a revision-bound source ZIP independently with
+`scripts/prepare_open_source.py`; the command writes the archive and checksum
+next to the selected destination. The DMG script never replaces or repackages
+the source ZIP. It builds the
 `Rivune Mac` scheme in Release configuration using Xcode Beta, signs the app,
 creates a disk image containing `Rivune.app` and an `/Applications` symlink,
 applies a Finder icon layout when an interactive Finder session is available,
@@ -128,7 +131,7 @@ The packaging run fails unless all of these checks pass:
 Before publishing, inspect `Rivune.dmg.release-info.txt`. Only a completed public
 run whose signing, notarization, and Gatekeeper lines all show success is
 suitable for a normal end-user download. Keep the checksum beside the DMG and
-publish the source ZIP independently.
+publish the revision-bound source ZIP independently.
 
 The DMG is the only release artifact. The script intentionally does not leave a
 second loose app in `release/`: a cloud-backed Documents folder can add Finder

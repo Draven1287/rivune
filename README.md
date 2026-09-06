@@ -115,12 +115,13 @@ compatible-endpoint API workspace. Arbitrary CLI execution and arbitrary
 multi-provider councils remain unsupported; each adapter needs explicit review.
 The older downloadable preview does not imply these newer capabilities.
 
-The repository includes a source-preview website, a checksum-backed source
-archive, and separate local-preview and public-release DMG paths. The
-source packaging script at
-[`scripts/package_source_preview.sh`](scripts/package_source_preview.sh)
-produces `website/public/downloads/rivune-source-preview.zip` and its matching
-SHA-256 checksum. [`scripts/package_macos_dmg.sh`](scripts/package_macos_dmg.sh)
+The repository includes a deterministic, allowlisted source exporter and
+separate local-preview and public-release DMG paths. Run
+`python3 scripts/prepare_open_source.py --revision "$(git rev-parse HEAD)" /tmp/rivune-source`
+to produce `/tmp/rivune-source.zip`, its matching SHA-256 checksum, and a
+per-file source manifest bound to the supplied commit. The exporter refuses to
+overwrite existing output and scans the reviewed text files for credential-like
+values. [`scripts/package_macos_dmg.sh`](scripts/package_macos_dmg.sh)
 builds a universal `arm64 x86_64` `Rivune.app`, creates a DMG with an
 Applications shortcut, remounts it, and verifies its metadata, signature,
 architectures, contents, and checksum.
@@ -129,8 +130,9 @@ Public packaging fails closed unless a valid Developer ID Application identity
 and Apple notarization profile are supplied and the app, DMG, stapling, and
 Gatekeeper checks all pass. A local ad-hoc package requires the explicit
 `--allow-adhoc-preview` flag, uses separate `Rivune-Preview` filenames, and must
-not be published. The website offers the source archive while the public DMG is
-held behind that release gate. This is not an App Store build.
+not be published. A separate website may offer the verified source archive
+while the public DMG is held behind that release gate. This is not an App Store
+build.
 
 The intended split between reusable community code and Aarav's private local
 configuration is documented in

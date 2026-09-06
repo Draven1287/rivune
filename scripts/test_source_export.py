@@ -27,6 +27,12 @@ class ExportTests(unittest.TestCase):
         account=plistlib.loads((self.base/'one/Rivune/Info-Mac.plist').read_bytes())['RivuneAccount']
         self.assertFalse(account['Enabled']);self.assertEqual(account['URL'],'');self.assertEqual(account['PublishableKey'],'')
         self.assertTrue(plistlib.loads((self.root/'Rivune/Info-Mac.plist').read_bytes())['RivuneAccount']['Enabled'])
+    def test_revision_is_recorded_in_manifest(self):
+        revision='a'*40
+        with contextlib.redirect_stdout(io.StringIO()): module.prepare(self.base/'revision',revision)
+        provenance=json.loads((self.base/'revision/SOURCE_MANIFEST.json').read_text())
+        self.assertEqual(provenance['status'],'source-release-candidate')
+        self.assertEqual(provenance['revision'],revision)
     def test_secret_failure_is_redacted(self):
         canary='GOCSPX-'+'a'*30
         (self.root/'README.md').write_text(canary)

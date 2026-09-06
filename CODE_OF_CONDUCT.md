@@ -51,12 +51,13 @@ is officially representing the community in public spaces.
 
 ## Reporting and enforcement
 
-A private conduct-reporting channel has not yet been established for this
-unpublished candidate. Before opening the community to contributors, the owner
-must publish a verified private contact method and identify the maintainers
-responsible for reports. Do not disclose incident details or personal information
-in public issues. The enforcement process below is a proposed community policy;
-this candidate does not claim a staffed reporting service.
+For a confidential conduct report, use the repository's
+[private reporting form](https://github.com/Draven1287/rivune/security/advisories/new)
+and begin the title with `[Conduct]`. GitHub labels this private intake as a
+security advisory, but maintainers also use it as the project's confidential
+conduct channel. Do not disclose incident details or personal information in a
+public issue. This is a volunteer-maintained project and does not promise a
+response SLA.
 
 ## Enforcement guidelines
 

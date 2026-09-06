@@ -8,16 +8,15 @@ and modified forks are not supported by this repository's maintainers.
 
 ## Reporting a vulnerability
 
-A private reporting destination has not yet been configured or verified for
-this unpublished candidate. Establish an owner-operated private channel before
-public release and replace this paragraph with its verified URL. Do not assume
-that a repository Security tab or a reporting inbox exists.
+Use [GitHub private vulnerability reporting](https://github.com/Draven1287/rivune/security/advisories/new)
+to report a security issue privately to the maintainers. Do not open a public
+issue for an undisclosed vulnerability.
 
 Do not post vulnerability details, credentials or private data in public issues.
-Once a private destination is established, reports should include the affected
-version/platform, impact, and a minimal reproduction with private data removed.
-Response times and disclosure coordination will be documented when the channel
-is operational; this candidate does not promise an established response SLA.
+Reports should include the affected version and platform, impact, and a minimal
+reproduction with private data removed. This volunteer project does not promise
+a response SLA. Maintainers will acknowledge and coordinate disclosure as
+capacity allows.
 
 ## Never send credentials
 

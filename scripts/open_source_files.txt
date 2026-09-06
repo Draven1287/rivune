@@ -79,6 +79,7 @@ SECURITY.md
 THIRD_PARTY_NOTICES.md
 TRADEMARKS.md
 docs/ARCHITECTURE.md
+docs/ARTWORK_PROVENANCE.md
 docs/BUILD_FROM_SOURCE.md
 docs/MACOS_RELEASE.md
 docs/OPEN_SOURCE_STRATEGY.md
@@ -86,7 +87,6 @@ scripts/configure_update_release.py
 scripts/generate_app_icon.swift
 scripts/open_source_files.txt
 scripts/package_macos_dmg.sh
-scripts/package_source_preview.sh
 scripts/prepare_open_source.py
 scripts/prepare_update_feed.py
 scripts/test_update_signatures.py

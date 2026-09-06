@@ -8,5 +8,6 @@ own name, icons, bundle identifiers, callback schemes and update identity.
 
 Third-party provider names and logos identify compatible services only and
 remain subject to their owners' rights. The code license does not relicense
-those marks. Preserve third-party asset notices. A complete artwork provenance
-and redistribution review is required before public release.
+those marks. Preserve third-party asset notices. The origin and treatment of
+the packaged artwork are documented in
+[docs/ARTWORK_PROVENANCE.md](docs/ARTWORK_PROVENANCE.md).

@@ -22,4 +22,6 @@ Apple sign-in asset attribution is in NOTICE.
 
 The prepared native source export does not include website dependencies or
 website assets. The website remains a separate marketing/download project.
-Brand artwork provenance and redistribution clearance remain release gates.
+Rivune artwork provenance is recorded in
+[docs/ARTWORK_PROVENANCE.md](docs/ARTWORK_PROVENANCE.md). That record does not
+relicense third-party provider marks.
