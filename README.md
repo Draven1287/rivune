@@ -7,9 +7,11 @@ QA tool, not the shipped public product.
 
 ## Current source and distribution
 
-This checkout is newer than the website download. The offered source ZIP is
-version 0.1/build 1; it is not the current private Mac review build or a DMG.
-Current source has Codex/Claude CLI adapters, OpenAI/Anthropic API transports,
+The public repository is the current source of record. Verified, revision-bound
+source archives are published on the
+[GitHub Releases page](https://github.com/Draven1287/rivune/releases); they are
+source packages, not signed Mac installers. Current source has Codex/Claude CLI
+adapters, OpenAI/Anthropic API transports,
 and a separate API workspace for compatible endpoints. Provider support depends
 on the implemented protocol; discovery alone does not make an arbitrary CLI
 executable. Account services are disabled in the public candidate. Local
@@ -21,8 +23,8 @@ is separate and is not required for local CLI/BYOK use. See
 and [dependency notices](THIRD_PARTY_NOTICES.md).
 
 See [build and source-export commands](docs/BUILD_FROM_SOURCE.md) for prerequisites,
-exact commands and configuration sanitization. No public installer, repository
-or cloud service is claimed by this local preparation.
+exact commands and configuration sanitization. No signed public installer or
+managed Rivune Cloud service is available yet.
 
 ## Working now
 
@@ -113,7 +115,7 @@ the Codex CLI and Claude Code CLI adapters execute requests, and the running
 Rivune mode workflow still uses the current two-provider council. Current source also implements OpenAI/Anthropic API transports and a separate
 compatible-endpoint API workspace. Arbitrary CLI execution and arbitrary
 multi-provider councils remain unsupported; each adapter needs explicit review.
-The older downloadable preview does not imply these newer capabilities.
+Each release describes the exact revision and checks it represents.
 
 The repository includes a deterministic, allowlisted source exporter and
 separate local-preview and public-release DMG paths. Run
