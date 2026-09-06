@@ -18,7 +18,7 @@ def _revision_files(revision):
         raise SystemExit('Revision must be a full 40-character lowercase Git commit ID')
     def git(*arguments):
         try:
-            return subprocess.run(['git', '-C', str(ROOT), *arguments], check=True,
+            return subprocess.run(['git', '--no-replace-objects', '-C', str(ROOT), *arguments], check=True,
                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30).stdout
         except (OSError, subprocess.SubprocessError):
             # Repository diagnostics can contain private paths; report no raw output.

@@ -66,6 +66,13 @@ class ExportTests(unittest.TestCase):
         revision=self.commit_fixture()
         self.names.remove('README.md'); self.manifest()
         self.assert_revision_rejected(revision,'Source differs from the revision: scripts/open_source_files.txt')
+    def test_revision_does_not_follow_local_replace_refs(self):
+        revision=self.commit_fixture()
+        (self.root/'README.md').write_text('Replacement commit content')
+        replacement=self.commit_fixture()
+        self.git('replace',revision,replacement)
+        self.assertEqual(self.git('show',revision+':README.md'),'Replacement commit content')
+        self.assert_revision_rejected(revision,'Source differs from the revision: README.md')
     def test_revision_rejects_nonexistent_or_malformed_commit(self):
         self.commit_fixture()
         self.assert_revision_rejected('a'*40,'Cannot verify revision')
