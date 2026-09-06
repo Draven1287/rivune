@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Prepare an allowlisted, disabled-account native source export; never publish."""
-import argparse, contextlib, hashlib, json, pathlib, plistlib, re, shutil, zipfile
+import argparse, contextlib, hashlib, json, pathlib, plistlib, re, shutil, subprocess, zipfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RULES = {
@@ -13,9 +13,45 @@ RULES = {
     'private home path': rb'/Users/(?!example(?:/|\b)|test(?:/|\b))[A-Za-z0-9_.-]+/',
 }
 
+def _revision_files(revision):
+    if not re.fullmatch(r'[0-9a-f]{40}', revision):
+        raise SystemExit('Revision must be a full 40-character lowercase Git commit ID')
+    def git(*arguments):
+        try:
+            return subprocess.run(['git', '-C', str(ROOT), *arguments], check=True,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=30).stdout
+        except (OSError, subprocess.SubprocessError):
+            # Repository diagnostics can contain private paths; report no raw output.
+            raise SystemExit('Cannot verify revision in the source repository') from None
+    if pathlib.Path(git('rev-parse', '--show-toplevel').decode().strip()).resolve() != ROOT.resolve():
+        raise SystemExit('Revision export must run from the source repository root')
+    if git('cat-file', '-t', revision).strip() != b'commit':
+        raise SystemExit('Revision must identify a Git commit')
+    entries = {}
+    for record in git('ls-tree', '-rz', '--full-tree', revision).split(b'\0'):
+        if not record: continue
+        metadata, name = record.split(b'\t', 1)
+        mode, kind, object_id = metadata.decode().split()
+        entries[name.decode()] = (mode, kind, object_id)
+    return entries
+
+def _verify_revision_file(name, data, entries):
+    entry = entries.get(name)
+    if entry is None or entry[0] not in ('100644', '100755') or entry[1] != 'blob':
+        raise SystemExit('File is not a regular file in the revision: ' + name)
+    # Compare the exact bytes copied, before the documented plist transform.
+    blob_id = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+    if blob_id != entry[2]:
+        raise SystemExit('Source differs from the revision: ' + name)
+    return entry[0]
+
 def _prepare(destination, archive_stream, checksum_stream, revision=None):
     manifest = ROOT / 'scripts/open_source_files.txt'
-    paths = [p for p in manifest.read_text().splitlines() if p and not p.startswith('#')]
+    revision_files = _revision_files(revision) if revision else None
+    manifest_bytes = manifest.read_bytes()
+    if revision_files is not None:
+        _verify_revision_file('scripts/open_source_files.txt', manifest_bytes, revision_files)
+    paths = [p for p in manifest_bytes.decode().splitlines() if p and not p.startswith('#')]
     if len(paths) != len(set(paths)):
         raise SystemExit('Duplicate manifest path')
     for name in paths:
@@ -31,10 +67,12 @@ def _prepare(destination, archive_stream, checksum_stream, revision=None):
         data = source.read_bytes()
         if not data or len(data) != source.stat().st_size:
             raise SystemExit("Empty or incomplete source file: " + name)
+        revision_mode = _verify_revision_file(name, data, revision_files) if revision_files is not None else None
         target.write_bytes(data)
         if target.read_bytes() != data:
             raise SystemExit("Copy verification failed: " + name)
-        target.chmod(0o755 if name.startswith('scripts/') and source.stat().st_mode & 0o111 else 0o644)
+        executable = revision_mode == '100755' if revision_mode else bool(source.stat().st_mode & 0o111)
+        target.chmod(0o755 if name.startswith('scripts/') and executable else 0o644)
     # Public build is inert and has no official backend/credential identifiers.
     for name in ['Info-Mac.plist', 'Info-iOS.plist']:
         file = destination / 'Rivune' / name
@@ -60,7 +98,7 @@ def _prepare(destination, archive_stream, checksum_stream, revision=None):
     builds = sorted(set(re.findall(r'CURRENT_PROJECT_VERSION = ([^;]+)', project)))
     provenance = {'status': 'source-release-candidate' if revision else 'local-unpublished-candidate', 'version': versions, 'build': builds,
         'revision': revision,
-        'revisionNote': ('Archive generated from the identified repository revision.' if revision else
+        'revisionNote': ('Allowlist and every source file verified against the identified Git commit before configuration transforms.' if revision else
             'No repository revision was supplied; file hashes identify this candidate.'),
         'configurationTransform': 'Official account values removed and all account providers disabled.',
         'files': {p: hashlib.sha256((destination/p).read_bytes()).hexdigest() for p in sorted(paths)}}
@@ -111,7 +149,7 @@ def prepare(destination, revision=None):
 if __name__ == '__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('destination', type=pathlib.Path)
-    parser.add_argument('--revision', help='Full Git commit ID represented by this archive')
+    parser.add_argument('--revision', help='Full Git commit ID; allowlist and copied source must match this commit')
     arguments=parser.parse_args()
     if arguments.revision and not re.fullmatch(r'[0-9a-f]{40}', arguments.revision):
         parser.error('--revision must be a full 40-character lowercase Git commit ID')

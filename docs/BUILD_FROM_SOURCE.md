@@ -25,7 +25,8 @@ incur provider charges. Physical iPhone relay remains a separate acceptance test
 
 ## Prepare a source release candidate
 
-Python 3.9+ is sufficient. The exact allowlist is scripts/open_source_files.txt.
+Python 3.9+ is sufficient for local exports; revision verification also needs Git
+and a cloned repository. The exact allowlist is scripts/open_source_files.txt.
 New files must be reviewed and explicitly added. Run from the repository root:
 
 ```sh
@@ -44,6 +45,11 @@ Inspect candidate contents, extract to a fresh directory and run the checks
 above. This command does not update website downloads, create a remote, or
 upload an artifact. Omitting `--revision` is supported for local unpublished
 review, but a public archive should always identify the full commit it represents.
+With `--revision`, the exporter verifies the allowlist and each copied file against
+that commit before applying account-configuration sanitization. A missing commit,
+modified allowlist, or changed source fails without leaving partial artifacts.
+Unlisted local files remain excluded. A source ZIP has no Git history: omit
+`--revision` for a local re-export, or clone the repository for a verified release.
 
 The separately maintained website uses Node >=22.13 and its npm lockfile:
 `npm ci`, `npm run lint`, `npx tsc --noEmit`, `npm run test:account`,
