@@ -1,4 +1,5 @@
 import copy
+import hashlib
 from html.parser import HTMLParser
 import json
 from pathlib import Path
@@ -203,7 +204,20 @@ class StaticOutputTests(unittest.TestCase):
         paths = [str(p.relative_to(self.output)) for p in self.output.rglob('*')]
         self.assertFalse(any(p == 'workspace' or p.startswith('workspace/') or 'fixture' in p or p.endswith('.py') for p in paths))
         self.assertNotIn('assets/native-workspace.png', paths)
-        self.assertTrue((self.output / '.nojekyll').exists())
+        self.assertFalse((self.output / '.nojekyll').exists())
+
+    def test_pages_upload_inventory_matches_manifest(self):
+        # The Pages upload action excludes dotfiles. Model that boundary here;
+        # the downloaded CI tar artifact is verified separately by release review.
+        for output in (self.output, self.fixture):
+            with self.subTest(output=output.name):
+                packaged = {str(p.relative_to(output)): p.read_bytes()
+                            for p in output.rglob("*") if p.is_file()
+                            and not any(part.startswith(".") for part in p.relative_to(output).parts)}
+                manifest = json.loads(packaged["build-manifest.json"])
+                self.assertEqual(set(packaged), set(manifest["files"]) | {"build-manifest.json"})
+                for name, digest in manifest["files"].items():
+                    self.assertEqual(hashlib.sha256(packaged[name]).hexdigest(), digest, name)
 
     def test_installer_readiness_does_not_enable_pending_modes(self):
         for output in (self.output, self.fixture):

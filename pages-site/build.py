@@ -233,7 +233,7 @@ def build(release_file=ROOT / "release.json", output=ROOT / "dist", fixture=Fals
             url = ET.SubElement(sitemap, f"{{{namespace}}}url")
             ET.SubElement(url, f"{{{namespace}}}loc").text = SITE_URL + route
         ET.ElementTree(sitemap).write(output / "sitemap.xml", encoding="utf-8", xml_declaration=True)
-    (output / ".nojekyll").write_text("")
+    # Custom Pages workflows serve this artifact directly; the uploader excludes dotfiles.
     (output / "404.html").write_text('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Page not found — Rivune</title><link rel="stylesheet" href="/rivune/site.css"><main class="prose shell"><h1>That page isn’t here.</h1><p><a href="/rivune/">Back to Rivune →</a></p></main></html>')
     manifest = {"target": "https://draven1287.github.io/rivune/", "basePath": "/rivune/", "publishTarget": target, "releaseStatus": data["status"], "simulation": fixture, "files": {str(p.relative_to(output)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(output.rglob("*")) if p.is_file()}}
     (output / "build-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")

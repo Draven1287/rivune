@@ -19,7 +19,7 @@ python3 -m unittest -v test_site
 python3 build.py --publish-target preview
 ```
 
-Only generated `dist/` contents are a Pages deployment artifact. Do not upload source, fixtures, `.qa/`, tests or review evidence. Do not add an extra `rivune` wrapper: the project URL provides that prefix. The builder emits canonical URLs, an eight-route sitemap, a 404 page and `.nojekyll`.
+Only generated `dist/` contents are a Pages deployment artifact. Do not upload source, fixtures, `.qa/`, tests or review evidence. Do not add an extra `rivune` wrapper: the project URL provides that prefix. The builder emits canonical URLs, an eight-route sitemap, a 404 page. This custom Actions workflow does not run Jekyll. The Pages uploader excludes dotfiles, so the output deliberately omits `.nojekyll` and its manifest lists only packaged files.
 
 For a local preview that stays current after builds:
 
