@@ -1,5 +1,9 @@
 # Rivune
 
+[Explore Rivune](https://draven1287.github.io/rivune/) · [Download availability](https://draven1287.github.io/rivune/download/) · [Build from source](docs/BUILD_FROM_SOURCE.md)
+
+**Mac installer coming soon.** The website is live; GitHub release archives currently contain developer source code, not an installable app.
+
 Rivune is a native Mac AI workspace with local conversation history, projects,
 CLI/API connections, and inspectable multi-model collaboration. The website is
 for product information and downloads. An internal browser workspace is a local
