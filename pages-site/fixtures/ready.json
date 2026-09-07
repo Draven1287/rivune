@@ -1,0 +1,21 @@
+{
+  "simulation": true,
+  "status": "ready",
+  "sourceRelease": "v0.2.0-source-preview.4",
+  "version": "0.2.0-beta.1",
+  "architecture": "universal",
+  "minimumMacOS": "26.0",
+  "sizeBytes": 52428800,
+  "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "tag": "SIMULATED-DO-NOT-PUBLISH",
+  "assetUrl": "https://github.com/Draven1287/rivune/releases/download/SIMULATED-DO-NOT-PUBLISH/Rivune-SIMULATED.dmg",
+  "validatedAt": "2026-09-06T22:00:00Z",
+  "validationEvidence": "SIMULATED fixture only; no installer or acceptance evidence exists.",
+  "validation": {
+    "developerIDSigned": true,
+    "notarized": true,
+    "stapled": true,
+    "gatekeeperAccepted": true,
+    "pilotAccepted": true
+  }
+}
