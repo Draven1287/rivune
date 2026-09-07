@@ -19,6 +19,11 @@ SITE_URL = "https://draven1287.github.io/rivune/"
 # Intentional public content only. Never discover pages by walking the build tree.
 PUBLIC_PAGES = (
     ("index.html", ""),
+    ("app.html", "app/"),
+    ("how-it-works.html", "how-it-works/"),
+    ("faq.html", "faq/"),
+    ("about.html", "about/"),
+    ("download.html", "download/"),
     ("privacy.html", "privacy/"),
     ("council-vs-swarm.html", "council-vs-swarm/"),
 )
@@ -94,21 +99,25 @@ def render_tokens(data, fixture=False):
     ready = validate_release(data, fixture)
     e = html.escape
     disabled = '<button class="button" type="button" disabled>Mac installer coming soon</button>'
-    control = disabled
+    control = ""
     tokens = {
         "ROBOTS": '<meta name="robots" content="noindex,nofollow">' if fixture else "",
         "FIXTURE_BANNER": '<aside class="fixture-banner"><p>SIMULATED READY STATE — local layout test only. No real installer is available.</p></aside>' if fixture else "",
         "HERO_DOWNLOAD": disabled,
         "HERO_NOTE": "The app is in preview. Check back here for the Mac installer.",
         "MAC_REQUIREMENT": "The current preview requires macOS 26 or later and supports Apple silicon and Intel Macs. Check the installer’s requirements when it becomes available.",
-        "DOWNLOAD_TITLE": "Mac installer coming soon.",
-        "DOWNLOAD_DESCRIPTION": "We’re preparing a simple Mac installer. It will be available here after security checks and beta testing.",
+        "DOWNLOAD_TITLE": "Get Rivune.",
+        "DOWNLOAD_DESCRIPTION": "Choose your platform to check availability.",
         "DOWNLOAD_CONTROL": control,
         "RELEASE_META": "",
         "RELEASE_NOTE": "The Mac installer is not available yet.",
         "INSTALL_HEADING": "When the installer is ready, it’s three steps.",
         "INSTALL_NOTE": "These instructions are for the upcoming DMG. They do not apply to the source-code ZIP.",
         "INTEGRITY": "",
+        "RELEASE_READY": "false",
+        "PLATFORM_MAC_TITLE": "Mac installer coming soon",
+        "PLATFORM_MAC_BODY": "The Mac installer is in development. It will be available here after release testing.",
+        "INSTALL_SECTION": "",
     }
     if ready:
         version, arch, minimum = e(data["version"]), e(ARCHITECTURES[data["architecture"]]), e(data["minimumMacOS"])
@@ -118,15 +127,20 @@ def render_tokens(data, fixture=False):
             "HERO_DOWNLOAD": control,
             "HERO_NOTE": f'Rivune {version} · macOS {minimum}+ · {arch}',
             "MAC_REQUIREMENT": f'This installer requires macOS {minimum} or later. Supported Macs: {arch}.',
-            "DOWNLOAD_TITLE": "Ready for your Mac.",
-            "DOWNLOAD_DESCRIPTION": "Download Rivune, move it to Applications, and connect your supported AI provider. Your workspace is ready for you to make it your own.",
+            "DOWNLOAD_TITLE": "Get Rivune.",
+            "DOWNLOAD_DESCRIPTION": "Choose your platform to check availability.",
             "DOWNLOAD_CONTROL": control,
             "RELEASE_META": f'<dl class="release-meta"><div><dt>Version</dt><dd>{version}</dd></div><div><dt>Mac</dt><dd>{arch}</dd></div><div><dt>Requires</dt><dd>macOS {minimum}+</dd></div><div><dt>Download</dt><dd>{size} · DMG</dd></div></dl>',
             "RELEASE_NOTE": f'<a href="{REPO}/releases/tag/{e(data["tag"])}">Read release notes →</a>',
             "INSTALL_HEADING": "Three steps, then you’re in.",
             "INSTALL_NOTE": "You’ll connect your provider after opening Rivune. If macOS reports a security problem, stop and contact support.",
             "INTEGRITY": f'<details class="details"><summary>Download details &amp; checksum</summary><div><p>Exact download size: {data["sizeBytes"]:,} bytes.</p><p>SHA-256: <code>{data["sha256"]}</code></p><p>This release passed the maintainer’s signing, notarization, Gatekeeper, and beta acceptance checks.</p></div></details>',
+            "RELEASE_READY": "true",
+            "PLATFORM_MAC_TITLE": "Mac download available",
+            "PLATFORM_MAC_BODY": f'Rivune {version} is available as a validated DMG for macOS {minimum}+ on {arch}.',
+            "INSTALL_SECTION": '<div data-mac-only><h2 class="install-heading">Three steps, then you’re in.</h2><p class="install-note">You’ll connect your provider after opening Rivune. If macOS reports a security problem, stop and contact support.</p><ol class="install-steps"><li><h3>Open the DMG</h3><p>Open the downloaded Rivune disk image.</p></li><li><h3>Move Rivune</h3><p>Drag Rivune to Applications.</p></li><li><h3>Launch Rivune</h3><p>Open Rivune and connect a supported provider.</p></li></ol>' + f'<details class="details"><summary>Download details &amp; checksum</summary><div><p>Exact download size: {data["sizeBytes"]:,} bytes.</p><p>SHA-256: <code>{data["sha256"]}</code></p><p>This release passed the maintainer’s signing, notarization, Gatekeeper, and beta acceptance checks.</p></div></details></div>',
         })
+    tokens["MAC_RELEASE_DETAILS"] = (f'<div data-mac-only><p>{tokens["DOWNLOAD_CONTROL"]}</p>{tokens["RELEASE_META"]}<p>{tokens["RELEASE_NOTE"]}</p></div>' if ready else "")
     return tokens
 
 
@@ -146,6 +160,41 @@ def validate_publish_target(data, fixture=False, publish_target=None, require_re
     if publish_target == "validated-beta" and not ready:
         raise ValueError("Validated beta requires a real validated installer")
     return publish_target or "review"
+
+
+def render_navigation(route):
+    primary = (("app/", "The app"), ("how-it-works/", "How it works"), ("about/", "About"))
+    more = (("faq/", "FAQ"), ("mailto:rivune.crave757@slmails.com", "Contact Aarav"), ("https://github.com/Draven1287/rivune", "Source"), ("privacy/", "Privacy"), ("https://github.com/Draven1287/rivune/issues", "Support"))
+    active = "how-it-works/" if route == "council-vs-swarm/" else route
+    def link(path, label, mobile=False):
+        current = ' aria-current="page"' if active == path else ''
+        href = path if path.startswith(("http", "mailto:")) else "/rivune/" + path
+        action = ' class="nav-action"' if path == "download/" else ''
+        return f'<a{action} href="{href}"{current}>{label}</a>'
+    brand_current = ' aria-current="page"' if route == "" else ''
+    brand = f'<a class="brand" href="/rivune/" aria-label="Rivune home"{brand_current}><img class="icon" src="/rivune/assets/rivune-icon-128.png" alt="" width="32" height="32"><img class="wordmark" src="/rivune/assets/rivune-wordmark.svg" alt="Rivune" width="112" height="15"></a>'
+    desktop = ''.join(link(path, label) for path, label in primary)
+    desktop_more = ''.join(link(path, label) for path, label in more)
+    mobile = ''.join(link(path, label, True) for path, label in (*primary, *more)) + link("download/", "Download", True)
+    return f'<a class="skip" href="#main">Skip to content</a><header class="nav shell">{brand}<nav class="nav-links" aria-label="Main navigation">{desktop}<details class="nav-more"><summary>More</summary><div>{desktop_more}</div></details>{link("download/", "Download")}</nav><details class="mobile-menu"><summary>Menu</summary><nav aria-label="Mobile navigation">{mobile}</nav></details></header>'
+
+
+def render_footer(route):
+    privacy_current = ' aria-current="page"' if route == "privacy/" else ''
+    return f'<footer class="footer shell"><a class="brand" href="/rivune/" aria-label="Rivune home"><img class="icon" src="/rivune/assets/rivune-icon-128.png" alt="" width="32" height="32"><img class="wordmark" src="/rivune/assets/rivune-wordmark.svg" alt="Rivune" width="112" height="15"></a><p class="footer-origin">Built in Denver, Colorado.</p><nav aria-label="Project links"><a href="/rivune/about/">About</a><a href="mailto:rivune.crave757@slmails.com">Contact</a><a href="https://github.com/Draven1287/rivune">Source</a><a href="/rivune/privacy/"{privacy_current}>Privacy</a><a href="https://github.com/Draven1287/rivune/issues">Support</a></nav><small>© 2026 Rivune contributors. Apache-2.0 licensed independent software, not affiliated with OpenAI, Anthropic, or Apple.</small></footer>'
+
+
+MENU_SCRIPT = """<script>(() => {
+document.querySelectorAll('.mobile-menu a,.nav-more a').forEach((link) => { link.addEventListener('click', () => link.closest('details')?.removeAttribute('open')); });
+document.addEventListener('keydown',event=>{if(event.key==='Escape')document.querySelectorAll('.mobile-menu[open],.nav-more[open]').forEach(details=>{details.removeAttribute('open');details.querySelector('summary')?.focus();});});
+document.addEventListener('pointerdown',event=>{document.querySelectorAll('.mobile-menu[open],.nav-more[open]').forEach(details=>{if(!details.contains(event.target))details.removeAttribute('open');});});
+const examples={project:{label:'Plan a project',perspectives:['Two useful starting points','One perspective prioritizes a two-week pilot. Another starts with a smaller three-day test so the team can learn before committing.','The approaches disagree on scope. The review step will keep the low-risk test and a clear path to expand.'],review:['A smaller test, with a decision point','The review finds agreement on the goal and flags the timeline conflict. It combines a three-day trial with a written checkpoint before the full pilot.','The disagreement is visible instead of being averaged away.'],final:['A practical pilot plan','Run a three-day test with one owner, two participants, and a short success checklist. Review the evidence on day four, then decide whether to begin a two-week pilot.','Aarav can edit this draft before using it.']},proposal:{label:'Review a proposal',perspectives:['Strengths and unanswered questions','One reviewer likes the clear community benefit. Another identifies an unclear owner, timeline, and measure of success.','The proposal has a promising purpose but needs an accountable plan.'],review:['Keep the purpose; repair the plan','The review preserves the strongest outcome and adds an owner, a four-week pilot, and a simple attendance measure.','Specific corrections are carried into the draft.'],final:['A proposal ready for human review','Invite one partner to a four-week pilot led by a named coordinator. Meet weekly, record attendance, and review participant feedback before expanding.','The final decision stays with the person reviewing the proposal.']},approaches:{label:'Compare approaches',perspectives:['Fast launch or careful trial','One approach ships broadly this week. The other tests with five people and records failures before wider use.','They differ on risk, learning, and speed.'],review:['Choose a staged launch','The review keeps the fast approach’s momentum while using a five-person trial to expose problems before a wider release.','The chosen tradeoff is explicit.'],final:['A staged release outline','Start with five invited testers for one week. Fix blocking issues, document known limits, and expand only after the acceptance checklist passes.','No quality score or live model result is implied.']}};
+const stages={perspectives:'Perspectives',review:'Review',final:'Final draft'};let example='project',stage='perspectives';
+const renderDemo=(focus=false)=>{const panel=document.querySelector('[data-demo-label]')?.closest('.demo-panel');if(!panel)return;const data=examples[example][stage];document.querySelector('[data-demo-label]').textContent=`${examples[example].label} · ${stages[stage]}`;document.querySelector('[data-demo-title]').textContent=data[0];document.querySelector('[data-demo-body]').textContent=data[1];document.querySelector('[data-demo-note]').textContent=data[2];document.querySelectorAll('[data-demo-example]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.demoExample===example)));document.querySelectorAll('[data-demo-stage]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.demoStage===stage)));if(focus)requestAnimationFrame(()=>panel.focus());};
+document.querySelectorAll('[data-demo-example]').forEach(b=>b.addEventListener('click',()=>{example=b.dataset.demoExample;stage='perspectives';renderDemo(true);}));document.querySelectorAll('[data-demo-stage]').forEach(b=>b.addEventListener('click',()=>{stage=b.dataset.demoStage;renderDemo(true);}));document.querySelector('[data-demo-reset]')?.addEventListener('click',()=>{example='project';stage='perspectives';renderDemo(true);});
+const platformPanel=document.querySelector('[data-platform-panel]'),macReady=platformPanel?.dataset.releaseReady==='true';const platforms={mac:['macOS',macReady?'Mac download available':'Mac installer coming soon',macReady?'A validated Mac DMG is available below. Check its version and system requirements before downloading.':'The Mac installer is in development. It will be available here after release testing.'],windows:['Windows','Windows version is planned','There is no verified Windows installer yet. Return later for availability updates.'],linux:['Linux','Linux version is planned','There is no verified Linux package yet. Return later for availability updates.']};
+document.querySelectorAll('[data-platform]').forEach(b=>b.addEventListener('click',()=>{const p=b.dataset.platform,d=platforms[p],panel=document.querySelector('[data-platform-panel]');document.querySelectorAll('[data-platform]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));document.querySelectorAll('[data-mac-only]').forEach(x=>x.hidden=p!=='mac');document.querySelector('[data-platform-label]').textContent=d[0];document.querySelector('[data-platform-title]').textContent=d[1];document.querySelector('[data-platform-body]').textContent=d[2];panel.focus();}));
+})();</script>"""
 
 
 def build(release_file=ROOT / "release.json", output=ROOT / "dist", fixture=False, require_ready=False, publish_target=None):
@@ -169,7 +218,7 @@ def build(release_file=ROOT / "release.json", output=ROOT / "dist", fixture=Fals
     for source, route in PUBLIC_PAGES:
         destination = output / route / "index.html"
         text = (ROOT / source).read_text()
-        page_tokens = {**tokens, "CANONICAL": html.escape(SITE_URL + route, quote=True)}
+        page_tokens = {**tokens, "CANONICAL": html.escape(SITE_URL + route, quote=True), "NAV": render_navigation(route), "FOOTER": render_footer(route), "MENU_SCRIPT": MENU_SCRIPT}
         for key, value in page_tokens.items():
             text = text.replace("{{" + key + "}}", value)
         if re.search(r"\{\{[A-Z_]+\}\}", text):

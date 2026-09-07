@@ -16,11 +16,7 @@
   <link rel="stylesheet" href="/rivune/site.css">
   {{ROBOTS}}
 </head>
-<body>
-  {{FIXTURE_BANNER}}
-  <a class="skip" href="#main">Skip to content</a>
-  <header class="nav shell"><a class="brand" href="/rivune/" aria-label="Rivune home"><img class="icon" src="/rivune/assets/rivune-icon-128.png" alt="" width="32" height="32"><img class="wordmark" src="/rivune/assets/rivune-wordmark.svg" alt="Rivune" width="112" height="15"></a><a class="source-link" href="/rivune/#download">Check release status →</a></header>
-  <main id="main" tabindex="-1" class="prose guide shell">
+<body>{{FIXTURE_BANNER}}{{NAV}}<main id="main" tabindex="-1" class="prose guide shell">
     <article aria-labelledby="guide-title">
       <p class="kicker">A guide to Rivune</p>
       <h1 id="guide-title">One team. One lead. The right strategy for the request.</h1>
@@ -55,7 +51,7 @@
       <section id="availability" aria-labelledby="availability-heading">
         <h2 id="availability-heading">What is available now?</h2>
         <p>The current public release is source preview 4, a developer ZIP that requires Xcode. It is not a signed Mac installer or DMG and predates the configurable team. Configurable Council is currently limited to later local development builds; Swarm and Auto remain in development.</p>
-        <p>Check the <a href="https://github.com/Draven1287/rivune/releases/tag/v0.2.0-source-preview.4">developer source preview</a> or the <a href="/rivune/#download">current Mac installer status</a>. Earlier Together conversations retain their saved identity and must not be relabeled as new strategy runs.</p>
+        <p>Check the <a href="https://github.com/Draven1287/rivune/releases/tag/v0.2.0-source-preview.4">developer source preview</a> or the <a href="/rivune/download/">current Mac installer status</a>. Earlier Together conversations retain their saved identity and must not be relabeled as new strategy runs.</p>
       </section>
 
       <section id="data" aria-labelledby="data-heading">
@@ -64,9 +60,6 @@
         <p>Rivune stores conversation history locally by default, while AI requests go to connected providers. Council's lead receives participating members' successful answers. Future Swarm workers should receive only the approved context needed for assigned tasks. A routing decision cannot expand permissions or budgets.</p>
         <p>Read <a href="/rivune/privacy/">privacy and data sharing</a> for the current behavior and planned boundaries.</p>
       </section>
-      <div class="guide-return"><a href="/rivune/#workflow">← Back to how Rivune works</a><a href="/rivune/#download">Check release status →</a></div>
+      <div class="guide-return"><a href="/rivune/how-it-works/">← Back to how Rivune works</a><a href="/rivune/download/">Check release status →</a></div>
     </article>
-  </main>
-  <footer class="footer shell"><nav aria-label="Project links"><a href="/rivune/">Rivune home</a><a href="https://github.com/Draven1287/rivune">Source</a><a href="/rivune/privacy/">Privacy</a><a href="https://github.com/Draven1287/rivune/issues">Support</a></nav><small>Independent software, not affiliated with OpenAI, Anthropic, or Apple.</small></footer>
-</body>
-</html>
+  </main>{{FOOTER}}{{MENU_SCRIPT}}</body></html>
