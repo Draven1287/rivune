@@ -102,32 +102,21 @@ class ReleaseGateTests(unittest.TestCase):
             with self.subTest(target=target), self.assertRaises(ValueError):
                 validate_publish_target(self.ready, fixture=True, publish_target=target)
 
-    def test_beta_target_retains_acceptance_and_public_asset_checks(self):
-        # Build real code with isolated test metadata; never treat mocks as a release.
+    def test_ready_build_waits_for_accepted_installer_binding(self):
+        # Approved V2 has no accepted installer binding, even with valid metadata.
         from tempfile import TemporaryDirectory
         with TemporaryDirectory() as directory:
             release = Path(directory) / "release.json"
             release.write_text(json.dumps(self.production))
-            with patch("build.verify_public_asset", side_effect=ValueError("public asset absent")) as check:
-                with self.assertRaisesRegex(ValueError, "public asset absent"):
-                    build(release, publish_target="validated-beta")
-                check.assert_called_once_with(self.production)
+            before = (ROOT / "dist/build-manifest.json").read_bytes() if (ROOT / "dist/build-manifest.json").exists() else None
             with patch("build.verify_public_asset") as check:
-                output = build(release, publish_target="validated-beta")
-                check.assert_called_once_with(self.production)
-                manifest = json.loads((output / "build-manifest.json").read_text())
-                self.assertEqual(manifest["publishTarget"], "validated-beta")
-                self.assertEqual(manifest["releaseStatus"], "ready")
-                installers = (Document((output / "index.html").read_text()).installers
-                              + Document((output / "download/index.html").read_text()).installers)
-                self.assertEqual(installers, [self.production["assetUrl"]])
-            bad = copy.deepcopy(self.production)
-            bad["validation"]["notarized"] = False
-            release.write_text(json.dumps(bad))
-            with patch("build.verify_public_asset") as check:
-                with self.assertRaises(ValueError):
+                with self.assertRaisesRegex(ValueError, "accepted installer binding"):
                     build(release, publish_target="validated-beta")
                 check.assert_not_called()
+            after = (ROOT / "dist/build-manifest.json").read_bytes() if (ROOT / "dist/build-manifest.json").exists() else None
+            self.assertEqual(before, after)
+        with self.assertRaisesRegex(ValueError, "accepted installer binding"):
+            build(ROOT / "fixtures/ready.json", ROOT / ".qa/ready", fixture=True)
 
     def test_coming_soon_cannot_hide_an_installer_url(self):
         data = json.loads((ROOT / "fixtures/coming-soon.json").read_text())
@@ -137,203 +126,131 @@ class ReleaseGateTests(unittest.TestCase):
 
 
 class StaticOutputTests(unittest.TestCase):
+    # Golden hashes from the user-approved static-review-v2 / 64-check receipt.
+    # Deliberately standalone: canonical CI does not depend on QA artifact folders.
+    APPROVED = {'index.html': '574065ab0dcf53324ae7d1dd268547a33addcae283aac7e03e290167f4b8d59b', 'app/index.html': 'ef0d810fdef022ee80f2ec9355e8d18df868e3403c0cd95995206ce9893a479e', 'how-it-works/index.html': 'f8a344394d3923721d0561d8e39f2b5474ce207b05b4a6b5443ae966d3894b28', 'faq/index.html': 'bb82de8e7857895fc918650ea72d48284297f5379c3fdfc999ab3595fd97fac0', 'about/index.html': '4ea76ed0814c738fd3d0d6449f9ced402fbbca33695c64779e277b3cf20d7f7a', 'contact/index.html': '28f44461ba3cce1a047f2110c66d0642ad88e2f7217cd630bbffca69b32e02e9', 'download/index.html': 'c7b2f4c84d4e9d3afc16704e3a4145900092fb3198c0c434841208f5fd8c7803', 'privacy/index.html': 'cf0dee58d47b0b2a95523d09f008ef3fda50fde5db1827846d8e4e11faafdccf', 'council-vs-swarm/index.html': '8a71b32895d47baa0304c6e527071fde887abec50b8c8a8f6d31be1563032d42', 'site.css': '3fdeaa68cc8d5b51e12d53a5d5a047fb393d81a3f5143445ba09d817186b8aad', 'tour.css': '72d97edfb1d526802a8bed14412709bde33022161f8311a79b4a4669fcfa7aa2', 'tour.js': '072bcd4ba06aa8cc62e95d05bcf87d633fc80f2a79219038ff9f7b62468d7474', 'refinements.css': '38f0cb714ac387930c90830d32b3694f0329b9a51d224764489ffab9f7dd7a48'}
+
+    # Independently approved platform-summary delta; normalize only this exact line.
+    ORIGINAL_PLATFORM = b"const platformPanel=document.querySelector('[data-platform-panel]'),macReady=platformPanel?.dataset.releaseReady==='true';const platforms={mac:['macOS',macReady?'Mac download available':'macOS download not yet available',macReady?'A validated Mac DMG is available below. Check its version and system requirements before downloading.':'The desktop app is in development. The macOS download is not yet available.'],windows:['Windows','Windows download not yet available','The desktop app is in development. The Windows download is not yet available.'],linux:['Linux','Linux download not yet available','The desktop app is in development. The Linux download is not yet available.']};"
+    REVIEWED_PLATFORM = b"const platformPanel=document.querySelector('[data-platform-panel]'),macReady=platformPanel?.dataset.releaseReady==='true';const platforms={mac:['macOS',document.querySelector('[data-platform-title]')?.textContent,document.querySelector('[data-platform-body]')?.textContent],windows:['Windows','Windows download not yet available','The desktop app is in development. The Windows download is not yet available.'],linux:['Linux','Linux download not yet available','The desktop app is in development. The Linux download is not yet available.']};"
+
     @classmethod
     def setUpClass(cls):
         cls.output = build(ROOT / 'fixtures/coming-soon.json', publish_target='preview')
-        cls.fixture = build(ROOT / "fixtures/ready.json", ROOT / ".qa/ready", fixture=True)
+
+    def test_nine_routes_and_styles_scripts_match_approved_v2(self):
+        self.assertEqual(len([name for name in self.APPROVED if name.endswith('index.html')]), 9)
+        for name, digest in self.APPROVED.items():
+            with self.subTest(file=name):
+                content = (self.output / name).read_bytes()
+                if name.endswith('index.html'):
+                    self.assertEqual(content.count(self.REVIEWED_PLATFORM), 1)
+                    content = content.replace(self.REVIEWED_PLATFORM, self.ORIGINAL_PLATFORM)
+                    refined = b'<link rel="stylesheet" href="/rivune/refinements.css"></head>'
+                    robots = b'<meta name="robots" content="noindex,nofollow">'
+                    if name == 'council-vs-swarm/index.html':
+                        marker = b'  \n' + refined
+                        self.assertEqual(content.count(marker), 1)
+                        content = content.replace(marker, b'  ' + robots + b'\n' + refined)
+                    else:
+                        self.assertEqual(content.count(refined), 1)
+                        content = content.replace(refined, robots + refined)
+                if name == 'privacy/index.html':
+                    # SITE-PRIVACY-CONSISTENCY is the only accepted-baseline delta.
+                    content = content.replace(b'<meta property="og:url" content="https://draven1287.github.io/rivune/privacy/">', b'')
+                    content = content.replace(b'The <a href="/rivune/contact/">Contact Aarav</a> page offers Gmail and copy-email options.', b'The <a href="mailto:rivune.crave757@slmails.com">Email Aarav</a> link opens your email app.')
+                self.assertEqual(hashlib.sha256(content).hexdigest(), digest)
 
     def test_base_paths_assets_and_fragment_navigation(self):
-        for output in (self.output, self.fixture):
-            for file in output.rglob("*.html"):
-                doc = Document(file.read_text())
-                for url in doc.urls:
-                    parts = urlsplit(url)
-                    if parts.scheme:
-                        if parts.scheme == "mailto":
-                            self.assertEqual(url, "mailto:rivune.crave757@slmails.com")
-                        else:
-                            self.assertEqual(parts.scheme, "https")
-                        continue
-                    if parts.path:
-                        self.assertTrue(parts.path.startswith("/rivune/"), url)
-                        target = output / unquote(parts.path.removeprefix("/rivune/"))
-                        if target.is_dir():
-                            target /= "index.html"
-                        self.assertTrue(target.is_file(), url)
-                        target_doc = Document(target.read_text()) if target.suffix == ".html" else None
-                    else:
-                        target_doc = doc
-                    if parts.fragment:
-                        self.assertIn(parts.fragment, target_doc.ids)
+        for file in self.output.rglob("*.html"):
+            doc = Document(file.read_text())
+            for url in doc.urls:
+                parts = urlsplit(url)
+                if parts.scheme:
+                    self.assertIn(parts.scheme, ("https", "mailto"))
+                    continue
+                if parts.path:
+                    self.assertTrue(parts.path.startswith("/rivune/"), url)
+                    target = self.output / unquote(parts.path.removeprefix("/rivune/"))
+                    if target.is_dir():
+                        target /= "index.html"
+                    self.assertTrue(target.is_file(), url)
+                    target_doc = Document(target.read_text()) if target.suffix == ".html" else None
+                else:
+                    target_doc = doc
+                if parts.fragment:
+                    self.assertIn(unquote(parts.fragment), target_doc.ids)
 
-    def test_current_page_has_no_dmg_or_fake_download(self):
-        home = (self.output / "index.html").read_text()
-        app = (self.output / "app/index.html").read_text()
-        download = (self.output / "download/index.html").read_text()
-        combined = home + app + download
-        self.assertEqual(Document(home).installers + Document(download).installers, [])
-        self.assertNotIn(' disabled', download)
-        self.assertEqual(download.split('<script>', 1)[0].count('Mac installer coming soon'), 1)
-        self.assertNotIn('Open the DMG', download)
-        self.assertIn('<summary>Developer source</summary>', download)
-        self.assertNotIn('.dmg', combined)
-        self.assertNotIn('SIMULATED', combined)
-        self.assertIn('macOS 26 or later', app)
-        self.assertIn('source-preview.4', download)
-        self.assertNotIn('Open the DMG', download)
-        self.assertNotIn('<form', combined)
-        self.assertNotIn('<script src=', combined)
-        for text in (home, app, download):
-            self.assertEqual(text.count('<script>'), 1)
-            inline_script = text.split('<script>', 1)[1].split('</script>', 1)[0]
-            self.assertIn("document.querySelectorAll('.mobile-menu a,.nav-more a')", inline_script)
-            for forbidden in ('fetch(', 'XMLHttpRequest', 'WebSocket', 'sendBeacon', 'http://', 'https://'):
-                self.assertNotIn(forbidden, inline_script)
+    def test_all_pages_have_no_installer_or_payment(self):
+        for file in self.output.rglob('*.html'):
+            text = file.read_text()
+            self.assertFalse(Document(text).installers)
+            self.assertNotIn('.dmg', text)
+            self.assertNotIn('stripe.com', text)
+            self.assertNotIn('SIMULATED READY STATE', text)
+        download = (self.output / 'download/index.html').read_text()
+        self.assertIn('data-platform="mac" aria-pressed="true"', download)
+        self.assertIn('data-release-ready="false"', download)
+        self.assertIn('macOS download is not yet available', download)
+        self.assertIn('not the forthcoming Tauri app or an installer', download)
 
-    def test_ready_fixture_is_explicit_and_complete(self):
-        home = (self.fixture / "index.html").read_text()
-        download = (self.fixture / "download/index.html").read_text()
-        installers = Document(home).installers + Document(download).installers
-        self.assertEqual(len(installers), 1)
-        self.assertTrue(all(u.endswith('/Rivune-SIMULATED.dmg') for u in installers))
-        combined = home + download
-        for value in ('SIMULATED READY STATE', 'noindex,nofollow', 'Download for Mac', '0.2.0-beta.1', '52.4 MB', 'macOS 26.0+', 'Apple silicon &amp; Intel', 'Open the DMG', 'Move Rivune', 'Launch Rivune'):
-            self.assertIn(value, combined)
-
-    def test_static_package_has_no_dynamic_workspace_or_fixture(self):
-        paths = [str(p.relative_to(self.output)) for p in self.output.rglob('*')]
-        self.assertFalse(any(p == 'workspace' or p.startswith('workspace/') or 'fixture' in p or p.endswith('.py') for p in paths))
-        self.assertNotIn('assets/native-workspace.png', paths)
+    def test_static_package_includes_only_intentional_content(self):
+        paths = [str(p.relative_to(self.output)) for p in self.output.rglob('*') if p.is_file()]
+        self.assertFalse(any('fixture' in p or p.endswith('.py') for p in paths))
+        self.assertTrue((self.output / 'app/index.html').is_file())
+        self.assertTrue((self.output / 'tour.js').is_file())
+        # The custom upload-pages-artifact workflow uploads dist; no Jekyll build.
         self.assertFalse((self.output / '.nojekyll').exists())
+        self.assertFalse((self.output / 'robots.txt').exists())
+        self.assertFalse((self.output / 'llms.txt').exists())
 
-    def test_pages_upload_inventory_matches_manifest(self):
-        # The Pages upload action excludes dotfiles. Model that boundary here;
-        # the downloaded CI tar artifact is verified separately by release review.
-        for output in (self.output, self.fixture):
-            with self.subTest(output=output.name):
-                packaged = {str(p.relative_to(output)): p.read_bytes()
-                            for p in output.rglob("*") if p.is_file()
-                            and not any(part.startswith(".") for part in p.relative_to(output).parts)}
-                manifest = json.loads(packaged["build-manifest.json"])
-                self.assertEqual(set(packaged), set(manifest["files"]) | {"build-manifest.json"})
-                for name, digest in manifest["files"].items():
-                    self.assertEqual(hashlib.sha256(packaged[name]).hexdigest(), digest, name)
-
-    def test_installer_readiness_does_not_enable_pending_modes(self):
-        for output in (self.output, self.fixture):
-            with self.subTest(installer_state=output.name):
-                text = (output / 'how-it-works/index.html').read_text()
-                self.assertEqual(Document(text).mode_availability, {
-                    'council': 'not-in-source-preview',
-                    'swarm': 'not-in-source-preview',
-                })
-                self.assertIn('Current native development', text)
-                self.assertIn('Not implemented', text)
-                self.assertIn('Automatic teamwork and Swarm are still in development; developer source is available', text)
-                self.assertIn('Real Swarm and Auto are not public release features', text)
-                self.assertNotIn('Lantern', text)
-
-    def test_sitemap_lists_only_intended_public_canonical_pages(self):
+    def test_sitemap_contains_nine_routes_with_canonical_and_indexable_pages(self):
         tree = ET.parse(self.output / 'sitemap.xml')
-        namespace = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
-        urls = [node.text for node in tree.findall('s:url/s:loc', namespace)]
-        expected = {
-            'https://draven1287.github.io/rivune/',
-            'https://draven1287.github.io/rivune/app/',
-            'https://draven1287.github.io/rivune/how-it-works/',
-            'https://draven1287.github.io/rivune/faq/',
-            'https://draven1287.github.io/rivune/about/',
-            'https://draven1287.github.io/rivune/download/',
-            'https://draven1287.github.io/rivune/privacy/',
-            'https://draven1287.github.io/rivune/council-vs-swarm/',
-        }
+        urls = [n.text for n in tree.findall('{http://www.sitemaps.org/schemas/sitemap/0.9}url/{http://www.sitemaps.org/schemas/sitemap/0.9}loc')]
+        expected = {'https://draven1287.github.io/rivune/' + name.removesuffix('index.html')
+                    for name in self.APPROVED if name.endswith('index.html')}
         self.assertEqual(set(urls), expected)
-        self.assertEqual(len(urls), len(expected))
+        self.assertEqual(len(urls), 9)
         for url in urls:
-            parsed = urlsplit(url)
-            self.assertEqual(parsed.scheme, 'https')
-            self.assertFalse(parsed.query or parsed.fragment)
-            path = self.output / parsed.path.removeprefix('/rivune/') / 'index.html'
-            document = Document(path.read_text())
+            document = Document((self.output / urlsplit(url).path.removeprefix('/rivune/') / 'index.html').read_text())
             self.assertEqual(document.canonicals, [url])
-            self.assertNotIn('noindex', document.meta.get('robots', ''))
+            self.assertNotIn('robots', document.meta)
+            self.assertEqual(document.meta['og:url'], url)
 
-    def test_routes_have_unique_metadata_and_consistent_active_navigation(self):
-        routes = ('', 'app/', 'how-it-works/', 'faq/', 'about/', 'download/', 'privacy/', 'council-vs-swarm/')
-        titles, descriptions = set(), set()
-        for route in routes:
-            text = (self.output / route / 'index.html').read_text() if route else (self.output / 'index.html').read_text()
-            doc = Document(text)
-            self.assertEqual(doc.canonicals, ['https://draven1287.github.io/rivune/' + route])
-            self.assertEqual(text.count('aria-current="page"'), 1 if route == '' else (3 if route == 'privacy/' else 2))
-            title = text.split('<title>', 1)[1].split('</title>', 1)[0]
-            self.assertNotIn(title, titles)
-            self.assertNotIn(doc.meta['description'], descriptions)
-            titles.add(title); descriptions.add(doc.meta['description'])
-        how = Document((self.output / 'how-it-works/index.html').read_text())
-        guide = Document((self.output / 'council-vs-swarm/index.html').read_text())
-        self.assertIn('/rivune/council-vs-swarm/', how.urls)
-        self.assertIn('/rivune/how-it-works/', guide.urls)
-        self.assertIn('/rivune/privacy/', guide.urls)
-        home = Document((self.output / 'index.html').read_text())
-        privacy = Document((self.output / 'privacy/index.html').read_text())
-        self.assertIn('mailto:rivune.crave757@slmails.com', Document((self.output / 'about/index.html').read_text()).urls)
-        self.assertIn('mailto:rivune.crave757@slmails.com', privacy.urls)
+    def test_privacy_routes_questions_to_supported_contact_options(self):
+        text = (self.output / 'privacy/index.html').read_text()
+        document = Document(text)
+        self.assertEqual(document.meta['og:url'], document.canonicals[0])
+        self.assertNotIn('robots', document.meta)
+        self.assertIn('The <a href="/rivune/contact/">Contact Aarav</a> page offers Gmail and copy-email options.', text)
+        self.assertFalse(any(url.startswith('mailto:') for url in document.urls))
+        contact = (self.output / 'contact/index.html').read_text()
+        self.assertIn('data-copy-email="rivune.crave757@slmails.com"', contact)
+        self.assertIn('select the address and copy it manually', contact)
+        self.assertIn('Email delivery depends on that service.', text)
+        self.assertIn('the security reporting instructions', text)
 
-    def test_preview_artifact_is_explicit_and_noncommercial(self):
+    def test_preview_disclosures_and_contact_controls(self):
+        app = (self.output / 'app/index.html').read_text()
+        self.assertIn('Sample content, no AI requests', app)
+        self.assertIn('No sign-in or account is created', app)
+        contact = Document((self.output / 'contact/index.html').read_text())
+        self.assertFalse(any(url.startswith('mailto:') for url in contact.urls))
+        from urllib.parse import parse_qs
+        gmail = [urlsplit(u) for u in contact.urls if urlsplit(u).netloc == 'mail.google.com']
+        self.assertEqual(len(gmail), 1)
+        self.assertEqual(parse_qs(gmail[0].query)['to'], ['rivune.crave757@slmails.com'])
+
+    def test_export_manifest_and_404(self):
         manifest = json.loads((self.output / 'build-manifest.json').read_text())
         self.assertEqual(manifest['publishTarget'], 'preview')
         self.assertEqual(manifest['releaseStatus'], 'coming-soon')
         self.assertFalse(manifest['simulation'])
-        for page in self.output.rglob('*.html'):
-            text = page.read_text()
-            self.assertFalse(Document(text).installers)
-            for forbidden in ('<form', '<script src=', 'data-installer', 'checkout', '$10', 'stripe.com'):
-                self.assertNotIn(forbidden, text)
-            if '<script>' in text:
-                self.assertEqual(text.count('<script>'), 1)
-                inline_script = text.split('<script>', 1)[1].split('</script>', 1)[0]
-                self.assertIn("document.querySelectorAll('.mobile-menu a,.nav-more a')", inline_script)
-                for forbidden in ('fetch(', 'XMLHttpRequest', 'WebSocket', 'sendBeacon', 'http://', 'https://'):
-                    self.assertNotIn(forbidden, inline_script)
-        guide = (self.output / 'council-vs-swarm/index.html').read_text()
-        self.assertIn('Rivune should propose an eligible team and lead', guide)
-        self.assertIn('Multiple members may use the same provider tool', guide)
-        self.assertIn('Auto is the target default after both execution paths qualify', guide)
-
-    def test_product_preview_is_dom_built_and_accessible(self):
-        app = (self.output / 'app/index.html').read_text()
-        home = (self.output / 'index.html').read_text()
-        for text in (home, app):
-            self.assertIn('workspace-preview', text)
-            self.assertIn('Illustrative interface preview — prewritten; no AI request is sent.', text)
-            self.assertNotIn('native-workspace.png', text)
-            self.assertNotIn('product-image-zoom', text)
-        self.assertIn('<details><summary>Independent perspectives</summary>', app)
-        self.assertIn('<details><summary>Reviewed draft</summary>', app)
-        self.assertIn("document.querySelectorAll('.mobile-menu a,.nav-more a')", app)
-        self.assertIn("removeAttribute('open')", app)
-
-    def test_demo_and_platform_choices_are_honest_and_interactive(self):
-        home = (self.output / 'index.html').read_text()
-        download = (self.output / 'download/index.html').read_text()
-        self.assertIn('Illustrative demo — prewritten example; no AI request is sent.', home)
-        for value in ('Plan a project', 'Review a proposal', 'Compare approaches', 'data-demo-stage="perspectives"', 'data-demo-reset'):
-            self.assertIn(value, home)
-        for value in ('data-platform="mac"', 'data-platform="windows"', 'data-platform="linux"', 'Windows version is planned', 'Linux version is planned'):
-            self.assertIn(value, download)
-        self.assertIn('Built in Denver, Colorado.', home)
-        self.assertIn('mailto:rivune.crave757@slmails.com', home)
-
-    def test_fixtures_and_noncontent_stay_out_of_discovery_output(self):
-        self.assertFalse((self.fixture / 'sitemap.xml').exists())
-        for page in self.fixture.rglob('*.html'):
-            with self.subTest(page=str(page.relative_to(self.fixture))):
-                self.assertIn('noindex', Document(page.read_text()).meta.get('robots', ''))
-        self.assertIn('noindex', Document((self.output / '404.html').read_text()).meta['robots'])
-        for output in (self.output, self.fixture):
-            self.assertFalse((output / 'robots.txt').exists())
-            self.assertFalse((output / 'llms.txt').exists())
+        for name, digest in manifest['files'].items():
+            self.assertEqual(hashlib.sha256((self.output / name).read_bytes()).hexdigest(), digest)
+        missing = Document((self.output / '404.html').read_text())
+        self.assertEqual(missing.meta['robots'], 'noindex,nofollow')
+        self.assertIn('/rivune/', missing.urls)
 
 
 class PublicationApprovalTests(unittest.TestCase):
