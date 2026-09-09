@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>How Rivune Coordinates One AI Team</title>
-  <meta name="description" content="Learn how Rivune's appointed lead is intended to choose Council, Swarm, or a supported sequence inside one native Mac conversation.">
+  <meta name="description" content="Learn how Rivune's appointed lead is intended to choose independent perspectives, delegated work, or both inside one Rivune conversation.">
   <link rel="canonical" href="{{CANONICAL}}">
   <meta property="og:type" content="article">
   <meta property="og:title" content="How Rivune Coordinates One AI Team">
-  <meta property="og:description" content="One team and one lead, with Council and Swarm as internal strategies chosen for the request. See the intended behavior and current limits.">
+  <meta property="og:description" content="One team and one lead, with independent perspectives and delegated work as internal strategies chosen for the request. See the intended behavior and current limits.">
   <meta property="og:url" content="{{CANONICAL}}">
   <meta property="og:image" content="https://draven1287.github.io/rivune/assets/og.png">
   <meta name="theme-color" content="#090a0b">
@@ -16,13 +16,13 @@
   <link rel="stylesheet" href="/rivune/site.css">
   {{ROBOTS}}
 </head>
-<body>{{FIXTURE_BANNER}}{{NAV}}<main id="main" tabindex="-1" class="prose guide shell">
+<body class="theme-native-cosmos">{{FIXTURE_BANNER}}{{NAV}}<main id="main" tabindex="-1" class="prose guide shell">
     <article aria-labelledby="guide-title">
       <p class="kicker">A guide to Rivune</p>
       <h1 id="guide-title">One team. One lead. The right strategy for the request.</h1>
-      <p class="guide-lede">Rivune is being developed as one native Mac conversation with a reusable AI team. You write a normal prompt. The appointed lead proposes how the team should work, Rivune validates that choice, and the lead owns one final answer or deliverable.</p>
-      <aside class="guide-status" aria-label="Current workflow availability"><p><strong>Mac installer coming soon.</strong> Configurable Council is currently limited to later local development builds. Automatic teamwork and Swarm are still in development; the public source preview 4 predates the one-team experience.</p></aside>
-      <nav class="guide-contents" aria-label="In this guide"><a href="#team">Your team and lead</a><a href="#decision">How a strategy is chosen</a><a href="#council">Council strategy</a><a href="#swarm">Swarm strategy</a><a href="#availability">Availability</a><a href="#data">Providers and data</a></nav>
+      <p class="guide-lede">Rivune is a desktop app in development for macOS, Windows, and Linux. Its planned team model uses one conversation and a reusable AI team. You write a normal prompt. The appointed lead proposes how the team should work, Rivune validates that choice, and the lead owns one final answer or deliverable.</p>
+      <aside class="guide-status" aria-label="Current workflow availability"><p><strong>Downloads are not yet available.</strong> Single-AI chat is being built first; team workflows will follow.</p></aside>
+      <nav class="guide-contents" aria-label="In this guide"><a href="#team">Your team and lead</a><a href="#decision">How a strategy is chosen</a><a href="#council">Independent perspectives</a><a href="#swarm">Delegated work</a><a href="#availability">Availability</a><a href="#data">Providers and data</a></nav>
 
       <section id="team" aria-labelledby="team-heading">
         <h2 id="team-heading">Set up a team once, then start with a prompt</h2>
@@ -37,27 +37,27 @@
       </section>
 
       <section id="council" aria-labelledby="council-heading">
-        <h2 id="council-heading">Council gathers independent perspectives</h2>
-        <p>Council fits questions that benefit from separate answers: comparing approaches, weighing a decision, or reviewing a proposed solution.</p>
+        <h2 id="council-heading">Constellation gathers independent perspectives</h2>
+        <p>Independent perspectives suit questions that benefit from separate answers: comparing approaches, weighing a decision, or reviewing a proposed solution.</p>
         <p>Members receive the same approved context and answer independently, without seeing peer drafts. The appointed lead reviews their contributions and writes one final answer. It can combine, correct, or reject claims; unresolved disagreement should remain inspectable.</p>
       </section>
 
       <section id="swarm" aria-labelledby="swarm-heading">
-        <h2 id="swarm-heading">Swarm divides real work</h2>
-        <p>Swarm fits projects with separable tasks. The lead assigns bounded work to real available workers, coordinates review, and integrates the result into one deliverable.</p>
+        <h2 id="swarm-heading">Constellation divides real work</h2>
+        <p>Delegated work suits projects with separable tasks. The lead assigns bounded work to real available workers, coordinates review, and integrates the result into one deliverable.</p>
         <p>Each worker receives a bounded task, the needed context, and the access you allow. The lead reviews the completed work and brings it into the final deliverable.</p>
       </section>
 
       <section id="availability" aria-labelledby="availability-heading">
         <h2 id="availability-heading">What is available now?</h2>
-        <p>The current public release is source preview 4, a developer ZIP that requires Xcode. It is not a signed Mac installer or DMG and predates the configurable team. Configurable Council is currently limited to later local development builds; Swarm and Auto remain in development.</p>
-        <p>Check the <a href="https://github.com/Draven1287/rivune/releases/tag/v0.2.0-source-preview.4">developer source preview</a> or the <a href="/rivune/download/">current Mac installer status</a>. Earlier Together conversations retain their saved identity and must not be relabeled as new strategy runs.</p>
+        <p>The desktop app and installers are not available yet. A developer source preview is available for developers with Xcode, but it is not a downloadable app. Single-AI chat is being built first; Constellation is in development.</p>
+        <p>Check the <a href="https://github.com/Draven1287/rivune/releases/tag/v0.2.0-source-preview.4">developer source preview</a> or the <a href="/rivune/download/">current desktop download status</a>. Earlier Together conversations retain their saved identity and must not be relabeled as new strategy runs.</p>
       </section>
 
       <section id="data" aria-labelledby="data-heading">
         <h2 id="data-heading">Provider access and data remain separate</h2>
-        <p>The current source foundation supports Codex CLI and Claude Code CLI connections. You need the relevant installed tool, provider sign-in, and permission to use the selected model. Provider terms, limits, and charges apply separately. Unknown model identity or remaining usage stays unknown.</p>
-        <p>Rivune stores conversation history locally by default, while AI requests go to connected providers. Council's lead receives participating members' successful answers. Future Swarm workers should receive only the approved context needed for assigned tasks. A routing decision cannot expand permissions or budgets.</p>
+        <p>Connected AI features are not available yet. When they are ready, you will need the relevant provider access and permission to use the selected model. Provider terms, limits, and charges apply separately. Unknown model identity or remaining usage stays unknown.</p>
+        <p>The legacy Mac build stores conversation history locally, while AI requests go to connected providers. Storage and routing for the new desktop app are still being developed. The lead receives participating members' successful answers. Team members should receive only the approved context needed for assigned tasks. A routing decision cannot expand permissions or budgets.</p>
         <p>Read <a href="/rivune/privacy/">privacy and data sharing</a> for the current behavior and planned boundaries.</p>
       </section>
       <div class="guide-return"><a href="/rivune/how-it-works/">← Back to how Rivune works</a><a href="/rivune/download/">Check release status →</a></div>

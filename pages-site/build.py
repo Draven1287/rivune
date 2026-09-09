@@ -23,6 +23,7 @@ PUBLIC_PAGES = (
     ("how-it-works.html", "how-it-works/"),
     ("faq.html", "faq/"),
     ("about.html", "about/"),
+    ("contact.html", "contact/"),
     ("download.html", "download/"),
     ("privacy.html", "privacy/"),
     ("council-vs-swarm.html", "council-vs-swarm/"),
@@ -98,25 +99,25 @@ def verify_public_asset(data, fetch=None):
 def render_tokens(data, fixture=False):
     ready = validate_release(data, fixture)
     e = html.escape
-    disabled = '<button class="button" type="button" disabled>Mac installer coming soon</button>'
+    disabled = '<button class="button" type="button" disabled>Desktop downloads not yet available</button>'
     control = ""
     tokens = {
         "ROBOTS": '<meta name="robots" content="noindex,nofollow">' if fixture else "",
         "FIXTURE_BANNER": '<aside class="fixture-banner"><p>SIMULATED READY STATE — local layout test only. No real installer is available.</p></aside>' if fixture else "",
         "HERO_DOWNLOAD": disabled,
-        "HERO_NOTE": "The app is in preview. Check back here for the Mac installer.",
-        "MAC_REQUIREMENT": "The current preview requires macOS 26 or later and supports Apple silicon and Intel Macs. Check the installer’s requirements when it becomes available.",
+        "HERO_NOTE": "The desktop app is in development for macOS, Windows, and Linux.",
+        "MAC_REQUIREMENT": "Downloads are not yet available for macOS, Windows, or Linux.",
         "DOWNLOAD_TITLE": "Get Rivune.",
         "DOWNLOAD_DESCRIPTION": "Choose your platform to check availability.",
         "DOWNLOAD_CONTROL": control,
         "RELEASE_META": "",
-        "RELEASE_NOTE": "The Mac installer is not available yet.",
+        "RELEASE_NOTE": "Desktop downloads are not available yet.",
         "INSTALL_HEADING": "When the installer is ready, it’s three steps.",
         "INSTALL_NOTE": "These instructions are for the upcoming DMG. They do not apply to the source-code ZIP.",
         "INTEGRITY": "",
         "RELEASE_READY": "false",
-        "PLATFORM_MAC_TITLE": "Mac installer coming soon",
-        "PLATFORM_MAC_BODY": "The Mac installer is in development. It will be available here after release testing.",
+        "PLATFORM_MAC_TITLE": "macOS download not yet available",
+        "PLATFORM_MAC_BODY": "The desktop app is in development. The macOS download is not yet available.",
         "INSTALL_SECTION": "",
     }
     if ready:
@@ -163,8 +164,8 @@ def validate_publish_target(data, fixture=False, publish_target=None, require_re
 
 
 def render_navigation(route):
-    primary = (("app/", "The app"), ("how-it-works/", "How it works"), ("about/", "About"))
-    more = (("faq/", "FAQ"), ("mailto:rivune.crave757@slmails.com", "Contact Aarav"), ("https://github.com/Draven1287/rivune", "Source"), ("privacy/", "Privacy"), ("https://github.com/Draven1287/rivune/issues", "Support"))
+    primary = (("app/", "Explore app"), ("how-it-works/", "How it works"), ("about/", "About"))
+    more = (("faq/", "FAQ"), ("contact/", "Contact Aarav"), ("https://github.com/Draven1287/rivune", "Source"), ("privacy/", "Privacy"), ("https://github.com/Draven1287/rivune/issues", "Support"))
     active = "how-it-works/" if route == "council-vs-swarm/" else route
     def link(path, label, mobile=False):
         current = ' aria-current="page"' if active == path else ''
@@ -181,18 +182,20 @@ def render_navigation(route):
 
 def render_footer(route):
     privacy_current = ' aria-current="page"' if route == "privacy/" else ''
-    return f'<footer class="footer shell"><a class="brand" href="/rivune/" aria-label="Rivune home"><img class="icon" src="/rivune/assets/rivune-icon-128.png" alt="" width="32" height="32"><img class="wordmark" src="/rivune/assets/rivune-wordmark.svg" alt="Rivune" width="112" height="15"></a><p class="footer-origin">Built in Denver, Colorado.</p><nav aria-label="Project links"><a href="/rivune/about/">About</a><a href="mailto:rivune.crave757@slmails.com">Contact</a><a href="https://github.com/Draven1287/rivune">Source</a><a href="/rivune/privacy/"{privacy_current}>Privacy</a><a href="https://github.com/Draven1287/rivune/issues">Support</a></nav><small>© 2026 Rivune contributors. Apache-2.0 licensed independent software, not affiliated with OpenAI, Anthropic, or Apple.</small></footer>'
+    contact_current = ' aria-current="page"' if route == "contact/" else ''
+    return f'<footer class="footer shell"><a class="brand" href="/rivune/" aria-label="Rivune home"><img class="icon" src="/rivune/assets/rivune-icon-128.png" alt="" width="32" height="32"><img class="wordmark" src="/rivune/assets/rivune-wordmark.svg" alt="Rivune" width="112" height="15"></a><p class="footer-origin">Built in Denver, Colorado.</p><nav aria-label="Project links"><a href="/rivune/about/">About</a><a href="/rivune/contact/"{contact_current}>Contact</a><a href="https://github.com/Draven1287/rivune">Source</a><a href="/rivune/privacy/"{privacy_current}>Privacy</a><a href="https://github.com/Draven1287/rivune/issues">Support</a></nav><small>© 2026 Rivune contributors. Apache-2.0 licensed independent software, not affiliated with OpenAI, Anthropic, or Apple.</small></footer>'
 
 
 MENU_SCRIPT = """<script>(() => {
 document.querySelectorAll('.mobile-menu a,.nav-more a').forEach((link) => { link.addEventListener('click', () => link.closest('details')?.removeAttribute('open')); });
 document.addEventListener('keydown',event=>{if(event.key==='Escape')document.querySelectorAll('.mobile-menu[open],.nav-more[open]').forEach(details=>{details.removeAttribute('open');details.querySelector('summary')?.focus();});});
 document.addEventListener('pointerdown',event=>{document.querySelectorAll('.mobile-menu[open],.nav-more[open]').forEach(details=>{if(!details.contains(event.target))details.removeAttribute('open');});});
-const examples={project:{label:'Plan a project',perspectives:['Two useful starting points','One perspective prioritizes a two-week pilot. Another starts with a smaller three-day test so the team can learn before committing.','The approaches disagree on scope. The review step will keep the low-risk test and a clear path to expand.'],review:['A smaller test, with a decision point','The review finds agreement on the goal and flags the timeline conflict. It combines a three-day trial with a written checkpoint before the full pilot.','The disagreement is visible instead of being averaged away.'],final:['A practical pilot plan','Run a three-day test with one owner, two participants, and a short success checklist. Review the evidence on day four, then decide whether to begin a two-week pilot.','Aarav can edit this draft before using it.']},proposal:{label:'Review a proposal',perspectives:['Strengths and unanswered questions','One reviewer likes the clear community benefit. Another identifies an unclear owner, timeline, and measure of success.','The proposal has a promising purpose but needs an accountable plan.'],review:['Keep the purpose; repair the plan','The review preserves the strongest outcome and adds an owner, a four-week pilot, and a simple attendance measure.','Specific corrections are carried into the draft.'],final:['A proposal ready for human review','Invite one partner to a four-week pilot led by a named coordinator. Meet weekly, record attendance, and review participant feedback before expanding.','The final decision stays with the person reviewing the proposal.']},approaches:{label:'Compare approaches',perspectives:['Fast launch or careful trial','One approach ships broadly this week. The other tests with five people and records failures before wider use.','They differ on risk, learning, and speed.'],review:['Choose a staged launch','The review keeps the fast approach’s momentum while using a five-person trial to expose problems before a wider release.','The chosen tradeoff is explicit.'],final:['A staged release outline','Start with five invited testers for one week. Fix blocking issues, document known limits, and expand only after the acceptance checklist passes.','No quality score or live model result is implied.']}};
-const stages={perspectives:'Perspectives',review:'Review',final:'Final draft'};let example='project',stage='perspectives';
-const renderDemo=(focus=false)=>{const panel=document.querySelector('[data-demo-label]')?.closest('.demo-panel');if(!panel)return;const data=examples[example][stage];document.querySelector('[data-demo-label]').textContent=`${examples[example].label} · ${stages[stage]}`;document.querySelector('[data-demo-title]').textContent=data[0];document.querySelector('[data-demo-body]').textContent=data[1];document.querySelector('[data-demo-note]').textContent=data[2];document.querySelectorAll('[data-demo-example]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.demoExample===example)));document.querySelectorAll('[data-demo-stage]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.demoStage===stage)));if(focus)requestAnimationFrame(()=>panel.focus());};
-document.querySelectorAll('[data-demo-example]').forEach(b=>b.addEventListener('click',()=>{example=b.dataset.demoExample;stage='perspectives';renderDemo(true);}));document.querySelectorAll('[data-demo-stage]').forEach(b=>b.addEventListener('click',()=>{stage=b.dataset.demoStage;renderDemo(true);}));document.querySelector('[data-demo-reset]')?.addEventListener('click',()=>{example='project';stage='perspectives';renderDemo(true);});
-const platformPanel=document.querySelector('[data-platform-panel]'),macReady=platformPanel?.dataset.releaseReady==='true';const platforms={mac:['macOS',macReady?'Mac download available':'Mac installer coming soon',macReady?'A validated Mac DMG is available below. Check its version and system requirements before downloading.':'The Mac installer is in development. It will be available here after release testing.'],windows:['Windows','Windows version is planned','There is no verified Windows installer yet. Return later for availability updates.'],linux:['Linux','Linux version is planned','There is no verified Linux package yet. Return later for availability updates.']};
+const copyEmail=document.querySelector('[data-copy-email]');copyEmail?.addEventListener('click',async()=>{const status=document.querySelector('[data-copy-status]'),email=copyEmail.dataset.copyEmail;try{await navigator.clipboard.writeText(email);status.textContent='Email copied.';}catch(error){status.textContent='Copy failed. Select the email address above and copy it manually.';}});
+const project={perspectives:['Two useful starting points','One perspective prioritizes a two-week pilot. Another starts with a smaller three-day test so the team can learn before committing.','The approaches disagree on scope. The review step will keep the low-risk test and a clear path to expand.'],review:['A smaller test, with a decision point','The review finds agreement on the goal and flags the timeline conflict. It combines a three-day trial with a written checkpoint before the full pilot.','The disagreement is visible instead of being averaged away.'],final:['A practical pilot plan','Run a three-day test with one owner, two participants, and a short success checklist. Review the evidence on day four, then decide whether to begin a two-week pilot.','Aarav can edit this draft before using it.']};
+const stages={perspectives:'Perspectives',review:'Review',final:'Final draft'};let stage='perspectives';
+const renderDemo=()=>{const panel=document.querySelector('[data-demo-label]')?.closest('.demo-panel');if(!panel)return;const data=project[stage];document.querySelector('[data-demo-label]').textContent=stages[stage];document.querySelector('[data-demo-title]').textContent=data[0];document.querySelector('[data-demo-body]').textContent=data[1];document.querySelector('[data-demo-note]').textContent=data[2];document.querySelectorAll('[data-demo-stage]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.demoStage===stage)));};
+document.querySelectorAll('[data-demo-stage]').forEach(b=>b.addEventListener('click',()=>{stage=b.dataset.demoStage;renderDemo();}));
+const platformPanel=document.querySelector('[data-platform-panel]'),macReady=platformPanel?.dataset.releaseReady==='true';const platforms={mac:['macOS',document.querySelector('[data-platform-title]')?.textContent,document.querySelector('[data-platform-body]')?.textContent],windows:['Windows','Windows download not yet available','The desktop app is in development. The Windows download is not yet available.'],linux:['Linux','Linux download not yet available','The desktop app is in development. The Linux download is not yet available.']};
 document.querySelectorAll('[data-platform]').forEach(b=>b.addEventListener('click',()=>{const p=b.dataset.platform,d=platforms[p],panel=document.querySelector('[data-platform-panel]');document.querySelectorAll('[data-platform]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));document.querySelectorAll('[data-mac-only]').forEach(x=>x.hidden=p!=='mac');document.querySelector('[data-platform-label]').textContent=d[0];document.querySelector('[data-platform-title]').textContent=d[1];document.querySelector('[data-platform-body]').textContent=d[2];panel.focus();}));
 })();</script>"""
 
@@ -207,20 +210,24 @@ def build(release_file=ROOT / "release.json", output=ROOT / "dist", fixture=Fals
             raise ValueError("Fixture output must stay under pages-site/.qa; never dist")
     elif output != ROOT / "dist":
         raise ValueError("Production static output must be pages-site/dist")
-    if ready and not fixture:
-        verify_public_asset(data)
+    if ready:
+        raise ValueError("Approved overlay integration is coming-soon only; accepted installer binding needs separate verification")
     tokens = render_tokens(data, fixture)
     if output.exists():
         shutil.rmtree(output)
     output.mkdir(parents=True)
     shutil.copytree(ROOT / "assets", output / "assets")
-    shutil.copyfile(ROOT / "site.css", output / "site.css")
+    for asset in ("site.css", "refinements.css", "tour.css", "tour.js"):
+        shutil.copyfile(ROOT / asset, output / asset)
     for source, route in PUBLIC_PAGES:
         destination = output / route / "index.html"
         text = (ROOT / source).read_text()
+        text = text.replace('</head>', '<link rel="stylesheet" href="/rivune/refinements.css"></head>')
         page_tokens = {**tokens, "CANONICAL": html.escape(SITE_URL + route, quote=True), "NAV": render_navigation(route), "FOOTER": render_footer(route), "MENU_SCRIPT": MENU_SCRIPT}
         for key, value in page_tokens.items():
             text = text.replace("{{" + key + "}}", value)
+        if not route:
+            text = text.replace("</body>", '<script>const oldPages={faq:"faq/",workflow:"how-it-works/",requirements:"app/",support:"contact/",download:"download/"};const followOldLink=()=>{const page=oldPages[location.hash.slice(1)];if(page)location.replace("/rivune/"+page);};addEventListener("hashchange",followOldLink);followOldLink();</script>' + "</body>")
         if re.search(r"\{\{[A-Z_]+\}\}", text):
             raise ValueError("Unresolved page template")
         destination.parent.mkdir(parents=True, exist_ok=True)

@@ -1,30 +1,43 @@
-# Rivune website integration handoff
+# Rivune website: local review handoff
 
-September 7, 2026. Status: reviewed local V5 candidate, draft pull request, not deployed. The current user direction is app/installer-first launch; website visual approval and actual installer acceptance remain separate from source and browser checks.
+Updated September 8, 2026. This supersedes the September 6 operator sequence and its three-route/21-test/ready-fixture assumptions. Authoritative location: `pages-site/PUBLICATION_HANDOFF.md`. Status: canonical local review export; no publication or installer availability established by this handoff.
 
-## Verified remote state before this update
+## Current source and export
 
-Repository: `Draven1287/rivune`, public. Public main is `68747456c17692784ba0924fc9ed41392ce6c7af`. Draft PR 3 is open on `codex/publish-rivune-preview`, previously at `c4d3889fb50b209ec63bee4a19b3441b39b97c56`. It is unmerged. Pages is configured for workflow builds; the API reported status null. `RIVUNE_PAGES_PREVIEW_APPROVED=false`. No publication dispatch has been performed. Earlier draft website and Apple CI checks passed; that is not deployment or installer evidence.
+The approved site is the nine-route Single AI plus Constellation presentation described in [README.md](README.md). It presents the Tauri desktop direction across macOS, Windows and Linux; the default macOS availability selection is not a Mac-only product scope. `/app/` is an intentional sample-content DOM tour, not a connected workspace. The legacy SwiftUI source preview is distinguished from the forthcoming application and installers.
 
-## Integration scope
+Current website integration inventory:
 
-The final addition relative to public main is 21 static-site source files under `pages-site/` plus `.github/workflows/rivune-pages.yml` (22 files). The update adds five dedicated pages and removes the rejected app screenshot from the previous draft payload. Existing public native source, Xcode project, native CI, license and security files are not part of this change. Only `dist/` is deployed; fixtures, source and review evidence stay out of that artifact.
+- `.github/workflows/rivune-pages.yml` (existing, unchanged during local promotion/corrections).
+- `pages-site/.gitignore`, `README.md`, `PUBLICATION_HANDOFF.md`.
+- `pages-site/build.py`, `check_publish.py`, `test_site.py`, `release.json`.
+- Nine templates: `index.html`, `app.html`, `how-it-works.html`, `faq.html`, `about.html`, `contact.html`, `download.html`, `privacy.html`, `council-vs-swarm.html`.
+- `site.css`, `refinements.css`, `tour.css`, `tour.js`.
+- `fixtures/coming-soon.json`, `fixtures/ready.json` (validation inputs, not publishable content).
+- `assets/rivune-wordmark.svg`, `assets/rivune-icon-128.png`, `assets/og.png`, `assets/rivune-workspace-milky-way.png`.
 
-Use an isolated checkout of the real repository. Do not push the unrelated development workspace wholesale. If public main advances, preserve its changes and re-evaluate the website-only diff.
+This is a current local inventory, not a verified new-file count against remote main. Old `.qa/publication-review/integration.patch` and its 17-file count describe an earlier revision and must not be used to promote the current site. Current promotion evidence is under `../qa-artifacts/rivune-interactive-site-20260907/promotion-v2/`; the subsequent privacy-only delta is under `privacy-consistency-v1/` alongside that directory. Their reports, diffs and manifests preserve provenance; historical snapshots remain unchanged.
 
-## Independent evidence
+Only generated `pages-site/dist/` contents form the artifact. Source/tests, `.qa`, fixtures, caches and evidence stay outside it. The custom workflow uploads dist directly, with no Jekyll build; intentional absence of `.nojekyll` is retained. Export includes nine route pages, assets/styles/scripts, a noindex 404, nine-route sitemap and manifest. Public route pages omit a robots noindex directive for the authorized marketing launch; simulated fixtures and the 404 remain `noindex,nofollow`.
 
-The frozen V5 candidate manifest is `1c87f658dd09f88e2f2d745cd9c0cb1e37fcb2bdbace94f431dbcacf48d1350d`. All 61 listed payload files matched their hashes. Its source matched the independent test snapshot exactly. The operator documents were updated during integration to replace stale V4 instructions. A subsequent CI-artifact audit found the Pages uploader omits dotfiles. The builder now omits the unnecessary `.nojekyll` file, and an upload-inventory regression test verifies that uploaded file inventory and hashes match the manifest. HTML, CSS, images and interaction behavior remain identical to the reviewed candidate.
+## Validation and exact current limits
 
-Independent UI checks used 23 Python tests; the package-inventory regression raises the current suite to 24. Browser checks covered 32 direct-load/refresh page states at 320, 390, 768 and 1280 pixels; canonical/sitemap/current-page checks; keyboard navigation and browser history; More/Menu open, Escape focus return, outside dismissal and FAQ navigation; App example disclosure controls; skip link; reduced-motion scrolling; essential routes with JavaScript disabled. All passed. The simulated ready fixture passed 18 demo states and six platform selections, with no wrong-platform Mac download. No external page-resource or AI requests were observed. The removed screenshot URL returned 404 in the local preview.
+From `pages-site`, run `python3 -m unittest -v`, then `python3 build.py` to leave the final export at `publishTarget=review`. The **20 tests passed** in the privacy-consistency receipt. They cover approved baseline parity with an explicit reversible privacy delta, links, metadata, preview/contact boundaries, release validation and independent publication gates. Public-asset validation uses mocks in tests and establishes no actual installer evidence.
 
-These checks verify the website and simulated conditional presentation. They do not verify live model orchestration, native app acceptance, Windows/Linux desktop builds, a signed installer, payment handling, search indexing or a production deployment. A narrow-layout test is not proof of browser zoom behavior beyond that reflow check.
+The privacy delta replaces its mailto handoff with the existing contact page and adds canonical `og:url`; forwarding/delivery/security language is retained. The prior 64-check browser receipt covers the earlier approved static bytes. It is not a fresh browser pass on this corrected privacy page. Independent review is handled separately; this document does not claim its completion or any live delivery.
 
-## Launch sequence remains held
+`release.json` is still `coming-soon`. Ready builds, including simulated ready fixtures, are blocked before public lookup. Next implementation dependency: an accepted installer plus verified link/asset metadata and separate binding validation. Signing, notarization, stapling, Gatekeeper, pilot acceptance and exact asset URL/size/digest remain required; neither a source ZIP, a test fixture, nor an approval variable meets that dependency.
 
-1. Complete native-app review and the agreed installer/pilot acceptance. Obtain final review of the website experience.
-2. Review the exact website diff and its CI result. Keep the PR draft and approval variables false while launch is held.
-3. Only after the applicable launch authorization, merge the reviewed website change and manually dispatch the approved target from main. Informational preview and validated beta use separate approval variables and release requirements.
-4. Verify the deployed URL, all eight routes, assets, navigation, disclosures, platform choices and metadata before reporting the site live.
+## Future publication prerequisites
 
-Current `release.json` is coming-soon. No Mac DMG is available from this payload; Windows/Linux installers are planned. No purchases, paid services, account changes or cloud activation are part of this handoff.
+No push, merge, setting change or deployment is authorized by this handoff. After separate authorization, reconcile the current site-only diff with the current real repository rather than applying the historical patch blindly. Preserve native source and unrelated work.
+
+The existing workflow builds/tests push and pull-request events without deploying. Manual preview publication additionally requires main, `publish=true`, target-specific approval, a matching non-simulated preview manifest and the deployment environment. A no-target review artifact fails the publication checker. Validated beta has a separate approval and remains blocked in the build pending accepted-installer binding. Review `check_publish.py` and `../.github/workflows/rivune-pages.yml` before an authorized operation; neither changed in this correction.
+
+A future authorized launch must verify the actual deployed URL, all nine routes, assets, interactions and unavailable/accepted download state before claiming live operation. Current target URL remains `https://draven1287.github.io/rivune/`; remote hosting and configuration are verified during the September 9 launch pass; final deployed bytes and release status still require post-deploy verification.
+
+## Historical remote observations — not current verification
+
+The September 6, 2026 report recorded public repository `Draven1287/rivune`, main `68747456c17692784ba0924fc9ed41392ce6c7af` (22:41:50 UTC), `has_pages=false`, a 404 Pages configuration response, no returned `RIVUNE_PAGES` variables or deployment environments, and no Pages workflow in that inspected main. These observations may be stale. The old local `.qa/public-main/` checkout and review branch are historical evidence, not current remote truth.
+
+That report listed prerelease `v0.2.0-source-preview.4` at 22:20:14 UTC with an 11,064,421-byte source ZIP and 98-byte checksum, no DMG; recorded ZIP SHA-256 was `c2c816c818aa3150c3f0f47634fa599626f735e1879fc38815d34dec021aadb1`. Those release details and a September 6 origin-root robots 404 observation were not refreshed. Historical HTTP, screenshot, YAML and browser results under `.qa/publication-review/` apply only to their inspected revision. No current remote or GitHub-hosted execution claim follows from them.
