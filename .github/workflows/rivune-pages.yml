@@ -47,7 +47,7 @@ jobs:
           PUBLISH_REQUESTED: ${{ inputs.publish }}
         run: python3 pages-site/check_publish.py
       - name: Upload static site only
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: pages-site/dist
   deploy:
