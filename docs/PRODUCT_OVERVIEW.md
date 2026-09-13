@@ -173,6 +173,16 @@ The risk is that a reader skims the "Working now" section and treats those
 numbers as current. Re-running the documented checks against the exact extracted
 archive is what converts them back into present-tense claims.
 
+Two different things are dated together, and they should be separated:
+
+- **The automated suite is current.** CI ran the source-export test, the
+  `Rivune Mac` build, the `Rivune Mac` test suite, and the `Rivune iOS` build
+  against head `91a676b` on 2026-09-13 under Xcode 26.6, and all four passed.
+- **The live provider runs are not.** The recorded Codex and Claude sessions,
+  the timings, the adversarial tool-disable check, and the pairing exercise all
+  need signed-in CLIs on a real Mac, so CI cannot reproduce them. Those remain
+  as of 2026-09-02 and are the part that needs re-running and re-dating.
+
 ## 6. What to do next
 
 Make the basic loop dependable before extending it: **connect an AI, send a
