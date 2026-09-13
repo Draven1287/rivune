@@ -1,0 +1,23 @@
+{
+  "id": "orphan-draft",
+  "sourceKind": "workspace-drafts.json",
+  "input": {
+    "selectedConversationID": "10000000-0000-4000-8000-000000000002",
+    "drafts": {
+      "10000000-0000-4000-8000-000000000002": {
+        "text": "Keep even if its conversation is missing",
+        "attachments": []
+      }
+    }
+  },
+  "context": {
+    "knownConversationIDs": [
+      "10000000-0000-4000-8000-000000000001"
+    ]
+  },
+  "expect": {
+    "preserveOrphanForRecovery": true,
+    "mustNotAttachToDifferentConversation": true,
+    "dispatchCount": 0
+  }
+}

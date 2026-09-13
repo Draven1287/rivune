@@ -1,0 +1,13 @@
+# Results QA artifact identity
+
+2026-09-10. Bounded PASS: no identity mismatch found. Read-only artifact review, not native runtime acceptance or a broad source audit.
+
+Independently verified all 147 current candidate files and accepted Git blobs against source-manifest.json. HEAD is `5fa49168a9284efeec713b7222e0e5c74be16c8a`. Recomputed manifest aggregate is `90a35cef0ec595e0c7050dbef6d42b8219a0409507df167134daa06bec4b4319`. Source-before/after receipts are equal.
+
+Actual bundle executable is Mach-O arm64, SHA-256 `65be23620d739570e301d16706055c49584e1194c1c5918e53c78223e652f776`. All three bundle file hashes match the build receipt, with the expected file set. Info.plist names executable rivune, identity com.rivune.desktop.qa.results20260910, version 0.0.1/build 2026091004 and icon.icns. Plist SHA-256 `ef7a3777c425421c5c7c6d930d052577f391813724a27f63263a302029e7df46`; icon SHA-256 `487636baa681f9a1c61fa1d42bf7c2f85cb0db052408512a11867aa73693cd02`.
+
+All seven staged frontend files match receipt hashes and expected file set. HTML references desktop-entry.mjs and assets/index-DmKHPYWG.css; desktop entry imports the native bridge before assets/index-Hm6hc6-g.js. Accepted native bridge and staged bridge match at `d5aea200cdbfd5e26f63467261a2c11c6b07c40a00d9d9dc6ea52b97b8f18dc7`. CSS is `eccf56420f56ceeef6163a3462a4b7cb0d7f3a666c561d36cbe7a11daff6fd66`; JS is `ce74803d71b11368f402d3098b6c7eedbe177d9321acf30d8b4f7e553983a84c`. Compiler dependency record references all seven inputs under the isolated Results frontendDist matching the recorded override. This establishes build-input mapping, not extraction of embedded executable assets or proof of runtime webview responses.
+
+The plist's reserved absolute profile is the Results evidence directory's profile-reserved-not-launched; it is absent at inspection. Plist environment delivery remains a runtime gate, not established here. Before/after preservation maps contain the same 518 entries and values; current files were also checked against recorded hashes. File preservation does not establish process preservation. Process inventory was denied during the build; no retry performed and no claim of runtime process identity/continuity made.
+
+Inspected builder logs record successful frontend and dev/debug native compilation with the existing unused-variable warning. No build rerun. This manually staged QA bundle is not an installer, signed/notarized distribution or installed replacement. No launch/quit, process changes, provider calls, signing or publication performed. Any native validation decision remains separately authorized and must use the current Results artifact/profile, not assume earlier ReadingQA runtime results apply.

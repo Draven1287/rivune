@@ -1,0 +1,9 @@
+# Reading surfaces proposal — bounded visual acceptance
+
+PASS. Independently viewed proposed static normal chat at1440×900 and390×844 versus the previously observed exact-export baseline. Transcript/composer now calm and opaque, navigation subdued; galaxy remains visible at desktop edges/sidebar perimeter and logo identity remains. Mobile reading/navigation no longer shows starfield behind text. This resolves the specific prior export reading-surface P2 at proposal level.
+
+Collateral check:390 viewer opened with readable literal content, contained Close and actions; Escape dismissed (Copy untouched). Mobile Conversations rows/search/Show all/Settings remained readable. Team editor remained in flow with Message visible. Retained conflict scrolled to revision4/route/message and fully visible acceptance button; no overlap or new clipping observed. No state matrix repeated. Temporary viewport reset; live/baseline previews untouched.
+
+Inspected patch: append-only scoped host backgrounds, existing700px breakpoint, no dimensions/typography/blur/focus changes. Verified proposed stylesheet SHA2567243010e5c9668eb5a025ded36656b2b78ad33d52c2b91c4a71becd1ec8c0643. All six declared unchanged preview assets/scripts match their hashes, including exact baseline native CSS and galaxy PNG. HTML links baseline CSS then reading-surfaces.css. Preview delta equals proposed appended declarations after the declared image URL mapping (ignoring surrounding whitespace); no other style changes observed.
+
+Approval applies only to this exact stylesheet proposal for builder application. It is not confirmation that source/export/native build has already changed, nor approval of unrelated live changes. After application/rebuild, verify resulting stylesheet/source identity separately. No source/native/provider/server/clipboard/publication operations performed and no screenshots forwarded.

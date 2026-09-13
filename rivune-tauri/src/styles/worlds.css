@@ -1,0 +1,49 @@
+/* RIVUNE Worlds share one continuous environment beneath the web and Mac shells. */
+.world-scene{display:none;position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+html.everyday-ui[data-worlds=true] .cosmos{inset:0;background:radial-gradient(ellipse at 70% 80%,#25313c,#080b10 65%);animation:none;transform:none;filter:none;transition:none;will-change:auto}
+html.everyday-ui[data-worlds=true] .cosmos>div{display:none!important}
+html.everyday-ui[data-worlds=true] .world-scene{display:block}
+html.everyday-ui[data-worlds=true][data-world-renderer=fallback] .world-scene{display:none}
+html.everyday-ui[data-worlds=true] .cosmos:after{display:block;content:'';position:absolute;inset:0;background:linear-gradient(90deg,#05070b26,transparent 50%),radial-gradient(ellipse at 58% 42%,#05070b14,transparent 65%);transition:background 1s}
+html.everyday-ui[data-worlds=true][data-environment=focused] .cosmos:after{background:#080b10bd}
+html.everyday-ui[data-worlds=true] .sidebar{background:#0d111773;border-color:#ffffff12;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+html.everyday-ui[data-worlds=true] header{background:#090d123d;border-color:#ffffff09;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+html.everyday-ui[data-worlds=true] .composer-card{background:linear-gradient(145deg,#232932bd,#13181fce);border-color:#d8e4f02c;box-shadow:0 18px 55px #0005,inset 0 1px 0 #ffffff0d;backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px)}
+html.everyday-ui[data-worlds=true] .composer-card:focus-within{border-color:#cbd5e15a;box-shadow:0 18px 55px #0005,0 0 0 2px #ffffff06}
+html.everyday-ui[data-worlds=true] .suggestions button,html.everyday-ui[data-worlds=true] .model-pill,html.everyday-ui[data-worlds=true] #prompt-templates{background:linear-gradient(145deg,#a8b5c413,#0d131c80);border-color:#d8e4f024;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+html.everyday-ui[data-worlds=true] .anchored-popover{background:linear-gradient(145deg,#323944db,#121820ee);border-color:#d8e4f037;box-shadow:0 20px 64px #0009,inset 0 1px 0 #ffffff16;backdrop-filter:blur(38px) saturate(.8);-webkit-backdrop-filter:blur(38px) saturate(.8)}
+html.everyday-ui[data-worlds=true] .hero .floating-mark,html.everyday-ui[data-worlds=true] .hero .floating-mark img{animation:none;transform:none;transition:none}
+html.everyday-ui[data-worlds=true] .hero .floating-mark{width:clamp(112px,12vh,152px);height:clamp(112px,12vh,152px)}
+html.everyday-ui[data-worlds=true] .hero h1{color:#f2f3f5;text-shadow:0 2px 18px #0006}
+html.everyday-ui[data-worlds=true] .hero>p{color:#bac2ce}
+html.everyday-ui[data-worlds=true] .conversation{box-shadow:none}
+html.everyday-ui[data-worlds=true][data-environment=focused] .message-user{background:#202731e6}
+.world-menu{width:310px!important;max-height:min(620px,calc(100dvh - 32px));overflow:auto}
+.world-menu .world-choice{display:flex;align-items:center;gap:12px;padding:10px!important;text-align:left;min-height:60px}
+.world-choice>span:last-child{display:flex;flex-direction:column;gap:4px;flex:1}
+.world-choice strong{font-size:13px;font-weight:550}.world-choice small{font-size:11px;color:#aab5c3;line-height:1.4}
+.world-choice[aria-pressed=true]{background:#ffffff0c!important;box-shadow:inset 2px 0 #bacddd}
+.world-swatch{width:42px;height:38px;border-radius:11px;border:1px solid #ffffff20;flex:none;background:linear-gradient(170deg,#070a10 48%,#697984 50%,#10161e 52%,#293746 80%,#070a10)}
+.world-swatch[data-world=orbital]{background:radial-gradient(circle at 110% 130%,#090d14 60%,#8fabbf 61%,#172735 63%,#050910 66%)}
+.world-swatch[data-world=glass]{background:radial-gradient(ellipse at 80% 60%,#111923 42%,#9baebd 45%,#18232d 48%,#080d13 60%)}
+.world-swatch[data-world=cloud]{background:radial-gradient(ellipse at 60% 70%,#55616c,#1e2833 40%,#090c12 80%)}
+.world-swatch[data-world=aurora]{background:linear-gradient(155deg,#080c12 35%,#576670 48%,#111923 54%,#070b10 70%)}
+.world-swatch[data-world=infinite]{background:linear-gradient(25deg,#0b1017 43%,#687984 44%,#0b1017 45%,#0b1017 64%,#53626e 65%,#0b1017 66%)}
+.world-swatch[data-world=auto]{background:conic-gradient(from 40deg,#18232d,#74818c,#15202d,#080d13,#18232d)}
+.world-menu details{border-top:1px solid #ffffff12;margin-top:8px;padding-top:8px}.world-menu summary{font-size:12px;color:#b8c2ce;cursor:pointer;padding:8px}.world-menu details button{font-size:12px}
+.world-menu .world-note{font-size:11px;line-height:1.6;color:#aab5c3;padding:6px 10px;margin:0}
+@media(prefers-reduced-motion:reduce){html.everyday-ui[data-worlds=true] .cosmos:after{transition:none}}
+@media(prefers-reduced-transparency:reduce){html.everyday-ui[data-worlds=true] .sidebar,html.everyday-ui[data-worlds=true] header,html.everyday-ui[data-worlds=true] .composer-card,html.everyday-ui[data-worlds=true] .anchored-popover,html.everyday-ui[data-worlds=true] .suggestions button{background:#141a22;backdrop-filter:none;-webkit-backdrop-filter:none}}
+@media(prefers-contrast:more){html.everyday-ui[data-worlds=true] .cosmos:after{background:#080b10e8}html.everyday-ui[data-worlds=true] .composer-card,html.everyday-ui[data-worlds=true] .anchored-popover{background:#111720;border-color:#b3c2d3}}
+html.everyday-ui .world-menu .world-choice{height:auto;min-height:68px;flex-shrink:0;line-height:1.3;white-space:normal}
+html.everyday-ui .world-menu .world-choice small{display:block;margin:0;padding:0;font-size:11px;line-height:1.4}
+html.everyday-ui .world-menu .world-choice strong{line-height:1.35}
+.world-menu>p,.world-menu>details{flex-shrink:0}
+/* Content is an opaque reading layer; glass belongs to navigation and controls. */
+html.everyday-ui[data-worlds=true][data-environment=focused] .cosmos:after{background:#080b1040}
+html.everyday-ui[data-worlds=true][data-environment=focused] .conversation{background:#121820;border:1px solid #d8e4f012;border-radius:20px;padding:clamp(20px,3vw,36px);backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 14px 44px #0003}
+html.everyday-ui[data-worlds=true] .composer-card{background:#1b222b;backdrop-filter:none;-webkit-backdrop-filter:none}
+html.everyday-ui[data-worlds=true] .message-assistant{background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
+html.everyday-ui[data-worlds=true] .answer-content pre{background:#0b1017;border:1px solid #ffffff15;max-width:100%;overflow-x:auto}
+.world-swatch[data-world=plain]{background:#1b1d23}
+html.everyday-ui .world-menu .world-choice strong{padding:0}

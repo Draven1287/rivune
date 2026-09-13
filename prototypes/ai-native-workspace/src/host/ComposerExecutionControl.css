@@ -1,0 +1,16 @@
+.composer-execution{min-width:0;margin:0 0 8px;font-size:13px;color:#dce5f3}
+.composer-execution>summary{cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:6px 2px;min-width:0;max-width:100%}
+.composer-execution>summary:focus-visible{outline:2px solid #9ec8ff;outline-offset:2px;border-radius:4px}
+.composer-execution-editor{max-height:30dvh;overflow:auto;overscroll-behavior:contain;border:1px solid #ffffff26;border-radius:8px;background:#101a29;padding:10px;line-height:1.5}
+.composer-execution-editor fieldset{min-width:0;border:0;padding:0;display:grid;gap:10px}
+.composer-execution-editor label{display:flex;align-items:center;gap:8px;min-width:0;flex-wrap:wrap}
+.composer-execution-editor label>span{min-width:0;overflow-wrap:anywhere}
+.composer-execution-editor small{display:block;color:#b8c7dc}
+.composer-execution-editor select{width:100%;min-width:0;max-width:100%;background:#18283a;color:#e0e7f1;border:1px solid #5b6c80;padding:6px;border-radius:5px}
+.composer-execution-editor p{margin:6px 0 10px;overflow-wrap:anywhere}
+.composer-execution-actions{display:flex;gap:8px;flex-wrap:wrap}
+.host-composer .host-composer-actions{justify-content:flex-end}
+.host-composer:has(.composer-execution){flex-shrink:0;max-height:none}
+@media(max-width:700px){.composer-execution-editor{max-height:18dvh}}
+/* A saved-state review can exceed the available chat height; keep every action reachable. */
+.host-composer:has(.composer-execution):has(.host-conflict){max-height:65%;min-height:0;overflow:auto}

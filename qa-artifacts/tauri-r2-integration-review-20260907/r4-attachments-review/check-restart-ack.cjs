@@ -1,0 +1,10 @@
+const fs=require('node:fs'),vm=require('node:vm'),crypto=require('node:crypto'),path=require('node:path'),assert=require('node:assert/strict');
+const source=fs.readFileSync('qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/web/app.mjs','utf8');
+const start=source.indexOf('function clearSubmittedDraftIfUnchanged('),end=source.indexOf('\nfunction setStatus(',start);assert(start>=0&&end>start);
+const saves=[],rich={revision:11,attachmentIDs:['new-file-B'],pending:null,conflictRevision:null};
+const context=vm.createContext({localDrafts:new Map([['A','same saved prompt']]),selectedConversationID:'A',prompt:{value:'same saved prompt'},localDraftVersions:new Map(),draftRevision:1,draftSaveTimer:null,richState:()=>rich,clearTimeout,saveDraft:async(id,text)=>saves.push({id,text,attachmentIDs:[...rich.attachmentIDs]}),draftSaveFailed:()=>{}});
+vm.runInContext(source.slice(start,end)+'\nglobalThis.clear=clearSubmittedDraftIfUnchanged;',context);
+context.clear({conversationID:'A',draft:'same saved prompt',conversationRevision:0,richDraftRevision:10});
+assert.equal(context.prompt.value,'');assert.equal(rich.attachmentIDs.length,0);assert.equal(saves.length,1);
+const receipt={scope:'Exact production clear function; synthetic reopened draft and old acknowledgement; no native/host execution',sourceSha256:crypto.createHash('sha256').update(source).digest('hex'),oldAcknowledgedRichRevision:10,reopenedRichRevision:11,reopenedAttachmentIDs:['new-file-B'],observedWrites:saves,finding:'Old recovered acknowledgement clears a newer rich draft when text and reset local counter match'};
+fs.writeFileSync(path.join(__dirname,'RESTART_ACK_RECEIPT.json'),JSON.stringify(receipt,null,2)+'\n');console.log(JSON.stringify(receipt));

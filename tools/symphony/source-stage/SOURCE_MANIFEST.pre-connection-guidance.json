@@ -1,0 +1,571 @@
+{
+  "schemaVersion": 1,
+  "capturedAtUTC": "2026-09-10T02:36:28.580362+00:00",
+  "status": "LOCAL_REVIEW_ONLY_NOT_PUBLICATION_READY",
+  "layout": "tree preserves repository-relative paths; no source edits or relocations",
+  "fileCount": 112,
+  "totalBytes": 7957554,
+  "treeSHA256": "ba23fa427d868358e0d6b9bb3d34e66bc2b04d1c2aeb5c031b7d86f231c7f7e7",
+  "files": [
+    {
+      "path": "LICENSE",
+      "bytes": 11349,
+      "sha256": "db5812f23e3d4b6f4c94bde8c282ffa0d7d2a0c0ae82fd51f7f5d24d7468db41"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/.gitignore",
+      "bytes": 34,
+      "sha256": "1935b4cd2ab102f925a28a83c76dac51db87bd3f3cae6a186215ac94aade28ca"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/DESKTOP_BUILD.md",
+      "bytes": 1757,
+      "sha256": "215a2e9958277da0c25f802688387a7e10914acbc83c65a2282aafb65ffb9798"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/MODEL_CONFIGURATION.md",
+      "bytes": 2653,
+      "sha256": "9ee16103bbbe4be2579c6e64aa5ccbe51e4d87bc4727b25cd8b2c084ea3c6b2d"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/MODEL_DISCOVERY.md",
+      "bytes": 5769,
+      "sha256": "dcfc3831c0bec5c978365505aa720e9badd5e45493f231d6355cb680f8757818"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/index.html",
+      "bytes": 625,
+      "sha256": "c66c8fa7dcdce5632f2fd414aee8841c2726592cd5486557a5fab3bc52372494"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/package-lock.json",
+      "bytes": 56252,
+      "sha256": "d6ed1dac5d8a36906903121d75168e45108dbad0c6b8a65a60fe4af2085c22ff"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/package.json",
+      "bytes": 733,
+      "sha256": "7d78e837a170269d073f59fd7958a56e6ad81656416d1ce782756383adce17c6"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/scripts/build-desktop.mjs",
+      "bytes": 2981,
+      "sha256": "53d8734a639df2f676ce90a9221a4e1f2e6c7ab04ecfd22edcbdd0c2fd28ce01"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/App.tsx",
+      "bytes": 7024,
+      "sha256": "633f0ede6615fdd814d32ce02a0cb9e5d08e92cda9bdcf35d2b38e58e6bce5ba"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/assets/rivune-icon-128.png",
+      "bytes": 27206,
+      "sha256": "3f4a35786f677e0cddc9a4fa71f15269344cb330b65530022584778814b0aba4"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/assets/rivune-workspace-milky-way.png",
+      "bytes": 2731560,
+      "sha256": "0e758d81cd77a3ad9e73fe3db997e45eb91c34107cf538dfa95254996fe0878f"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/components/ResizableLayout.tsx",
+      "bytes": 3837,
+      "sha256": "29614ed941f5a0a26d9628508e3518211b6dd0dc81e451d015ea6bc7575dcf95"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/components/TelemetryShelf.tsx",
+      "bytes": 7373,
+      "sha256": "209cc5a3e60e285f359d4b3554239e54ed542b6fe9bb2595064b509b84d39892"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/components/chat/ChatPanel.tsx",
+      "bytes": 7459,
+      "sha256": "9fee3e8e708a10b8f71cfc4c34d6ee2ff767923194440c56cd20f697a76de47b"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/components/chat/SlashCommandMenu.tsx",
+      "bytes": 2693,
+      "sha256": "9ce5ff1d9e4e568b898c9a267b5960099a184b5ccad7ada521631856800b3ad8"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/components/editor/ArtifactPreview.tsx",
+      "bytes": 6559,
+      "sha256": "20a6654432e247df83783ad4c479a709ff32c04b7e9948085a4a85ce6ea03111"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/components/editor/DiffView.tsx",
+      "bytes": 3763,
+      "sha256": "d0766e4f04aff5040a094a2ccff33285eb899b77cab2fb59f683d6f0012bd919"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/components/editor/EditorPanel.tsx",
+      "bytes": 5343,
+      "sha256": "5ffc2c4a6f07991882a0dd5fb4109814fa5856e5937e1d6634a22a512b05d5f9"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/components/settings/ConnectionSetup.tsx",
+      "bytes": 3245,
+      "sha256": "2f8ef5c4fd6dbaf75cd90b0c6bdc1a703386cdb673a39f22f05c9d6eb6fb38c7"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/components/sidebar/Sidebar.tsx",
+      "bytes": 8737,
+      "sha256": "8c90705e9cccd799aebc48f836d2bc5417c2dda08035ceb834036f6d8ff2a775"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/data/demo.ts",
+      "bytes": 4424,
+      "sha256": "448938fb908773d45aeb71a3232c48b4014be7f52f57731ce43a1481e4a6c051"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/data/mockWorkspace.ts",
+      "bytes": 4725,
+      "sha256": "1715611d03fcc23cf78c7ce406cb5f500f4e71c700c5d974bf6701921b60e69b"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/hooks/draftStore.ts",
+      "bytes": 2592,
+      "sha256": "75944dcf6127610fc15f9719326e2272df63c0e20fd7db1ff33be32bfb76c847"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/hooks/useWorkspaceDemo.ts",
+      "bytes": 14838,
+      "sha256": "01e62b7f76ed60c1cd4f038ac0061e11a39087b109378e2f9e37185a79f6a3b9"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/hooks/workspaceAdapter.ts",
+      "bytes": 13552,
+      "sha256": "0b8d8756ad7c0109974e89da40a74744ef0d63a25f90aa596ad772301b50fbb8"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/host/Constellation.tsx",
+      "bytes": 7023,
+      "sha256": "fadfb926fb401c5dee34d0ce6c9848668911d41a6a9b1d36f56b8c0d87adcabe"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/host/HostWorkspace.tsx",
+      "bytes": 16881,
+      "sha256": "184ce8d523850caa57317b311b2f960cd91cd741f482cc08be81ff6078e355a4"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/host/contracts.ts",
+      "bytes": 15456,
+      "sha256": "7749bb987c5c28e456abf2413999155b45fed5f90c8b693fb940c6fb09d7b227"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/host/durableRecovery.ts",
+      "bytes": 2971,
+      "sha256": "178891c661a937c667604bcdf45ece6f6a901139dde62d07ab12fef29353eb29"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/host/lifecycle.ts",
+      "bytes": 10817,
+      "sha256": "525870d379655896d86b8964bde41852c00249a4017ada100f1ea380ccc3f30e"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/host/modelDiscovery.ts",
+      "bytes": 5374,
+      "sha256": "a458c7308977c2b20bb217d8f540dca220cd35b4eea66554ac204f53adf965cf"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/host/tauriAdapter.ts",
+      "bytes": 8014,
+      "sha256": "5155f0418a9b8c91cb7b83ac1892fae36dbbd77af0b4a51e040e5da1fe005ec1"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/host/teamConfiguration.ts",
+      "bytes": 2711,
+      "sha256": "4ec927f7ca38d5318d98868b0ad7e7d9c73489298d2968a00d9cc1da70e482e6"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/host/workspaceController.ts",
+      "bytes": 30287,
+      "sha256": "144805d63ca420348dea02df3a8befd8f40229be559453130209f1951e040f19"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/main.tsx",
+      "bytes": 225,
+      "sha256": "e81aec37c1befe991a35934ed8b90b73e7262a01e4dffae60e1ce87967ff09b4"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/styles.css",
+      "bytes": 31721,
+      "sha256": "7ca3a5bc4035e1fe094a392d84c0fd6c005ddc981356aca1c9ac339a2d771a76"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/src/types.ts",
+      "bytes": 5361,
+      "sha256": "fc277fec774f1cb6909469e4f5ffdde130111fdd266575a7ccce2b358faca16d"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/cancelDuringSubmit.test.mjs",
+      "bytes": 11235,
+      "sha256": "8bd65578fb76b81e21340f47c41c53449eb371a84c109e730c25c4957d1cac5b"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/cancelPollingRecovery.test.mjs",
+      "bytes": 4574,
+      "sha256": "bdc948caf2c1ae881e85ebf331e28fb19a2f33b9d729f75db082ca6cdada8dbc"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/constellationContracts.test.mjs",
+      "bytes": 3095,
+      "sha256": "a3105c5db3784fb2c20ff152911151aabff39aaaccc5b06495a5ca8f1f46fbef"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/desktopBuild.test.mjs",
+      "bytes": 2834,
+      "sha256": "c0733c9aca7c786cf2d6f11a8bf05ec16c2b9cfbe7ece07901c4c0ffc2523e85"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/draftStore.test.mjs",
+      "bytes": 4311,
+      "sha256": "237f7fe2987793061f8f5f1a2fc9b76cceaa78d21078b943901dedccffc4ac64"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/durableRecovery.test.mjs",
+      "bytes": 12341,
+      "sha256": "5efca46ef30ca7988d66c4824beef920b05cdf6cb31b8c6cb0e5a804b6d6ee19"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/hostContracts.test.mjs",
+      "bytes": 5610,
+      "sha256": "26395e43e8636d58f3bd1481804b19cd9905a556ea3e0027840aa30a77fe4764"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/hostController.test.mjs",
+      "bytes": 26928,
+      "sha256": "b08db7b73df5a67d1c5bc5f3e4f27bf8884f8044055fc6774cf0dc46d26536fc"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/hostRenderer.html",
+      "bytes": 656,
+      "sha256": "7553a615151e58b32ee619f8b35d06b1c7be42876911829e32c7b72266556e98"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/hostRenderer.test.tsx",
+      "bytes": 57470,
+      "sha256": "d68923de8dfc644de104dcd1ecb844aafde17653f12f01f4559dab46a38cb046"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/invocationRetry.test.mjs",
+      "bytes": 9449,
+      "sha256": "be1cd0a91c89ab80f22e40f3439f671792a9b11a11a4cfbc2d1f1453dc78ae09"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/lifecycle.test.mjs",
+      "bytes": 6961,
+      "sha256": "e0109cbdbce77877f46e44f49b6c53992ce0683dbda5a0a91ea1b7f597cbb5b4"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/modelCapabilities.test.mjs",
+      "bytes": 3714,
+      "sha256": "6e3ed050cd6f5bbe77e0a2ffa743e35dd8e376f765d49ec8826eea38ce43ae5c"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/modelDiscovery.test.mjs",
+      "bytes": 4894,
+      "sha256": "924d58dad14de47a3b9fb08624ad6eaf681e61b023333cc0680b1d92cf662d9d"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/rendererScenarios.test.mjs",
+      "bytes": 974,
+      "sha256": "dc412fba33a2081db33c0bdcbe2f3f3d8726730fb2f285b2a65d711a120c5a65"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/rendererScenarios.ts",
+      "bytes": 1211,
+      "sha256": "3d671ada0579b19da785d88b2af348d72951fa723c06550ae95ec332a1baa1b7"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/settingsBridge.test.mjs",
+      "bytes": 4097,
+      "sha256": "c8a0f12924d39b99571a712183d84a2259c4b84d4129c8b0bd73c7e2cd76d420"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/tauriAdapter.test.mjs",
+      "bytes": 5548,
+      "sha256": "2a20db31b29d94e0f5d1c65e58f8f3560bb3143419d8a3513901a641dece9381"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tests/workspaceAdapter.test.mjs",
+      "bytes": 8419,
+      "sha256": "4d7575bc0ea48835dbf3d210920bc582dc9e558b47c426ea311fcf1147d2d936"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/tsconfig.json",
+      "bytes": 515,
+      "sha256": "6a1019a04439cb3b37b4900d9f210245f0c3c7a71351ac3598509b77bd617e2a"
+    },
+    {
+      "path": "prototypes/ai-native-workspace/vite.config.ts",
+      "bytes": 305,
+      "sha256": "1c5d6b37c6c0e6e4ca2e3f58cbe97ea3f98b9aa4aa8638f007f7b64a731c0cab"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/Cargo.lock",
+      "bytes": 111007,
+      "sha256": "265fb445b6724ed2476435dd9c45a4dab46ac063c7ec5f3be5dadab8be3a3513"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/Cargo.toml",
+      "bytes": 988,
+      "sha256": "402e6e8c54e2058156d4e7e8d59d3876770d2a76aa562ae28c47d50a3e7c941b"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/Info.plist",
+      "bytes": 229,
+      "sha256": "068c5b4e0124c0f7f36411cc56c6b60e30fb1be2b1de0cf9aff66daa5a632a0f"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/build.rs",
+      "bytes": 39,
+      "sha256": "487059eaf8a947b80f20a9aacac038a5047b2ad69d2401b827376c67d6fe847f"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/capabilities/main-events.json",
+      "bytes": 304,
+      "sha256": "fed0808d4c5315e573fa52e322671c0188fdcb11a4b7cc103f0c167423c1f1f8"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/icons/icon.icns",
+      "bytes": 2313332,
+      "sha256": "487636baa681f9a1c61fa1d42bf7c2f85cb0db052408512a11867aa73693cd02"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/icons/icon.ico",
+      "bytes": 135230,
+      "sha256": "6777199b81650835defa8c7b4bd514d27bdcd396ce9b9830ffa227f68008d570"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/icons/icon.png",
+      "bytes": 317119,
+      "sha256": "1a33682351c6f7c811d99bdd4780851fe756fda52a636e95b4ce3fcb6e64c0f2"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/icons/rivune-mark.svg",
+      "bytes": 781,
+      "sha256": "7cbf629dcfa59b32ef2f3fb0a6768cc194ae727e7adbba3dcff15845c9a265e2"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/src/attachments.rs",
+      "bytes": 12315,
+      "sha256": "c4742ef3595708cddd4d903fd95daf0fce02436bf56e835a9a5d050729d5140d"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/src/codex_model_discovery.rs",
+      "bytes": 31083,
+      "sha256": "5cc589424cfa160eed0e60b1eccc46dbc9a32f2d36685e694debf6b04f777d6a"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/src/constellation_acceptance_tests.rs",
+      "bytes": 25315,
+      "sha256": "b87b29eb36b03b36c090a82104cc4b8b23bf2ae7b2e7a4a9ab42600e9acd3fdb"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/src/constellation_projection.rs",
+      "bytes": 12760,
+      "sha256": "913b52d4d89df1ebca39042aa8f5de049c995cd24b0609cd92abe304ef865334"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/src/host.rs",
+      "bytes": 332852,
+      "sha256": "ad7aa914e76367430766238f6ea032f993ce92b0b98349eeb7dafdb95ff725d1"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/src/legacy_inspection.rs",
+      "bytes": 9810,
+      "sha256": "c8e795b81e8f8416e7ac8a83c8d40e9fcbc921bc8bb490802d45492c06f0ed0e"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/src/lib.rs",
+      "bytes": 187,
+      "sha256": "d9dac9d9210646561568b76e76af8513271d4643fb17927c0e9bec0823e8f23e"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/src/main.rs",
+      "bytes": 30489,
+      "sha256": "67360327d3f07ef482124685638ee06aa7f6f82783da7ff36ed0e0a787adfc1c"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/src/native_export.rs",
+      "bytes": 13510,
+      "sha256": "4c5611794783a7760b44a9307c0ce23011e19ad359339f0e67db636acc618dc8"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/src/team_strategy.rs",
+      "bytes": 84388,
+      "sha256": "601b24cf629ea22eb4435e82dd601dbb3cd9a584d14b873db8cc35b35fca2c27"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/src/tray.rs",
+      "bytes": 5386,
+      "sha256": "ee09b9d495e65ba0ef31bbb69450a4b0fc2e9bc8cf8ee6bff926321747639149"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/tauri.conf.json",
+      "bytes": 1024,
+      "sha256": "c897d144bae1aff9cc0466629646d81e72e476dd96e9bb79421acd8361abd74c"
+    },
+    {
+      "path": "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/web/desktop-host.mjs",
+      "bytes": 6308,
+      "sha256": "bc8f8ed355dcd08819d3d22f3a19003daaa6d02efe91614ff75ef524a48fc610"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/fixtures/conversation-project-reference.json",
+      "bytes": 1420,
+      "sha256": "fb2541c4981739763cbf44cff7e5558de2dd44761428b83a4e81edf52810696d"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/fixtures/drafts-multiple-and-new.json",
+      "bytes": 758,
+      "sha256": "9954a2e3b3e9b0bf864e1669a2e2c711cb8dd896d1954a4175d3142c37cfdecd"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/fixtures/future-project-schema.json",
+      "bytes": 985,
+      "sha256": "90bd123c9fe6dd2e0bab3d5dbd032c183215199432d5dcd1dcf8a762d5b72a5c"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/fixtures/legacy-optional-selected-artifact.json",
+      "bytes": 325,
+      "sha256": "00f7d73b0edb1d7776501bea790db375eb050e1d1e583a25d57d074dea916235"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/fixtures/malformed-drafts.json",
+      "bytes": 346,
+      "sha256": "ed39ec3cc327ca6ffd6465aa0c464177a126ab9232817c776ea53f11d2131a98"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/fixtures/orphan-draft.json",
+      "bytes": 552,
+      "sha256": "f75dcb6a33cb03ea190e4a3ab63b7ef85ce226ef356b6ae0d796cf28689555b2"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/fixtures/project-needs-new-file-permission.json",
+      "bytes": 1102,
+      "sha256": "883a10e9145caac87a79d1ae90d218019658c9792cbf07cf52effb55325f875d"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/fixtures/settings-and-stale-consent.json",
+      "bytes": 586,
+      "sha256": "13f59cb7a8be84a462eb57914912bedbcf7363b59995b46161ead1825e884ca5"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/fixtures/truncated-drafts.json",
+      "bytes": 281,
+      "sha256": "edcb6cee5e79cdafe740b5d191a57af1d7dbff715895a0f77a5d70c6867101b2"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/fixtures/unknown-explicit-retry-context.json",
+      "bytes": 1504,
+      "sha256": "66b65ff392760da5cdb6debe1137264f3e0eae9a71b22c64b5cf9c0aea8d5d5e"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/import-archive/Cargo.lock",
+      "bytes": 5060,
+      "sha256": "05020c2bfb856b301c646f60f6b220f3d449c526efb77ffb6842471b400ec1a3"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/import-archive/Cargo.toml",
+      "bytes": 352,
+      "sha256": "b823284a60d5f5c441027cf9f592ab3f5cc2e21c0fa65970f4442fa4d217a28d"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/import-archive/src/lib.rs",
+      "bytes": 14626,
+      "sha256": "203994f5477459454acb7f3c39b11683c4397dddd13d68c40c7e7af6eae38838"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/import-archive/tests/transactions.rs",
+      "bytes": 13894,
+      "sha256": "be738781fce2e26af9f9a4110098e44c3c9302701cffe05aff24aa6b5fee1512"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/import-preview/Cargo.lock",
+      "bytes": 4905,
+      "sha256": "6e385c3c0de9992efcd9eddd9b49cf034af6c1acd8b06063eb6cbffe7a50d33c"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/import-preview/Cargo.toml",
+      "bytes": 235,
+      "sha256": "822de7a2f4d4c3e94faabf7bed16c4c35fdf307a814e87937ddb6337cc9cbb2d"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/import-preview/src/lib.rs",
+      "bytes": 20084,
+      "sha256": "dc843123d184c2c2da6c7377d6ca52241a7f4ed4dbb9f4068da7383253983db9"
+    },
+    {
+      "path": "qa-artifacts/tauri-migration-audit-20260907/import-preview/tests/preview.rs",
+      "bytes": 13826,
+      "sha256": "0739c012c2c958ecb4f88b3a44eca987485ceeff98549b33dc77be44c1be3542"
+    },
+    {
+      "path": "third-party-notices/rivune-desktop/BUILD_DEPENDENCY_NOTICES.txt",
+      "bytes": 330441,
+      "sha256": "b4a17448e1477b777ef69c682bf2d92c8c30c80d93a600327ab1818abf53e129"
+    },
+    {
+      "path": "third-party-notices/rivune-desktop/CANDIDATE_RUNTIME_NOTICES.txt",
+      "bytes": 587317,
+      "sha256": "e27c7b9888eca888a7078b4836afbc840ed52241bda269db6ce94e323e5c829c"
+    },
+    {
+      "path": "third-party-notices/rivune-desktop/NOTICE_INPUTS.json",
+      "bytes": 190944,
+      "sha256": "d1a9e3e3f52af31c10b54d5f31633be687be75e2a59b4b02ddb4ee3c6285c3af"
+    },
+    {
+      "path": "third-party-notices/rivune-desktop/README.md",
+      "bytes": 3197,
+      "sha256": "79221bf29ee4cdf8fac638da9fd0fa2b850111819c55f5c066b7d637dd3a91d7"
+    },
+    {
+      "path": "third-party-notices/rivune-desktop/UPSTREAM_NOTICE_PROVENANCE.json",
+      "bytes": 40166,
+      "sha256": "0a9074221e855810d00d698d7138768ace419420b530e7601555cbad40eb6b20"
+    },
+    {
+      "path": "third-party-notices/rivune-desktop/upstream-notices/23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3.txt",
+      "bytes": 1023,
+      "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+    },
+    {
+      "path": "third-party-notices/rivune-desktop/upstream-notices/2748c1a1fba7616917c61d455e8d715ab952671ead63f2026ad0124410596b09.txt",
+      "bytes": 664,
+      "sha256": "2748c1a1fba7616917c61d455e8d715ab952671ead63f2026ad0124410596b09"
+    },
+    {
+      "path": "third-party-notices/rivune-desktop/upstream-notices/766674381e88a468d55e07de3596987391cf0e8beebe51baf4fddf11078785b3.txt",
+      "bytes": 206,
+      "sha256": "766674381e88a468d55e07de3596987391cf0e8beebe51baf4fddf11078785b3"
+    },
+    {
+      "path": "third-party-notices/rivune-desktop/upstream-notices/7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54.txt",
+      "bytes": 1339,
+      "sha256": "7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54"
+    },
+    {
+      "path": "third-party-notices/rivune-desktop/upstream-notices/a1761e55b2345769908ed7d8149e6e4fb3608c56f7336008fb704a1675fa4781.txt",
+      "bytes": 14957,
+      "sha256": "a1761e55b2345769908ed7d8149e6e4fb3608c56f7336008fb704a1675fa4781"
+    },
+    {
+      "path": "third-party-notices/rivune-desktop/upstream-notices/a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2.txt",
+      "bytes": 10847,
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+    },
+    {
+      "path": "third-party-notices/rivune-desktop/upstream-notices/c0c56f26d9c051cac4d200c34c84e7ae9aaa853e01a982a1df08b09931e518ae.txt",
+      "bytes": 1483,
+      "sha256": "c0c56f26d9c051cac4d200c34c84e7ae9aaa853e01a982a1df08b09931e518ae"
+    },
+    {
+      "path": "third-party-notices/rivune-desktop/upstream-notices/f5c342c49f3ac804f3e8e7bb62a8040a44c50d47bb36902b1abd13f66a1adf8b.txt",
+      "bytes": 608,
+      "sha256": "f5c342c49f3ac804f3e8e7bb62a8040a44c50d47bb36902b1abd13f66a1adf8b"
+    }
+  ]
+}

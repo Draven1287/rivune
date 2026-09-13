@@ -1,0 +1,35 @@
+/* Rivune's galaxy environment: depth behind a stable, readable workspace. */
+html.everyday-ui .workspace>.hero{text-align:center;margin-bottom:28px}
+html.everyday-ui .hero .orbit-stage{height:136px;justify-content:center;margin:0 0 16px}
+html.everyday-ui .hero .floating-mark{width:128px;height:128px;background:none;border:0;box-shadow:none}
+html.everyday-ui .hero .floating-mark:before{display:none}
+html.everyday-ui .hero .floating-mark img{animation:none;filter:drop-shadow(0 8px 22px #07142670)}
+html.everyday-ui[data-backdrop=observatory] .cosmos{inset:-18px;background:#091626 url('/rivune-observatory.png') center/cover no-repeat;animation:none;filter:none;transform:translate(var(--depth-x,0px),var(--depth-y,0px));transition:transform 1.4s cubic-bezier(.2,.7,.2,1);will-change:auto}
+html.everyday-ui[data-backdrop=observatory] .cosmos>div{display:none}
+html.everyday-ui[data-backdrop=observatory] .cosmos:after{display:block;content:'';position:absolute;inset:0;background:#06101c1f;transition:background .7s ease}
+html.everyday-ui[data-backdrop=observatory][data-environment=focused] .cosmos:after{background:#06101caf}
+html.everyday-ui[data-backdrop=observatory] .sidebar{background:#101b2bac;border-color:#c7def421;backdrop-filter:blur(24px) saturate(120%);-webkit-backdrop-filter:blur(24px) saturate(120%)}
+html.everyday-ui[data-backdrop=observatory] header{background:#101b2b38;border-color:#d4e6f014}
+html.everyday-ui[data-backdrop=observatory] .workspace:not(:has(.conversation:not([hidden]))){padding-bottom:clamp(28px,7vh,74px)}
+html.everyday-ui[data-backdrop=observatory] .hero .floating-mark{transform:perspective(650px) rotateY(var(--mark-y,0deg)) rotateX(var(--mark-x,0deg));transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
+html.everyday-ui[data-backdrop=observatory] .hero h1{color:#f0f5fd;text-shadow:0 2px 18px #0208146b;font-size:clamp(28px,3vw,36px)}
+html.everyday-ui[data-backdrop=observatory] .hero>p{color:#c3cedf}
+html.everyday-ui[data-backdrop=observatory] .example-link{color:#afc1d9}
+html.everyday-ui[data-backdrop=observatory] .composer-card{background:#15243ac9;border-color:#b3d5ef66;box-shadow:0 20px 55px #02091654,inset 0 1px 0 #e9f4ff24;backdrop-filter:blur(32px) saturate(125%);-webkit-backdrop-filter:blur(32px) saturate(125%)}
+html.everyday-ui[data-backdrop=observatory] .composer-card:focus-within{border-color:#d4eaff99;box-shadow:0 20px 55px #02091654,0 0 0 3px #bedfff0c,inset 0 1px 0 #e9f4ff24}
+html.everyday-ui[data-backdrop=observatory] .suggestions button{background:#13243c9c;border-color:#c3dff03d;color:#d1ddec;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+html.everyday-ui[data-backdrop=observatory] .suggestions button:hover{background:#253e5acf;border-color:#d5eaff85}
+html.everyday-ui[data-backdrop=observatory] .anchored-popover{background:#17283eeb;border-color:#c1dced55;box-shadow:0 18px 54px #0006,inset 0 1px 0 #eff8ff22;backdrop-filter:blur(32px) saturate(135%);-webkit-backdrop-filter:blur(32px) saturate(135%)}
+html.everyday-ui[data-backdrop=observatory] .message-assistant:before{content:'';position:absolute;background:url('/rivune-smooth-r.png') center/contain no-repeat}
+html.everyday-ui[data-backdrop=observatory] .message-assistant.live-reply:before{background:#d79d80 url('/providers/claude.svg') center/70% no-repeat;border-radius:50%}
+html.everyday-ui[data-backdrop=observatory] .message-assistant .message-meta:before{display:none}
+html.everyday-ui[data-backdrop=observatory] .conversation{box-shadow:none}
+html.everyday-ui[data-backdrop=observatory][data-motion=off] .cosmos,html.everyday-ui[data-backdrop=observatory][data-motion=off] .hero .floating-mark{transform:none;transition:none}
+@media(max-height:740px){html.everyday-ui .hero .orbit-stage{height:108px;margin-bottom:12px}html.everyday-ui .hero .floating-mark{width:104px;height:104px}html.everyday-ui .workspace>.hero{margin-bottom:22px}}
+@media(max-height:600px){html.everyday-ui .hero .orbit-stage{height:76px}html.everyday-ui .hero .floating-mark{width:72px;height:72px}}
+@media(prefers-reduced-motion:reduce){html.everyday-ui[data-backdrop=observatory] .cosmos,html.everyday-ui[data-backdrop=observatory] .hero .floating-mark{transform:none;transition:none}html.everyday-ui[data-backdrop=observatory] .cosmos:after{transition:none}}
+@media(prefers-reduced-transparency:reduce){html.everyday-ui[data-backdrop=observatory] .sidebar,html.everyday-ui[data-backdrop=observatory] .composer-card,html.everyday-ui[data-backdrop=observatory] .anchored-popover,html.everyday-ui[data-backdrop=observatory] .suggestions button{background:#15243a;backdrop-filter:none;-webkit-backdrop-filter:none}}
+@media(prefers-contrast:more){html.everyday-ui[data-backdrop=observatory] .cosmos:after{background:#06101cdb}html.everyday-ui[data-backdrop=observatory] .composer-card,html.everyday-ui[data-backdrop=observatory] .anchored-popover{background:#122033;border-color:#cfe5fa}}
+html.everyday-ui[data-backdrop=observatory] header{background:#0d192c9e;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+html.everyday-ui[data-backdrop=observatory] .top-actions #environment-menu,html.everyday-ui[data-backdrop=observatory] .top-actions #prompt-templates{color:#c0cedf}
+html.everyday-ui[data-backdrop=observatory][data-environment=focused] .message-user{background:#111d2dbf}

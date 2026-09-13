@@ -1,0 +1,17 @@
+# Lead-directed strategy admission v1
+
+Root implemented this isolated foundation for the user-directed one-team Auto experience. It accepts a structured lead proposal for Council, Swarm or an ordered combination and validates exact run/lead/frozen request+team identity, selected-team readiness, closed host capability/permission facts and work limits. Manual override takes precedence. Missing/unavailable strategies return no effective phase; model-omitted requirements cannot remove host requirements. No keyword router substitutes for the lead.
+
+Validation result: root12 tests passed, zero failures; compiler cache sandbox required normal approved cache access. No compiler warnings in the successful build. Command: swift test --package-path qa-artifacts/lead-strategy-admission-20260907/v1 --scratch-path /private/tmp/rivune-lead-admission-v1-build. Independent bounded acceptance complete: 20 tests passed (12 supplied plus eight reviewer cases), no compiler warnings. See INDEPENDENT_REVIEW.md for limits.
+
+The gate commits an encoded receipt through an injected host persistence closure before returning. Duplicate run IDs are consumed, including ambiguous persistence failures; process-local capacity256 fails full. Snapshot is Encodable only so external decoding cannot bypass validated construction. Private receipt includes the input digest and team facts, not raw prompt bytes. The external lead parser is bounded8KiB, exact known keys and closed enums.
+
+## Integration limits
+
+This is proposal admission, not a model/process adapter, phase executor, native UI integration or production durable store. Returned ordered phases are a plan, not proof those phases ran. Host must supply fresh authoritative capability/grant evidence and exact requested route/model/effort from existing validated native admission. The data structure cannot attest those facts by itself. A nonempty evidence ID is an injected host reference, not cryptographic proof or a fresh capability probe.
+
+Only constructor-created snapshots are accepted; model response cannot create grants, adapters, members or budgets. Native host must resolve and recheck these facts at every actual effect, enforce accumulated calls/workers, record phase/result digests and exact fallback lead, and handle cancellation/retry/restart. Frozen snapshot changes require a new decision rather than reusing an old receipt. The minimum success-path call estimate reserves one routing call and N+1 per Council or workerCount+1 per Swarm; it does not enforce running cost or admit unlimited repairs. This initial Swarm contract is scoped artifact work with at least two workers and a workspace-write grant. It is not universal read-only delegation or nested subagents.
+
+AdmissionGate is process-local and intentionally provides no restoration/redispatch API. A new instance cannot be used as a durable deduplication authority. The later native durable coordinator must restore consumed IDs/terminal state and treat unknown persistence as unresolved; do not enable Auto using this package alone. The injected persistence closure must atomically commit rather than queue asynchronous work. Failure produces no returned admission. There are no provider calls, file writes by admitted phases, automatic fallback executions, installs, shared-source edits or public changes in this package.
+
+Review exact frozen bytes in MANIFEST.json. Preserve this candidate once handed off.

@@ -1,0 +1,37 @@
+const fs=require('fs'),path=require('path'),assert=require('node:assert/strict'),crypto=require('crypto');
+const {chromium}=require('/Users/Aaravshah/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const web=path.resolve(__dirname,'../cross-platform-shell-20260907/candidate4-runtime-r2/web');
+(async()=>{const browser=await chromium.launch({executablePath:'/Users/Aaravshah/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell',headless:true});try{
+const ctx=await browser.newContext({viewport:{width:1120,height:800}});const external=[],errors=[],checks=[];const check=(n,v)=>{assert.ok(v,n);checks.push(n)};
+await ctx.route('**/*',async r=>{const u=new URL(r.request().url());if(u.origin!=='https://rivune-transcript.test'){external.push(u.href);return r.abort()};const f=path.resolve(web,'.'+(u.pathname==='/'?'/index.html':u.pathname));if(!f.startsWith(web+path.sep)||!fs.existsSync(f))return r.abort();await r.fulfill({body:fs.readFileSync(f),contentType:({'.mjs':'text/javascript','.js':'text/javascript','.css':'text/css','.html':'text/html','.png':'image/png','.svg':'image/svg+xml'})[path.extname(f)]||'text/plain'})});
+const p=await ctx.newPage();p.on('pageerror',e=>errors.push(String(e)));await p.goto('https://rivune-transcript.test/');
+await p.evaluate(async()=>{
+const {createTranscript}=await import('./transcript.mjs');window.copyMode='success';window.linkMode='success';window.copied=[];window.opened=[];window.messages=[];
+window.answer='Hello **world** — café 🌌\n\n[Documentation](https://example.com/docs)\n\n```js\nconsole.log("hello");\n```';
+window.snap={schemaVersion:1,conversations:[{id:'audit',title:'Synthetic action audit'},{id:'other',title:'Other'}],runs:[{id:'r1',conversationID:'audit',status:'completed',answer,error:null,admitted:{requestID:'r1',conversationID:'audit',prompt:'Private synthetic prompt never copied',provider:{kind:'codex'},approvedContext:{private:'never copied'}}}]};
+window.createView=enabled=>createTranscript({container:document.querySelector('#transcript'),scroller:document.querySelector('.response-scroll'),...(enabled?{copyText:async text=>{copied.push(text);if(copyMode==='fail')throw Error('private backend error');if(copyMode==='pending')await new Promise((resolve,reject)=>{window.finishCopy=resolve;window.failCopy=reject})},openExternal:async url=>{opened.push(url);if(linkMode==='fail')throw Error('private browser error');if(linkMode==='pending')await new Promise((resolve,reject)=>{window.finishLink=resolve;window.failLink=reject})}}:{}),onStatus:m=>messages.push(m)});
+window.view=createView(true);view.render(snap,'audit');document.querySelector('#welcome').hidden=true;
+});
+const copy=p.getByRole('button',{name:'Copy response',exact:true}),code=p.getByRole('button',{name:'Copy code',exact:true});
+await copy.click();check('whole answer exact source only',await p.evaluate(()=>copied[0]===answer&&!copied[0].includes('Private synthetic')));
+check('copy success only after resolved callback',await p.evaluate(()=>messages.at(-1)==='Response copied.'));
+await code.click();check('code copies only code body',await p.evaluate(()=>copied.at(-1)==='console.log("hello");'));
+await p.getByRole('link',{name:'Documentation',exact:true}).click();check('valid link explicit callback only',await p.evaluate(()=>opened.length===1&&opened[0]==='https://example.com/docs'));
+await p.evaluate(()=>{copyMode='fail';messages=[]});await copy.click();check('copy failure truthful without leaking backend error',await p.evaluate(()=>messages[0].startsWith('Could not copy response.')&&!messages[0].includes('private')));
+await p.evaluate(()=>{copyMode='pending';messages=[]});await copy.click();check('pending action has no premature success',await p.evaluate(()=>messages.length===0&&document.querySelector('.message-footer button').getAttribute('aria-disabled')==='true'));
+const before=await p.evaluate(()=>copied.length);await p.locator('.message-footer button').focus();await p.keyboard.press('Enter');check('pending duplicate clicks do not repeat clipboard call',await p.evaluate(()=>copied.length)===before);
+check('poll preserves footer node and focus',await p.evaluate(()=>{const b=document.querySelector('.message-footer button');b.focus();view.render(snap,'audit');return b===document.querySelector('.message-footer button')&&document.activeElement===b}));
+await p.evaluate(()=>{view.render(snap,'other');finishCopy()});await p.waitForTimeout(0);check('late copy success cannot announce into another conversation',await p.evaluate(()=>messages.length===0));
+await p.evaluate(()=>{view.render(snap,'audit');copyMode='pending';messages=[]});await code.click();await p.evaluate(()=>{view.render(snap,'other');finishCopy()});await p.waitForTimeout(0);check('late code copy success cannot announce into another conversation',await p.evaluate(()=>messages.length===0));
+await p.evaluate(()=>{view.render(snap,'audit');linkMode='pending';messages=[]});await p.getByRole('link',{name:'Documentation',exact:true}).click();await p.evaluate(()=>{view.render(snap,'other');failLink(Error('private'))});await p.waitForTimeout(0);check('late external-open failure cannot announce into another conversation',await p.evaluate(()=>messages.length===0));
+await p.evaluate(()=>{copyMode='success';snap.runs[0].status='running';snap.runs[0].answer='Partial answer';view.render(snap,'audit');messages=[]});await copy.click();check('partial answer identified honestly',await p.evaluate(()=>copied.at(-1)==='Partial answer'&&messages.at(-1)==='Partial response copied.'));
+check('streaming retains copy control and focus',await p.evaluate(()=>{const b=document.querySelector('.message-footer button');b.focus();snap.runs[0].answer+=' more';view.render(snap,'audit');return b===document.querySelector('.message-footer button')&&document.activeElement===b}));
+await p.evaluate(()=>{snap.runs[0].answer='';view.render(snap,'audit')});check('empty response hides copy action',await p.locator('.message-footer button').isHidden());
+await p.evaluate(()=>{snap.runs[0].answer='[bad](javascript:alert) [secret](https://u:p@example.com) [file](file:///tmp/a) [safe](https://example.com) ![remote](https://example.com/image.png)';view.render(snap,'audit')});
+check('unsafe schemes and credentials not actionable',await p.locator('#transcript [role="link"]').count()===2);
+check('external image not loaded',await p.locator('#transcript img').count()===0&&external.length===0);
+await p.evaluate(()=>{view.dispose();view=createView(false);snap.runs[0].answer=answer;view.render(snap,'audit')});
+check('unavailable capabilities are hidden',await p.locator('#transcript button:visible').count()===0&&await p.locator('#transcript [role="link"]').count()===0);
+check('no uncaught renderer errors',errors.length===0);
+fs.writeFileSync(path.join(__dirname,'TRANSCRIPT_ACTIONS_BROWSER.json'),JSON.stringify({scope:'Actual canonical transcript/Markdown DOM and explicit test callbacks; no real clipboard/browser/provider calls or native acceptance',checks,errors,external,sourceHash:crypto.createHash('sha256').update(fs.readFileSync(path.join(web,'transcript.mjs'))).digest('hex')},null,2)+'\n');console.log(JSON.stringify({passed:checks.length,errors,external}));
+}finally{await browser.close()}})().catch(e=>{console.error(e);process.exitCode=1});

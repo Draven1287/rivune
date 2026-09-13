@@ -1,0 +1,21 @@
+{
+  "id": "settings-and-stale-consent",
+  "sourceKind": "UserDefaults-source-contract",
+  "input": {
+    "rivune.defaultMode": "Together",
+    "rivune.conversationContext": true,
+    "rivune.subtleMotion": false,
+    "rivune.togetherSharingApproved": true,
+    "rivune.togetherSharingApprovalVersion": -1,
+    "alloy.defaultMode": "Claude",
+    "rivune.futureSetting": {
+      "preserve": "opaque"
+    }
+  },
+  "expect": {
+    "currentNamespaceWins": true,
+    "preserveUnknownSettingForRecovery": true,
+    "doNotTreatOldConsentAsNewHostPermission": true,
+    "dispatchCount": 0
+  }
+}

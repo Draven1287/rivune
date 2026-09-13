@@ -186,7 +186,7 @@ validate_developer_signature() {
   fi
 
   if [[ "$require_hardened_runtime" == "1" ]] \
-    && ! grep -E '^flags=.*runtime' "$signature_report" >/dev/null; then
+    && ! grep -E '^CodeDirectory .*flags=[^ ]*[,(]runtime[),]' "$signature_report" >/dev/null; then
     print -u2 "Public release blocked: $label is missing the hardened runtime signature flag."
     return 1
   fi

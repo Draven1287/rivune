@@ -1,0 +1,30 @@
+{
+  "name": "rivune-desktop",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 1420 --strictPort",
+    "build": "tsc && vite build && node scripts/shared-bundle.mjs create",
+    "preview": "vite preview",
+    "tauri": "tauri",
+    "test": "tsc src/workspace.ts src/providers.ts src/drafts.ts src/projects.ts src/agentQueue.ts src/platform/detect.ts src/services/storage/index.ts --rootDir src --outDir tests/compiled --target ES2022 --module ES2022 --skipLibCheck && node --test tests/*.test.mjs",
+    "mock:api": "node scripts/mock-api.mjs",
+    "test:protocol": "node --test tests/mock-api.test.mjs",
+    "typecheck": "tsc --noEmit",
+    "test:architecture": "node --test tests/architecture.test.mjs",
+    "build:desktop": "node scripts/build-desktop.mjs",
+    "verify:shared": "node scripts/shared-bundle.mjs verify"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.8.0",
+    "@tauri-apps/plugin-process": "^2.3.1",
+    "@tauri-apps/plugin-updater": "^2.11.0",
+    "lucide": "^0.468.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.8.4",
+    "typescript": "~5.7.2",
+    "vite": "^6.0.5"
+  }
+}

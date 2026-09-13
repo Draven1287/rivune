@@ -1,0 +1,19 @@
+# Startup contention P1 correction — ready for independent review
+
+This receipt supersedes the prior clean-exit/no-event-loop claims in STARTUP_CONTENTION_IMPLEMENTATION_RECEIPT_20260910.md. The desktop review correctly identified that Tauri2.11.5 invokes setup on Ready and panics on setup Err; Builder::build cannot catch it. The former setup-contention flag/build-error policy was insufficient and is replaced.
+
+## Corrected integration boundary
+The app is built with all effective configured windows deferred. Using the built app's supported PathResolver, profile resolution and load/admission now happen BEFORE app.run. Contention returns ExitCode::SUCCESS immediately without entering Ready/setup. Invalid profile resolution or builder failure returns FAILURE. Corrupt/unreadable saved data still produces an admitted recovery StartupWorkspace with no HostState.
+
+Successful preflight places StartupWorkspace in a private slot consumed by Ready/setup. Setup manages startup/settings/shutdown state before explicit window/tray construction. Its entire fallible initialization is captured as Result and passed through complete_startup_setup, the actual setup return boundary. A constructor/slot failure logs, records failure and calls AppHandle::exit(1); the setup closure returns Ok, avoiding Tauri's setup-Err panic path. Healthy/recovery completion marks startup admitted.
+
+The complete RunEvent callback passes through admitted_event before any event match/state access. While pending or failed, ExitRequested is not prevented and ordinary request_quit is not invoked; Reopen/Close/Ready/Exit paths cannot dereference absent managed state. A final failure return also covers runtime-return semantics. This is explicit controlled exit, not a headless Ok-only result. Successful recovery remains reopenable and retains disabled Settings/its existing shutdown gate.
+
+## Scope and evidence
+Only main.rs changed in this correction. Typed locking and window deferral remain. correction.patch/correction-hashes.json record the delta from the rejected implementation. source-hashes.json and combined-source.patch in qa-artifacts/startup-contention-correction-20260910/ capture the full two-file proposal relative to original accepted-source baselines for the next reviewer. The previous host.rs hash is unchanged.
+
+Eight startup tests and two Dock tests PASS; scoped native binary test target compiles using existing locked/offline cache and frozen frontend assets. New tests exercise actual preflight against a held fresh temporary profile and successful reopen, fatal path-resolution result, and the SAME completion boundary called by Ready/setup. Injected construction failure returns Ok while requesting exit1, leaves admission false, and actual RunEvent::Ready/Exit values pass through the production dispatcher without invoking a callback that would touch managed state. Successful completion admits subsequent events. Existing deferred-window, genuine recovery preservation and shutdown/Dock cases remain passing.
+
+An initial compile caught using App::exit instead of AppHandle::exit; corrected to app.handle().exit(code). No native app was launched. ExitRequested's API is private/non-exhaustive, so the tests do not fabricate it: source wiring proves it is inside the same all-event guard; real OS ExitRequested delivery, exit code and absence of a second native window remain unmeasured. Constructor and exit callbacks are injected, not real OS constructors or process control. No claim that callback tests constitute native double-invocation runtime proof.
+
+All148 frozen candidate files at c84cc2d and all3 Sent Draft QA bundle files remain unchanged. No new bundle/export, app launch, process control, provider, dependency, IPC or publication. The connection-handoff proposal was not integrated. Stopped for independent correction review before further work.

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Council vs. Swarm: Rivune’s planned AI collaboration modes</title>
+  <meta name="description" content="Compare Council’s independent answers and manager review with Swarm’s delegated agent tasks. Learn the planned behavior, provider needs, and current limits.">
+  <link rel="canonical" href="{{CANONICAL}}">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Council vs. Swarm: Rivune’s planned AI collaboration modes">
+  <meta property="og:description" content="Independent answers or delegated agent work? A practical guide to Rivune’s two modes, with Council as the first development stage and Swarm a future milestone.">
+  <meta property="og:url" content="{{CANONICAL}}">
+  <meta property="og:image" content="https://draven1287.github.io/rivune/assets/og.png">
+  <meta name="theme-color" content="#090a0b">
+  <link rel="icon" href="/rivune/assets/rivune-icon-128.png">
+  <link rel="stylesheet" href="/rivune/site.css">
+  {{ROBOTS}}
+</head>
+<body>
+  {{FIXTURE_BANNER}}
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav shell">
+    <a class="brand" href="/rivune/" aria-label="Rivune home"><img class="icon" src="/rivune/assets/rivune-icon-128.png" alt="" width="32" height="32"><img class="wordmark" src="/rivune/assets/rivune-wordmark.svg" alt="Rivune" width="112" height="15"></a>
+    <a class="source-link" href="/rivune/#download">Check release status →</a>
+  </header>
+  <main id="main" tabindex="-1" class="prose guide shell">
+    <article aria-labelledby="guide-title">
+      <p class="kicker">A guide to Rivune</p>
+      <h1 id="guide-title">Council vs. Swarm</h1>
+      <p class="guide-lede">One Mac app, one proposed AI team. Rivune is being developed to suggest eligible members and a manager, then coordinate independent answers or delegated work from one prompt.</p>
+      <aside class="guide-status" aria-label="Current mode availability"><p><strong>Council:</strong> First development stage.<br><strong>Swarm and Auto:</strong> Future milestones.</p><p>The public source preview 4 predates the configurable team experience. This guide explains the project direction, not features you can install from that source release.</p></aside>
+      <nav class="guide-contents" aria-label="In this guide">
+        <a href="#council">Council &amp; its manager</a><a href="#swarm">Swarm &amp; agent tasks</a><a href="#choose">Choosing a mode</a><a href="#availability">Availability</a><a href="#providers">Providers &amp; access</a><a href="#data">Data sharing</a>
+      </nav>
+
+      <section id="council" aria-labelledby="council-heading">
+        <h2 id="council-heading">Council: independent answers, then a manager</h2>
+        <p>Council is intended for questions that benefit from different perspectives: comparing approaches, weighing a decision, or reviewing a proposed solution.</p>
+        <p>The planned Council workflow gives team members the same approved task context. They answer independently, without seeing each other’s drafts. The manager then reviews their contributions and writes one final answer. It can combine, correct, or reject claims; unresolved disagreement should remain visible.</p>
+        <h3>Who chooses the team and manager?</h3>
+        <p>Rivune should propose an eligible team and manager so you can start without a setup exercise. You can keep that suggestion or choose members, models, and supported reasoning settings beside the prompt. Multiple members may use the same provider tool with different settings. The reusable team is editable; a running task retains the configuration it started with.</p>
+        <p>A suggested manager reflects supported capabilities and your preferences, not a proven intelligence ranking. Rivune does not assume a universally smartest provider. The planned run record identifies the selected manager and any explicitly allowed replacement after failure; otherwise the task stops with completed work retained. Team size and whether the manager also drafts independently are implementation choices to evaluate, not requirements to install another model.</p>
+      </section>
+
+      <section id="swarm" aria-labelledby="swarm-heading">
+        <h2 id="swarm-heading">Swarm: agents own different parts</h2>
+        <p>Swarm is intended for projects with separable work. The manager assigns concrete tasks to real workers, permits supported bounded delegation, then coordinates review and integration.</p>
+        <p>For a small website, tasks might cover content, layout, and checks. Each worker needs an owner, a scoped workspace, and a record of its changes. Work can run in parallel when dependencies and file ownership permit it. Overlapping changes must be resolved during integration.</p>
+        <p>The planned result includes usable files and actual check results, with agent activity available to inspect. A transcript that merely describes agents is not evidence of worker execution.</p>
+      </section>
+
+      <section id="choose" aria-labelledby="choose-heading">
+        <h2 id="choose-heading">Which mode fits your task?</h2>
+        <ul class="guide-list">
+          <li><strong>Council:</strong> you need a considered answer to one question, informed by independent responses.</li>
+          <li><strong>Swarm:</strong> you need separate agent tasks to produce and integrate parts of a project.</li>
+          <li><strong>A single-provider chat:</strong> a straightforward question may not need a collaboration workflow.</li>
+        </ul>
+        <p>Automatic workflow selection is a later milestone, after both execution paths qualify. Manual choice remains available where supported. Council-only development is a temporary stage, not the final product scope.</p>
+        <p>These are intended uses, not measured performance claims. Rivune has not established that Council or Swarm is more accurate or useful than a single model. That requires recorded comparisons on real tasks.</p>
+      </section>
+
+      <section id="availability" aria-labelledby="availability-heading">
+        <h2 id="availability-heading">What is available now?</h2>
+        <p>The public source release is preview 4, a developer ZIP requiring Xcode. It predates the configurable team and manager. Council is the first stage of current development; real Swarm and Auto remain future milestones. Local builds and private checks are not a public release. Earlier Together conversations retain their original history and must not be relabeled as the new workflows.</p>
+        <p>The <a href="https://github.com/Draven1287/rivune/releases/tag/v0.2.0-source-preview.4">current source preview</a> is for developers and requires Xcode to build. Check the <a href="/rivune/#download">current Mac installer availability and release status</a> before downloading anything.</p>
+      </section>
+
+      <section id="providers" aria-labelledby="providers-heading">
+        <h2 id="providers-heading">Providers, accounts, and access</h2>
+        <p>The initial foundation uses the supported Codex CLI and Claude Code CLI connections. You need the relevant installed tool, provider sign-in, and permission to use your chosen model. Provider terms, limits, and charges apply separately; a free account may not include the access you need.</p>
+        <p>Planned Council runs require at least two successful independent participants for a completed multi-model result. Swarm also requires verified worker support in the participating adapters. Installing a CLI does not by itself enable either mode or prove that it can delegate agents.</p>
+      </section>
+
+      <section id="data" aria-labelledby="data-heading">
+        <h2 id="data-heading">Local history, provider processing</h2>
+        <p>Rivune stores conversation history locally by default. AI requests still go to connected providers. Council’s planned manager receives the participating models’ successful answers; Swarm’s workers receive the approved context needed for their assigned tasks.</p>
+        <p>Review what you include in prompts, context, and attachments. Provider processing and retention follow the applicable provider terms. Read <a href="/rivune/privacy/">privacy and data sharing</a> for the current behavior and the planned modes’ boundaries.</p>
+      </section>
+      <div class="guide-return"><a href="/rivune/#workflow">← Back to the mode overview</a><a href="/rivune/#download">Check release status →</a></div>
+    </article>
+  </main>
+  <footer class="footer shell"><nav aria-label="Project links"><a href="/rivune/">Rivune home</a><a href="https://github.com/Draven1287/rivune">Source</a><a href="/rivune/privacy/">Privacy</a><a href="https://github.com/Draven1287/rivune/issues">Support</a></nav><small>Independent software, not affiliated with OpenAI, Anthropic, or Apple.</small></footer>
+</body>
+</html>

@@ -157,6 +157,21 @@ final class StartupReadinessTests: XCTestCase {
         XCTAssertEqual(store.compactConfigurationSummary, "my-api-model · API")
         XCTAssertFalse(store.activeConfigurationSummary.contains(store.codexModel.title))
         XCTAssertEqual(store.connectionSummary, "ChatGPT API · Access checked")
+        XCTAssertEqual(
+            store.routeDescription(for: .chatGPT),
+            "OpenAI API · connection check: my-api-model"
+        )
+        let answerProvenance = store.executionDescription(
+            route: .openAIResponsesAPI,
+            provider: .chatGPT,
+            requestedModel: "ignored CLI model",
+            requestedEffort: "ignored CLI effort"
+        )
+        XCTAssertEqual(
+            answerProvenance,
+            "OpenAI API · response model unavailable · connection check: my-api-model"
+        )
+        XCTAssertFalse(answerProvenance.localizedCaseInsensitiveContains("resolved"))
     }
 
     @MainActor

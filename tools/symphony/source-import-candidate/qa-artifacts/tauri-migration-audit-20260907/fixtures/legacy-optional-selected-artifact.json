@@ -1,0 +1,17 @@
+{
+  "id": "legacy-optional-selected-artifact",
+  "sourceKind": "workspace-drafts.json",
+  "input": {
+    "drafts": {
+      "new": {
+        "text": "Legacy unsent draft",
+        "attachments": []
+      }
+    }
+  },
+  "expect": {
+    "selectedConversationID": null,
+    "selectedArtifact": null,
+    "dispatchCount": 0
+  }
+}

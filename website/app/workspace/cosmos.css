@@ -1,0 +1,43 @@
+/* One continuous sky beneath the glass, with readable surfaces above it. */
+.ws-app--workbench::before { background:linear-gradient(rgb(2 5 10 / var(--background-dim,.35)),rgb(2 5 10 / var(--background-dim,.35))),url('/brand/rivune-workspace-milky-way.png') center/cover no-repeat; }
+.ws-app--workbench .ws-main { background:linear-gradient(140deg,#02060b35,#02060b65);backdrop-filter:blur(1px); }
+.ws-app--workbench .ws-main::before { background:radial-gradient(ellipse at center,#01040a26,transparent 80%);opacity:1; }
+.ws-app--workbench .ws-main > .ws-space-field { opacity:.65;mask-image:none; }
+.ws-app--workbench .ws-sidebar { background:linear-gradient(160deg,#030911a6,#02060dd6); }
+.ws-app .ws-setup-cosmos { background:linear-gradient(#02060b60,#02060b60),url('/brand/rivune-workspace-milky-way.png') center/cover no-repeat;opacity:1; }
+.ws-app .ws-setup>.ws-space-field { opacity:.7; }
+.ws-app--workbench .ws-chat--conversation { background:#02060b85; }
+.ws-app--workbench .ws-home-content>h2 { text-shadow:0 2px 25px #000,0 1px 5px #000; }
+.ws-app--workbench .ws-home-description { color:#c0cdd9;text-shadow:0 1px 12px #000; }
+
+/* Twelve-second reveal; connection readiness determines the next screen. */
+.ws-arrival--welcome .ws-arrival-haze { background:linear-gradient(#000a,#000a),url('/brand/rivune-workspace-milky-way.png') center/cover no-repeat;animation-duration:4s; }
+.ws-arrival--welcome .ws-arrival-ghost,.ws-arrival--welcome .ws-arrival-reveal,.ws-arrival--welcome .ws-arrival-wordmark { animation-duration:var(--arrival-duration,12s); }
+.ws-arrival--welcome .ws-arrival-art { width:min(1120px,calc(100vw - 48px),calc((100dvh - 140px) * 1.5));transform:translateY(-54px); }
+.ws-arrival:focus { outline:none; }
+.ws-arrival--welcome .ws-arrival-count { font-size:13px;color:#d7e8f6; }
+.ws-arrival--welcome .ws-arrival-welcome-footer { bottom:24px;display:flex;flex-direction:column;gap:13px;width:min(450px,calc(100% - 44px));padding:15px 18px;border-radius:14px;background:#000b;backdrop-filter:blur(10px); }
+.ws-arrival-loading { width:100%;max-width:310px; }
+.ws-arrival-loading-label { display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font:9px ui-monospace,SFMono-Regular,monospace;letter-spacing:2px;color:#b6d0e4;font-variant-numeric:tabular-nums; }
+.ws-arrival-loading progress { display:block;appearance:none;width:100%;height:2px;border:0;background:#a5c8e025;border-radius:2px;overflow:hidden; }
+.ws-arrival-loading progress::-webkit-progress-bar { background:#a5c8e025; }.ws-arrival-loading progress::-webkit-progress-value{background:#c2e1f6;box-shadow:0 0 9px #a8d8fb;}.ws-arrival-loading progress::-moz-progress-bar{background:#c2e1f6;}
+.ws-arrival--welcome .ws-arrival-welcome-status { align-items:flex-start;text-align:center;gap:0; }.ws-arrival-welcome-status>.ws-arrival-state-dot { display:none; }
+.ws-arrival--welcome .ws-arrival-welcome-status h1 { font-size:14px; }.ws-arrival--welcome .ws-arrival-welcome-status p { margin-top:6px;color:#a7becf;font-size:11px;line-height:1.7; }
+.ws-arrival-fallback { position:absolute;inset:0;display:grid;place-items:center;font-size:clamp(32px,6vw,64px);letter-spacing:.22em;color:#dcebf6; }
+.ws-arrival.has-artwork-error .ws-arrival-artwork { display:none; }
+@media(max-width:600px) { .ws-arrival--welcome .ws-arrival-art{width:calc(100vw - 12px);transform:translateY(-68px)}.ws-arrival--welcome .ws-arrival-welcome-footer{bottom:24px;width:calc(100% - 36px);padding:15px;gap:12px}.ws-arrival--welcome .ws-arrival-count{font-size:11px} }
+@media(max-height:600px) and (min-width:601px) { .ws-arrival--welcome .ws-arrival-art{width:min(800px,calc((100dvh - 105px) * 1.5));transform:translateY(-42px)}.ws-arrival--welcome .ws-arrival-welcome-footer{bottom:12px;gap:8px;padding:12px 18px}.ws-arrival--welcome .ws-arrival-welcome-status p{margin-top:3px}.ws-arrival--welcome .ws-arrival-welcome-status h1{font-size:12px} }
+
+/* A single continuous star field; no hard split at the lettering. */
+.ws-arrival-artwork { mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent),linear-gradient(to bottom,transparent,#000 16%,#000 88%,transparent); }
+.ws-arrival-poster { mask-image:linear-gradient(to bottom,#000 45%,transparent 60%);mask-size:100% 300%;mask-position:0 100%;animation:ws-continuous-arrival var(--arrival-duration,12s) ease both; }
+@keyframes ws-continuous-arrival { 0%,10%{mask-position:0 100%;opacity:0}20%{opacity:1}90%,100%{mask-position:0 0;opacity:1} }
+@media(prefers-reduced-motion:reduce){.ws-arrival-poster{mask-position:0 0;opacity:1}}
+.ws-arrival-top .rivune-wordmark { width:86px;height:10px; }
+
+/* Keep the approved sky around the answer, with a quiet reading surface. */
+.ws-app--workbench .ws-result-body {
+  background:rgba(13,17,23,.97);border:1px solid #c7deef1f;
+  border-radius:14px;padding:20px;overflow-wrap:anywhere;
+}
+@media(max-width:600px) { .ws-app--workbench .ws-result-body { padding:15px; } }

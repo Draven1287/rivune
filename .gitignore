@@ -83,4 +83,17 @@ yarn-error.log*
 *.swp
 *.swo
 *~
+
+# Rust output and local QA captures
+target/
 __pycache__/
+*.pyc
+.toolchains/
+.qa/
+.openai/
+next-env.d.ts
+
+# Checked-in development updater configuration (contains no credentials)
+!rivune-tauri/release/
+rivune-tauri/release/*
+!rivune-tauri/release/config.json

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark"><title>Rivune — synthetic transcript review</title><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="transcript.css"></head>
+<body><div class="shell">
+<aside class="sidebar" aria-label="Workspace">
+<a class="brand" href="#workspace" aria-label="Rivune workspace"><img src="assets/rivune-icon-128.png" alt="" width="34" height="34"><img class="wordmark" src="assets/rivune-wordmark.svg" alt="Rivune" width="152" height="24"></a>
+<button id="new-conversation" class="new-conversation" type="button"><span aria-hidden="true">＋</span> New conversation</button>
+<div class="aside-title"><h2>Conversations</h2><span class="local-label">On this device</span></div><div id="conversations" class="conversation-list"></div>
+<div class="workspace-footer"><button id="open-settings" class="workspace-account" type="button" aria-haspopup="dialog"><span class="avatar" aria-hidden="true">R</span><span><strong>Local workspace</strong><small>Settings &amp; connections</small></span><span class="settings-icon" aria-hidden="true">⚙</span></button></div>
+</aside>
+<main id="workspace" tabindex="-1" class="conversation-pane">
+<header class="conversation-header"><div><p class="eyebrow">YOUR WORKSPACE</p><h1>Conversation review · synthetic fixture</h1></div><span class="mode-label"><span aria-hidden="true">✦</span> Single AI</span></header>
+<div class="response-scroll"><div class="welcome" id="welcome"><img src="assets/rivune-icon-128.png" alt="" width="56" height="56"><p class="eyebrow">A LITTLE SPACE TO THINK</p><h2>What are we working on?</h2><p>Bring a question, an idea, or your next task.<br>Connect your AI in workspace settings to begin.</p></div><section id="transcript"></section></div>
+<div class="composer-area"><p id="run-status" class="run-status" role="status">No task status reported</p>
+<form id="prompt-form" class="composer"><label for="prompt" class="sr-only">Message</label><textarea id="prompt" rows="3" placeholder="Message your AI…"></textarea><div class="actions"><span class="composer-hint">Single AI conversation</span><div class="run-actions"><button id="reconcile" class="secondary" type="button" hidden>Reconcile request</button><button id="cancel" class="secondary" type="button" hidden>Stop</button><button id="retry-run" class="secondary" type="button" hidden>Retry task</button><button id="submit" class="send" type="submit" aria-label="Send message"><span aria-hidden="true">↑</span></button></div></div></form>
+<div class="connection-line"><p id="connection-status" class="status" role="status">Connecting…</p><button id="retry" class="text-button" type="button">Retry connection</button></div></div>
+</main></div>
+<dialog id="settings-dialog" aria-labelledby="settings-title"><div class="settings-header"><div><p class="eyebrow">YOUR WORKSPACE</p><h2 id="settings-title">Settings</h2></div><button id="close-settings" type="button" class="close-button" aria-label="Close settings" autofocus>×</button></div>
+<div class="settings-content">
+<section class="settings-section" aria-labelledby="account-title"><div class="section-heading"><h3 id="account-title">Local workspace</h3><span class="badge">This device</span></div><p>Your provider accounts are managed through their own tools. Configuring a connection here does not sign you in to a Rivune cloud account.</p></section>
+<section class="settings-section provider-settings" aria-labelledby="provider-title"><h3 id="provider-title">AI connection</h3><p>Connect a supported CLI installed on this computer. Sign in through that provider’s CLI before using it here.</p>
+<div class="field"><span id="provider-label">Provider</span><div class="provider-choices" role="radiogroup" aria-labelledby="provider-label"><button type="button" role="radio" aria-checked="true" tabindex="0" data-provider="codex">Codex</button><button type="button" role="radio" aria-checked="false" tabindex="-1" data-provider="claude">Claude</button></div><input id="provider-kind" type="hidden" value="codex"></div>
+<div class="field"><label for="provider-path">CLI executable path</label><input id="provider-path" autocomplete="off" spellcheck="false" placeholder="/absolute/path/to/codex" aria-describedby="path-help"><small id="path-help">Use the full path to the installed executable.</small></div>
+<div class="field"><label for="provider-model">Model override <span class="muted">(optional)</span></label><input id="provider-model" autocomplete="off" spellcheck="false" placeholder="Use provider default"></div>
+<button id="connect-provider" type="button" class="primary">Save connection</button><p id="settings-connection-status" class="settings-status" role="status"></p></section>
+<section class="settings-section" aria-labelledby="appearance-title"><h3 id="appearance-title">Appearance</h3><label class="appearance-choice" for="galaxy-background"><span><strong>Galaxy background</strong><small>A quiet view of the Milky Way.</small></span><input id="galaxy-background" type="checkbox" checked><span class="switch" aria-hidden="true"></span></label><p class="privacy-note">Appearance stays on this device. No animation is required.</p></section>
+</div></dialog>
+<script type="module" src="harness.mjs"></script></body></html>

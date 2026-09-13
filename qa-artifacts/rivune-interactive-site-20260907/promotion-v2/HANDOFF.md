@@ -1,0 +1,15 @@
+# SITE-PROMOTE-V2: validated canonical local export
+
+Promoted approved integration into authoritative `pages-site/build.py`, nine templates, four CSS/JS files, and four approved assets. Related `test_site.py` now verifies the nine-page approved output and intentional DOM tour. Before-images and a readable `CANONICAL.diff` are saved here because this workspace's source is currently untracked by Git. No commit or push was made.
+
+Validation: all 19 canonical unit tests pass. Nine page hashes and all four CSS/JS hashes match STATIC_BROWSER_REVIEW_V2.json exactly. Four artwork files match the accepted source manifest. Release metadata, publication gate, workflow, old static snapshots, V6, and accepted integration snapshot were hash-checked unchanged. VALIDATION.json contains current source/export hashes and protected-file counts. Fresh canonical export is `pages-site/dist/` and has target `review`, status `coming-soon`, simulation false.
+
+Release metadata and manual main/target-specific publication authorization remain intact. Ready builds are explicitly blocked before network access until an accepted installer is bound and reviewed, including simulated ready builds. Existing validator tests still cover signing/acceptance metadata, exact public asset matching through an injected mock, fixture isolation, and distinct preview/beta publication approvals. No network requests ran.
+
+Packaging decisions against the inspected actual workflow: `actions/upload-pages-artifact@v4` uploads `pages-site/dist` and deployment is a separate gated job; there is no Jekyll build step. The nine-page renderer's omission of `.nojekyll` is retained. Standard project-relative 404 with noindex and home link is retained; the sitemap explicitly lists all nine intended routes, including `/app/`. All page noindex/nofollow metadata is preserved. A sitemap does not override noindex. No workflow or publication-check edits were made.
+
+The obsolete tests for three routes, absence of all scripts/forms, indexed preview pages, and immediate ready-build rendering were reconciled with the approved interactive preview. Two approved baseline details are preserved for independent review: `/privacy/` still has its Email Aarav mailto link (the Gmail/copy change is on `/contact/`), and `/privacy/` has no Open Graph URL. They are not silently changed during parity promotion.
+
+Independent website reviewer: use the canonical `pages-site/dist` export and VALIDATION.json; review nine routes at 320, 390, tablet, and desktop widths, navigation/keyboard, centered hero, rounded footer/no divider, Single AI/Constellation, macOS-first unavailable download/platform switching, Gmail recipient/copy success and fallback, DOM tour draft safety/isolation, settings focus, and no AI/network execution. The earlier 64-check receipt describes identical page/script bytes; this handoff does not claim a fresh browser review. Publication and actual installer-link integration remain separate and pending.
+
+Stopped at validated local canonical diff/export. No deploy, network call, server restart, email, paid call, Git mutation, or Tauri edit.

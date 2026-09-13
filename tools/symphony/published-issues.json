@@ -1,0 +1,98 @@
+[
+  {
+    "key": "GOAL",
+    "url": "https://github.com/Draven1287/rivune/issues/6",
+    "number": 6,
+    "title": "[Symphony] Rivune product goal and complete execution brief"
+  },
+  {
+    "key": "S00",
+    "url": "https://github.com/Draven1287/rivune/issues/7",
+    "number": 7,
+    "title": "[Symphony S00] Establish the canonical app source for Symphony"
+  },
+  {
+    "key": "S01",
+    "url": "https://github.com/Draven1287/rivune/issues/8",
+    "number": 8,
+    "title": "[Symphony S01] Verify current retry and desktop lifecycle integration"
+  },
+  {
+    "key": "S02",
+    "url": "https://github.com/Draven1287/rivune/issues/9",
+    "number": 9,
+    "title": "[Symphony S02] Deliver the first connection and useful conversation"
+  },
+  {
+    "key": "S03",
+    "url": "https://github.com/Draven1287/rivune/issues/10",
+    "number": 10,
+    "title": "[Symphony S03] Finalize Rivune visual system and consistent branding"
+  },
+  {
+    "key": "S04",
+    "url": "https://github.com/Draven1287/rivune/issues/11",
+    "number": 11,
+    "title": "[Symphony S04] Implement versioned Constellation model and lead configuration"
+  },
+  {
+    "key": "S05",
+    "url": "https://github.com/Draven1287/rivune/issues/12",
+    "number": 12,
+    "title": "[Symphony S05] Implement Swarm within Constellation Engine"
+  },
+  {
+    "key": "S06",
+    "url": "https://github.com/Draven1287/rivune/issues/13",
+    "number": 13,
+    "title": "[Symphony S06] Add protected API connections and enforceable permissions"
+  },
+  {
+    "key": "S07",
+    "url": "https://github.com/Draven1287/rivune/issues/14",
+    "number": 14,
+    "title": "[Symphony S07] Complete projects, files, artifacts and optional work panels"
+  },
+  {
+    "key": "S08",
+    "url": "https://github.com/Draven1287/rivune/issues/15",
+    "number": 15,
+    "title": "[Symphony S08] Complete categorized Settings and accessible interaction"
+  },
+  {
+    "key": "S09",
+    "url": "https://github.com/Draven1287/rivune/issues/16",
+    "number": 16,
+    "title": "[Symphony S09] Add full Orbit, Galaxy motion and local background customization"
+  },
+  {
+    "key": "S10",
+    "url": "https://github.com/Draven1287/rivune/issues/17",
+    "number": 17,
+    "title": "[Symphony S10] Add microphone dictation into the draft"
+  },
+  {
+    "key": "S11",
+    "url": "https://github.com/Draven1287/rivune/issues/18",
+    "number": 18,
+    "title": "[Symphony S11] Deliver data-preserving macOS, Windows and Linux packaging"
+  },
+  {
+    "key": "S12",
+    "number": 4,
+    "url": "https://github.com/Draven1287/rivune/issues/4",
+    "title": "Existing website/download work (reused)"
+  },
+  {
+    "key": "S13",
+    "url": "https://github.com/Draven1287/rivune/issues/19",
+    "number": 19,
+    "title": "[Symphony S13] Validate complete product workflow, performance and release readiness"
+  },
+  {
+    "key": "S14",
+    "url": "https://github.com/Draven1287/rivune/issues/20",
+    "number": 20,
+    "title": "[Symphony S14] Prepare optional commercial plans after core usability"
+  }
+]

@@ -1,0 +1,9 @@
+# R4 two-P2 correction recheck
+
+Both findings closed in current macOS/Unix source plus owner-executed regression scope. All released source hashes, both handoff hashes and targeted browser-test hash matched. No independent Rust/Cargo/browser/native rerun.
+
+Path opening now anchors each parent in a directory descriptor, opens children with openat/O_DIRECTORY/O_NOFOLLOW and opens the final component with O_NOFOLLOW/O_NONBLOCK before checking regular-file metadata. The actual capture hook test swaps the parent for a symlink after directory traversal; the descriptor remains anchored and capture rejects changed path identity. The actual FIFO test requires NOT_REGULAR_FILE without waiting for a writer. Owner reports these within85 passing library tests. This closure does not establish non-Unix support: its fallback still uses ordinary File::open, while the current native picker is macOS-only. Safe non-Unix restored-profile admission needs separate implementation/acceptance before platform enablement.
+
+Existing-mutation resync now returns uncertain on every save error, preserving original revision and request identity; initial rejection/conflict behavior stays separate. The actual host test now runs AfterRename -> AfterWrite precommit resync failure -> durable same ID/revision -> reopen revision1. The renderer fixture requires at least three byte-identical same-ID saves before newer text. Owner reports46 attachment browser checks passed. This directly covers the reported demotion/new-ID schedule.
+
+Earlier abort-token correction remains closed in its documented source/owner-test scope. No remaining finding from this bounded R4 recheck; no blanket all-case/native/release acceptance. Native picker interaction, app build/restart/provider behavior and installer qualification remain unverified.

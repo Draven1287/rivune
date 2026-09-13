@@ -1,0 +1,20 @@
+import {spawnSync} from 'node:child_process';
+import {join} from 'node:path';
+import {root,verifyBundle} from './shared-bundle.mjs';
+import {prepareHosts} from './release-config.mjs';
+const args=process.argv.slice(2);
+const host=args.find(arg=>['swift','tauri','both'].includes(arg));
+if(!host)throw Error('Use: npm run build:desktop -- swift|tauri|both [--release]');
+if((host==='swift'||host==='both')&&process.platform!=='darwin')throw Error('SwiftUI packaging requires macOS. Use tauri on this platform.');
+function run(command,args){const result=spawnSync(command,args,{cwd:root,stdio:'inherit'});if(result.error)throw result.error;if(result.status!==0)throw Error(`${command} failed (${result.status})`);}
+const npmCLI = process.env.npm_execpath;
+if (!npmCLI) throw Error('Run this command through npm run build:desktop');
+const runNpm = args => run(process.execPath,[npmCLI,...args]);
+runNpm(['run','build']);
+const release=args.includes('--release');
+await prepareHosts(release);
+if(host==='swift'||host==='both')run('bash',['macos-preview/script/build.sh','--skip-web-build',...(release?['--release']:[])]);
+await verifyBundle();
+if(host==='tauri'||host==='both')runNpm(['run','tauri','--','build','--config',join(root,'release/generated/tauri.conf.json'),...(release?[]:['--debug','--no-bundle'])]);
+await verifyBundle();
+console.log('Selected hosts built from the same verified shared UI. Nothing was published.');

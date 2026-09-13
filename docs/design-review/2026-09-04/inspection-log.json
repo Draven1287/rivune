@@ -1,0 +1,235 @@
+{
+  "date": "2026-09-05T02:45:42.126Z",
+  "scope": "Browser design prototype only; no production app, provider or website-job tests.",
+  "results": [
+    {
+      "screen": "home",
+      "size": "1512x982",
+      "horizontalOverflow": false,
+      "missingImages": [],
+      "unnamedButtons": 0
+    },
+    {
+      "screen": "active",
+      "size": "1512x982",
+      "horizontalOverflow": false,
+      "missingImages": [],
+      "unnamedButtons": 0
+    },
+    {
+      "screen": "decision",
+      "size": "1512x982",
+      "horizontalOverflow": false,
+      "missingImages": [],
+      "unnamedButtons": 0
+    },
+    {
+      "screen": "project",
+      "size": "1512x982",
+      "horizontalOverflow": false,
+      "missingImages": [],
+      "unnamedButtons": 0
+    },
+    {
+      "screen": "connections",
+      "size": "1512x982",
+      "horizontalOverflow": false,
+      "missingImages": [],
+      "unnamedButtons": 0
+    },
+    {
+      "screen": "settings",
+      "size": "1512x982",
+      "horizontalOverflow": false,
+      "missingImages": [],
+      "unnamedButtons": 0
+    },
+    {
+      "screen": "approval",
+      "size": "1512x982",
+      "horizontalOverflow": false,
+      "missingImages": [],
+      "unnamedButtons": 0
+    },
+    {
+      "screen": "error",
+      "size": "1512x982",
+      "horizontalOverflow": false,
+      "missingImages": [],
+      "unnamedButtons": 0
+    },
+    {
+      "screen": "website",
+      "size": "1512x982",
+      "horizontalOverflow": false,
+      "missingImages": [],
+      "unnamedButtons": 0
+    },
+    {
+      "screen": "walkthrough",
+      "size": "1512x982",
+      "horizontalOverflow": false,
+      "missingImages": [],
+      "unnamedButtons": 0
+    },
+    {
+      "screen": "contract",
+      "size": "1512x982",
+      "horizontalOverflow": false,
+      "missingImages": [],
+      "unnamedButtons": 0
+    },
+    {
+      "screen": "home",
+      "size": "900x800",
+      "horizontalOverflow": false,
+      "windowOverflow": false
+    },
+    {
+      "screen": "active",
+      "size": "900x800",
+      "horizontalOverflow": false,
+      "windowOverflow": false
+    },
+    {
+      "screen": "decision",
+      "size": "900x800",
+      "horizontalOverflow": false,
+      "windowOverflow": false
+    },
+    {
+      "screen": "project",
+      "size": "900x800",
+      "horizontalOverflow": false,
+      "windowOverflow": false
+    },
+    {
+      "screen": "connections",
+      "size": "900x800",
+      "horizontalOverflow": false,
+      "windowOverflow": false
+    },
+    {
+      "screen": "settings",
+      "size": "900x800",
+      "horizontalOverflow": false,
+      "windowOverflow": false
+    },
+    {
+      "screen": "approval",
+      "size": "900x800",
+      "horizontalOverflow": false,
+      "windowOverflow": false
+    },
+    {
+      "screen": "error",
+      "size": "900x800",
+      "horizontalOverflow": false,
+      "windowOverflow": false
+    },
+    {
+      "screen": "website",
+      "size": "900x800",
+      "horizontalOverflow": false,
+      "windowOverflow": false
+    },
+    {
+      "screen": "decision",
+      "size": "900x800 large text",
+      "horizontalOverflow": false
+    },
+    {
+      "screen": "connections",
+      "size": "900x800 large text",
+      "horizontalOverflow": false
+    },
+    {
+      "screen": "approval",
+      "size": "900x800 large text",
+      "horizontalOverflow": false
+    },
+    {
+      "screen": "project",
+      "size": "900x800 large text",
+      "horizontalOverflow": false
+    },
+    {
+      "screen": "home",
+      "size": "640x800",
+      "horizontalOverflow": false
+    },
+    {
+      "screen": "decision",
+      "size": "640x800",
+      "horizontalOverflow": false
+    },
+    {
+      "screen": "connections",
+      "size": "640x800",
+      "horizontalOverflow": false
+    },
+    {
+      "screen": "settings",
+      "size": "640x800",
+      "horizontalOverflow": false
+    },
+    {
+      "screen": "approval",
+      "size": "640x800",
+      "horizontalOverflow": false
+    },
+    {
+      "screen": "project",
+      "size": "640x800",
+      "horizontalOverflow": false
+    },
+    {
+      "screen": "website",
+      "size": "640x800",
+      "horizontalOverflow": false
+    }
+  ],
+  "interactions": [
+    {
+      "name": "All four work views and Escape close",
+      "passed": true
+    },
+    {
+      "name": "Composer remains editable; Stop preserves incomplete state",
+      "passed": true
+    },
+    {
+      "name": "Attachments can be removed before sending",
+      "passed": true
+    },
+    {
+      "name": "Team draft can exclude a current vendor",
+      "passed": true
+    },
+    {
+      "name": "Stale catalog retains model; no/one/several account states",
+      "passed": true
+    },
+    {
+      "name": "Approval routes to simulation and explicit project scope",
+      "passed": true
+    },
+    {
+      "name": "Recovery preserves incomplete checkpoint",
+      "passed": true
+    },
+    {
+      "name": "Review feedback persists in browser",
+      "passed": true
+    },
+    {
+      "name": "Modal keyboard focus remains inside dialog",
+      "passed": true
+    },
+    {
+      "name": "Panel changes retain transcript scroll",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

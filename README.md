@@ -1,5 +1,23 @@
 # Rivune
 
+## Start here: current shared workspace
+
+Rivune brings individual AIs and collaborating AI teams into one conversation. The current shared TypeScript/Vite workspace is in [`rivune-tauri/`](rivune-tauri/); Tauri is the cross-platform desktop direction. The older SwiftUI client below is retained as a separate implementation.
+
+```bash
+cd rivune-tauri
+npm ci
+npm run dev       # local browser preview at http://127.0.0.1:1420
+npm run build     # build and verify the shared frontend
+npm test          # automated local fixtures; no live model calls
+```
+
+Constellation Engine names the complete experience; Council and Swarm are internal collaboration strategies. The September 12 checkpoint documents real Claude subscription chat in the local development preview. Simulated Council examples are labeled. Desktop provider support, other providers, orchestration, and release readiness must be verified in their own runtime; a frontend build is not release acceptance.
+
+Read [product direction](rivune-tauri/docs/product-quality-direction.md), [preview checkpoint](rivune-tauri/docs/quiet-preview.md), and [Claude connection scope](rivune-tauri/docs/claude-local-chat.md). The separate [React prototype](prototypes/ai-native-workspace/) and historical source under `qa-artifacts/` are also included; the React desktop build currently references a historical Tauri runtime there.
+
+See [source synchronization notes](docs/GITHUB_SOURCE_SYNC_20260913.md) for the scope and validation of this repository update. Older documents describe their own checkpoints and may be superseded.
+
 Rivune is a native Mac AI workspace with local conversation history, projects,
 CLI/API connections, and inspectable multi-model collaboration. The website is
 for product information and downloads. An internal browser workspace is a local

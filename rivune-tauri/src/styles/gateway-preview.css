@@ -1,0 +1,9 @@
+html.everyday-ui .gateway-preview{width:350px}
+html.everyday-ui .gateway-preview label{display:flex;align-items:stretch;flex-direction:column;gap:6px;font-size:11px;color:#bcc7d8}
+html.everyday-ui .gateway-preview input,html.everyday-ui .gateway-preview select,html.everyday-ui .gateway-preview textarea{width:100%;min-width:0;background:#111722cc;border:1px solid #d1e0f02b;border-radius:8px;color:#e7edf7;padding:8px;font:inherit;line-height:1.5}
+html.everyday-ui .gateway-preview textarea{resize:vertical;max-height:120px}
+html.everyday-ui .gateway-preview pre{font-size:11px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;margin:6px;padding:8px;border-radius:8px;background:#0003}
+html.everyday-ui .gateway-preview pre:empty{display:none}
+html.everyday-ui .gateway-preview details{padding:6px}
+html.everyday-ui .gateway-preview a{color:#c3d5ec}
+html.everyday-ui .gateway-preview button:disabled{opacity:.45}

@@ -1,0 +1,32 @@
+import {readFile,writeFile,mkdir,cp,readdir,copyFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {execFileSync} from 'node:child_process';
+const root=process.cwd(),candidate=resolve(root,'tools/symphony/source-import-candidate'),frontend=resolve(candidate,'prototypes/ai-native-workspace'),out=resolve(root,'qa-artifacts/exact-export-browser-review-20260910');
+const env=Object.fromEntries(Object.entries(process.env).filter(([key])=>!key.startsWith('GIT_')));
+const commit=execFileSync('git',['-C',candidate,'rev-parse','HEAD'],{env,encoding:'utf8'}).trim();if(commit!=='3bc19ce0bd7e7a9a1f59dbf11c16a35f0d089f8d')throw Error('Wrong export');
+const manifest=JSON.parse(await readFile(resolve(root,'tools/symphony/source-stage/SOURCE_MANIFEST.json'),'utf8'));
+const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
+async function verify(){for(const file of manifest.files){if(hash(await readFile(resolve(candidate,file.path)))!==file.sha256)throw Error('Source mismatch: '+file.path);}}
+await verify();await writeFile(resolve(out,'source-manifest.json'),JSON.stringify(manifest,null,2)+'\n');
+const {build}=await import(pathToFileURL(resolve(frontend,'node_modules/vite/dist/node/index.js')).href);
+await build({define:{'process.env.NODE_ENV':JSON.stringify('development')},root:frontend,configFile:resolve(frontend,'vite.config.ts'),build:{outDir:resolve(out,'static'),emptyOutDir:true,target:'esnext',rollupOptions:{input:resolve(frontend,'tests/hostRenderer.html')}}});
+await verify();
+// Use the exact already-verified native compilation stylesheet, while JS remains a synthetic fixture.
+const nativeBuild=resolve(root,'qa-artifacts/compact-native-build-20260910');
+const nativeReceipt=JSON.parse(await readFile(resolve(nativeBuild,'build-receipt.json'),'utf8'));
+if(nativeReceipt.sourceCommit!==commit)throw Error('Native CSS source mismatch');
+const nativeCSS=Object.keys(nativeReceipt.embeddedFiles).find(name=>name.endsWith('.css'));
+const cssBytes=await readFile(resolve(nativeBuild,'frontend-dist',nativeCSS));
+if(hash(cssBytes)!==nativeReceipt.embeddedFiles[nativeCSS])throw Error('Native CSS hash mismatch');
+await copyFile(resolve(nativeBuild,'frontend-dist',nativeCSS),resolve(out,'static',nativeCSS));
+const htmlPath=resolve(out,'static/tests/hostRenderer.html');
+const html=await readFile(htmlPath,'utf8');
+let reviewHTML=html.replace(/href="\.\.\/assets\/[^"]+\.css"/,`href="../${nativeCSS}"`);
+const fixtureEntry=reviewHTML.match(/<script type="module" crossorigin src="([^"]+)"/)[1];
+reviewHTML=reviewHTML.replace(fixtureEntry,'./review-entry.mjs');
+await writeFile(htmlPath,reviewHTML);
+await writeFile(resolve(out,'static/tests/review-entry.mjs'),`const query=new URLSearchParams(location.search);\nif(query.getAll('scenario').length===1&&['conversation-list','compact-composer','composer-supersession-preview'].includes(query.get('scenario'))&&query.get('preview')==='1'){await import(${JSON.stringify(fixtureEntry)});}else{document.body.textContent='Choose a documented exact-export synthetic review URL. No host fixture was mounted.';}\n`);
+const served=resolve(root,'prototypes/ai-native-workspace/dist/exact-export-review/3bc19ce');await mkdir(served,{recursive:true});await cp(resolve(out,'static'),served,{recursive:true,force:true});
+await writeFile(resolve(out,'mapping.json'),JSON.stringify({commit,sourceTreeSHA256:manifest.treeSHA256,acceptedRoot:candidate,fixtureSource:'prototypes/ai-native-workspace/tests/hostRenderer.html',fixtureScript:'prototypes/ai-native-workspace/tests/hostRenderer.test.tsx',buildRoot:frontend,staticOutput:resolve(out,'static'),servedDirectory:served,server:'http://127.0.0.1:4317',urlPrefix:'/dist/exact-export-review/3bc19ce/tests/hostRenderer.html',sourceVerifiedBeforeAndAfter:true,stylesheetSource:resolve(nativeBuild,'frontend-dist',nativeCSS),stylesheetSHA256:nativeReceipt.embeddedFiles[nativeCSS],reactFixtureBuild:'development for React act; no native bundle JS/IPC',realBridge:false,nativeRuntime:false},null,2)+'\n');

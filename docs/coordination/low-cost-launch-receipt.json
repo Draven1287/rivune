@@ -1,0 +1,47 @@
+{
+  "checkedAt": "2026-09-06T17:56:12.970529-06:00",
+  "status": "Local preparation only; not published or signed",
+  "packagingChange": "Validate hardened runtime on the CodeDirectory flags record",
+  "regression": "Original code rejects the valid-signature fixture; corrected code passes",
+  "checks": {
+    "dmgReleaseGuards": 7,
+    "sourceExporter": 20,
+    "zshSyntax": "pass"
+  },
+  "files": {
+    "scripts/package_macos_dmg.sh": "73f7d723a871a9d9adfbeda25dc55cf8eb5ad6d4433b4cbfa72526771170acfb",
+    "scripts/test_dmg_release_guards.py": "71682ed0120dbd8e1120f829505e0b2677ca62fb1c5e007f5bce268449966f89",
+    "scripts/open_source_files.txt": "056e04c38de66e9a31b8283e872d5c07914ef6e4b1c0856b96e7a031cf4d8507",
+    ".github/workflows/ci.yml": "378b9b09245ceef2cde313fccb3345ae92f8b9118537b4c7179abce64ed0734d",
+    "docs/MACOS_RELEASE.md": "49c3a7bc83061c0aa136daa4ead2e068fe3fa803fa0a8c3b53e95ec89c5742e0",
+    "docs/LOW_COST_LAUNCH_PLAN.md": "ae5270997ee86ce71ff47400c603cfd4291c9cfee50b99230161bc82079485a7"
+  },
+  "externalPrerequisites": [
+    "working Developer ID identity and notarization profile",
+    "corrected app passes artifact-output review and each new mode passes its own live acceptance tests",
+    "real downloaded signed DMG tested on another Mac"
+  ],
+  "membership": "User confirmed no Apple Developer Program membership yet; no purchase.",
+  "qualityStatus": "Lantern v2 completed on build0613 and exact2files were applied through native review. Root verified nativepreview/navigation/FAQ/historyidentity and browser1280/390layout/navigation/FAQ/targetedkeyboardskip. Thirdcoverleaf overlaps title; visualrefinement and useracceptance pending. Full record: qa-artifacts/together-website-20260906-v2/REVIEW.md",
+  "verifiedInstalledBuild": "2026090613",
+  "presentationBuild": "2026090613 installed; native owner reports 238 passing tests. First-open paint independently observed; initial accessibility tree omitted WebArea.",
+  "productDirection": {
+    "updatedAt": "2026-09-06T19:03:39.901743-06:00",
+    "contract": "docs/COUNCIL_AND_SWARM.md",
+    "product": "One Rivune app",
+    "council": "Source implementation underway with independent drafts and app-appointed lead synthesis; native owner reports foundation checks, full build/live acceptance pending",
+    "swarm": "Scoped task scheduler and text-only worker foundation added; tool-enabled/native agent execution and integration pending, mode unavailable",
+    "legacyTogether": "Existing Lantern retry is not Council or Swarm acceptance evidence"
+  },
+  "staticSite": {
+    "importedSourceFiles": 14,
+    "localTestsPassed": 11,
+    "state": "coming-soon",
+    "published": false,
+    "receipt": "docs/coordination/pages-source-import.json",
+    "modeCopy": "Root verified rendered local Council/Swarm explanation; both implementationpending, downloadedinstallerstillcomingsoon",
+    "ownerReportedLatestTestsPassed": 12,
+    "latestReview": "/Users/Aaravshah/.codex/visualizations/2026/09/06/01a07831-61e0-72c3-b166-d19081c8e272/rivune-council-swarm-copy/REVIEW.md"
+  },
+  "qualityUpdatedAt": "2026-09-06T19:16:53.203480-06:00"
+}

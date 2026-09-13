@@ -1,0 +1,123 @@
+/* One hierarchy across the welcome, conversation, and workspace surfaces. */
+html.everyday-ui{--reading-size:17px;--work-width:800px;--ui-muted:#a4a8b2;--ui-line:#ffffff14}
+html.everyday-ui [hidden]{display:none!important}
+html.everyday-ui .shell:not(.sidebar-small){grid-template-columns:248px minmax(0,1fr)}
+html.everyday-ui .sidebar{padding:24px 16px 16px;background:#15171ac9;border-right:1px solid var(--ui-line);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px)}
+html.everyday-ui .brand{margin:0 10px 30px;gap:10px}
+html.everyday-ui .brand strong{font-size:19px;letter-spacing:-.5px}
+html.everyday-ui .brand-mark{width:30px;height:30px}
+html.everyday-ui .new-thread{height:44px;background:#ffffff08;border:1px solid #ffffff16;border-radius:11px;font-size:13px;padding:0 12px}
+html.everyday-ui .sidebar nav{margin-top:16px}
+html.everyday-ui .nav-item{height:40px;font-size:13px;color:#b4b7c0;gap:11px;border-radius:9px}
+html.everyday-ui .secondary-navigation,html.everyday-ui .sidebar-bottom>.profile{display:none}
+html.everyday-ui .nav-label{font-size:10px;letter-spacing:1px;margin:22px 11px 10px;color:#8c909c}
+html.everyday-ui .history-title{font-size:13px;padding:11px 12px;color:#afb3bc}
+html.everyday-ui .history-title.selected{background:#ffffff0c;border-left:0;color:#f3f3f5}
+html.everyday-ui .history-actions{font-size:19px;color:#969ba7;opacity:0}
+html.everyday-ui .history-row:hover .history-actions,html.everyday-ui .history-row:focus-within .history-actions{opacity:1}
+html.everyday-ui .sidebar-bottom{padding-top:18px}
+html.everyday-ui .account-control{margin-top:0;border-top:1px solid var(--ui-line);padding:16px 9px 0;gap:10px}
+html.everyday-ui .account-control strong{font-size:13px;font-weight:500;color:#d4d6dc}
+html.everyday-ui .account-control small{font-size:11px;color:#8f94a0;margin-top:3px}
+html.everyday-ui .account-avatar{background:#ffffff0b;color:#d8dbe2}
+html.everyday-ui main{grid-template-rows:68px minmax(0,1fr)}
+html.everyday-ui main>footer{display:none}
+html.everyday-ui header{padding:0 28px;border-bottom:1px solid #ffffff06}
+html.everyday-ui .breadcrumbs>span{font-size:14px;font-weight:500;color:#d3d6dd;max-width:min(400px,35vw)}
+html.everyday-ui .breadcrumbs>.icon-btn{display:none}
+html.everyday-ui .top-actions{gap:8px}
+html.everyday-ui .top-actions #environment-menu,html.everyday-ui .top-actions #prompt-templates{border:0;background:transparent;backdrop-filter:none;font-size:12px;color:#999fac;min-height:36px;padding:8px 10px}
+html.everyday-ui .top-actions .model-pill{min-height:36px;padding:8px 12px;font-size:12px;background:#ffffff05;border:1px solid #ffffff18}
+html.everyday-ui .model-glyph{display:none}
+html.everyday-ui .workspace{position:relative;padding:20px 32px 24px;gap:0;min-height:0}
+html.everyday-ui .workspace:not(:has(.conversation:not([hidden]))){justify-content:center;padding-bottom:clamp(30px,12vh,130px)}
+html.everyday-ui .workspace>.hero{order:0;margin:0 0 28px;max-width:var(--work-width);text-align:left}
+html.everyday-ui .hero.compact{display:none}
+html.everyday-ui .hero .orbit-stage{height:64px;width:100%;margin:0 0 14px;display:flex;justify-content:flex-start;align-items:center}
+html.everyday-ui .hero .floating-mark{width:52px;height:52px;margin:0;position:relative;inset:auto;transform:none}
+html.everyday-ui .floating-mark img{width:100%;height:100%;object-fit:contain}
+html.everyday-ui .hero .eyebrow{display:none}
+html.everyday-ui .hero h1{font-size:clamp(28px,3vw,38px);font-weight:500;line-height:1.2;letter-spacing:-1.3px;margin:0 0 13px}
+html.everyday-ui .hero>p{font-size:15px;line-height:1.6;color:#a8acb8}
+html.everyday-ui .example-link{background:none;border:0;padding:0;margin-top:14px;border-radius:4px;font-size:12px;color:#9299a8;line-height:1.5}
+html.everyday-ui .example-link:hover{color:#e0e5ed}
+html.everyday-ui .workspace>.suggestions{order:1;width:min(var(--work-width),100%);margin:0 0 16px;padding:0;background:none;border:0;box-shadow:none;backdrop-filter:none;gap:8px}
+html.everyday-ui .suggestions button{display:flex;justify-content:flex-start;align-items:center;gap:9px;min-height:42px;padding:9px 13px;border-radius:12px;background:#ffffff03;border:1px solid #ffffff12;backdrop-filter:none;color:#afb5c0}
+html.everyday-ui .suggestions button:hover{border-color:#ffffff30;background:#ffffff09;color:#edf0f4}
+html.everyday-ui .suggestions strong{font-size:12px;font-weight:450}
+html.everyday-ui .suggestions svg{width:15px;height:15px;color:#9aa6b8}
+html.everyday-ui .workspace>.composer-card{order:2;width:min(var(--work-width),100%);padding:12px 14px 9px;position:relative;margin:0;border-radius:22px;background:#20232bcc;border:1px solid #c6ced329;box-shadow:0 8px 36px #0002,inset 0 1px #ffffff04;backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px)}
+html.everyday-ui .composer-card:focus-within{border-color:#bfcadd70;box-shadow:0 8px 36px #0002,0 0 0 3px #bfcadd07}
+html.everyday-ui .composer-card textarea{font-size:16px;line-height:1.55;padding:9px 8px;min-height:52px;height:52px;resize:none;max-height:220px;outline:0!important;box-shadow:none}
+html.everyday-ui .composer-card textarea::placeholder{color:#969ca9}
+html.everyday-ui .composer-controls{padding:4px 0 0;gap:10px;flex-wrap:nowrap;align-items:center}
+html.everyday-ui .composer-primary{gap:5px;min-width:0;flex-wrap:wrap;align-items:center}
+html.everyday-ui .composer-secondary{gap:3px;flex-shrink:0;align-items:center}
+html.everyday-ui .experience-control{order:1;display:flex;align-items:center;gap:7px;min-height:34px;padding:6px 9px;border:1px solid #ffffff13;border-radius:10px;background:#ffffff04;font-size:12px;font-weight:500;color:#e1e4ec;white-space:nowrap}
+html.everyday-ui .experience-control>svg{width:12px;height:12px;color:#9ca4b3}
+html.everyday-ui .experience-control .provider-mark{width:21px;height:21px;padding:4px}
+html.everyday-ui .composer-primary .team-summary{order:2;font-size:12px;min-height:34px;color:#aab1bf;gap:5px!important}
+html.everyday-ui .model-selector{order:3;border:0;background:none;border-radius:8px;padding:8px;font-size:12px;color:#aeb5c3;min-height:34px}
+html.everyday-ui .tool{min-width:34px;min-height:34px;border-radius:9px;padding:8px;color:#a5adbb}
+html.everyday-ui .tool svg{width:17px;height:17px}
+html.everyday-ui .send{width:36px;height:36px;border-radius:50%;background:#e2e7ef;color:#20242c;box-shadow:none;border:0;margin-left:3px}
+html.everyday-ui .composer-meta{min-height:22px;padding:8px 5px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:10px;color:#9299a7}
+html.everyday-ui .connection-shortcut{display:flex;align-items:center;gap:6px;border:0;padding:0;background:none;font-size:10px;color:#9ca5b4;border-radius:4px}
+html.everyday-ui .connection-dot{width:5px;height:5px;border-radius:50%;background:#8891a0}
+html.everyday-ui[data-account-ready=true] .connection-dot{background:#8ac8ac}
+html.everyday-ui #draft-status{margin-left:auto;font-size:10px;color:#9199a6}
+html.everyday-ui .enter-hint{font-size:10px;white-space:nowrap;color:#747f91}
+html.everyday-ui .enter-hint kbd{font:inherit;margin-right:3px}
+html.everyday-ui .workspace>.conversation:not([hidden]){order:0;max-width:var(--work-width);padding:12px 6px 32px;scrollbar-color:#ffffff1e transparent;scroll-padding-bottom:24px}
+html.everyday-ui .workspace:has(.conversation:not([hidden]))>.composer-card{margin-top:12px;flex-shrink:0}
+html.everyday-ui .message-user{margin:10px 0 28px auto;padding:14px 18px;max-width:88%;width:fit-content;border:1px solid #ffffff0c;border-radius:18px 18px 5px 18px;background:#ffffff06;backdrop-filter:none}
+html.everyday-ui .message-user .message-meta{display:none}
+html.everyday-ui .message-text{font-size:var(--reading-size)!important;line-height:1.75!important;letter-spacing:0;color:#e0e3e9!important}
+html.everyday-ui .message-assistant{max-width:100%;padding:0 0 30px 40px;margin:0 0 12px;position:relative}
+html.everyday-ui .message-assistant:before{width:24px;height:24px;top:0;left:0}
+html.everyday-ui .message-meta{font-size:12px;font-weight:500;line-height:1.8;color:#a2abba;margin:0 0 10px}
+html.everyday-ui .reply-actions{gap:6px;margin-top:14px}
+html.everyday-ui .reply-actions button{min-height:32px;padding:5px 9px;font-size:11px;background:none;border-color:transparent;color:#919caa;border-radius:7px}
+html.everyday-ui .reply-actions button:hover,html.everyday-ui .reply-actions button:focus-visible{background:#ffffff09;color:#e6e9ef}
+html.everyday-ui .jump-to-latest{position:absolute;z-index:3;left:50%;bottom:190px;transform:translateX(-50%);display:flex;align-items:center;gap:7px;padding:8px 12px;border:1px solid #ffffff22;border-radius:999px;background:#242a34ed;color:#dce2ed;box-shadow:0 4px 18px #0005;font-size:11px;min-height:34px}
+html.everyday-ui .jump-to-latest svg{width:14px;height:14px}
+html.everyday-ui .anchored-popover{padding:8px;border-radius:16px;background:#252a34ed;border:1px solid #ffffff26;box-shadow:0 18px 54px #0006,inset 0 1px #ffffff08;backdrop-filter:blur(36px);-webkit-backdrop-filter:blur(36px);gap:2px}
+html.everyday-ui .anchored-popover button{min-height:40px;font-size:13px;border-radius:9px;padding:10px 12px}
+html.everyday-ui .anchored-popover strong{font-size:12px;color:#d5dce7;padding:9px 12px 6px}
+html.everyday-ui .menu-section-label{font-size:10px;letter-spacing:.5px;color:#8f9aaa;padding:10px 12px 3px}
+html.everyday-ui .experience-option{display:flex;gap:10px;align-items:center}
+html.everyday-ui .menu-divider{border:0;border-top:1px solid #ffffff12;margin:5px 8px}
+html.everyday-ui dialog{border-radius:22px;background:#1b2028f5;border-color:#ffffff20;box-shadow:0 28px 90px #0007}
+html.everyday-ui #search-results{display:flex;flex-direction:column;gap:4px;margin-top:16px;max-height:48vh;overflow:auto}
+html.everyday-ui #search-results button{text-align:left;background:transparent;border:0;border-radius:10px;margin:0;padding:13px;font-size:14px;min-height:46px}
+html.everyday-ui #search-results button:hover,html.everyday-ui #search-results button:focus-visible{background:#ffffff0b}
+html.everyday-ui #search-results small{display:block;font-size:11px;color:#929cac;margin-top:4px}
+.answer-content{font-size:var(--reading-size);line-height:1.75;color:#e0e3e9;overflow-wrap:anywhere}
+.answer-content>:first-child{margin-top:0}.answer-content>:last-child{margin-bottom:0}
+.answer-content p{margin:0 0 16px;white-space:pre-wrap}
+.answer-content h2,.answer-content h3{font-size:1.2em!important;font-weight:600;line-height:1.4;margin:24px 0 12px!important;letter-spacing:-.3px!important}
+.answer-content ul,.answer-content ol{padding-left:24px;margin:12px 0 18px}.answer-content li{padding-left:4px;margin:6px 0}
+.answer-content blockquote{border-left:2px solid #8e9fb55e;padding:4px 0 4px 16px;margin:16px 0;color:#abb7c8}
+.answer-content a{color:#b7cdf4;text-underline-offset:3px}.answer-content strong{color:#f0f2f6;font-weight:600}
+.answer-content :not(pre)>code{font-size:.86em;background:#ffffff09;border:1px solid #ffffff09;border-radius:5px;padding:2px 5px}
+.answer-code{overflow:hidden;border:1px solid #ffffff16;border-radius:12px;margin:18px 0;background:#101419}
+.answer-code-header{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;background:#ffffff04;border-bottom:1px solid #ffffff0a;font-size:11px;color:#96a2b3}
+.answer-code-copy{border:0;background:none;color:#b0bdcf;border-radius:5px;padding:5px 8px;font-size:11px;cursor:pointer}
+.answer-code pre{margin:0;padding:17px;overflow:auto;font-size:13px;line-height:1.65;white-space:pre;tab-size:2}.answer-code code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+@media(max-width:1000px){html.everyday-ui .shell:not(.sidebar-small){grid-template-columns:216px minmax(0,1fr)}html.everyday-ui .workspace{padding:18px 24px}html.everyday-ui header{padding:0 22px}html.everyday-ui #environment-menu{display:none!important}html.everyday-ui .hero h1{font-size:30px}}
+@media(max-width:760px){html.everyday-ui .shell:not(.sidebar-small){grid-template-columns:190px minmax(0,1fr)}html.everyday-ui .sidebar{padding:20px 10px 12px}html.everyday-ui .workspace{padding:14px 16px}html.everyday-ui .breadcrumbs>span{max-width:160px}html.everyday-ui #prompt-templates{display:none!important}html.everyday-ui .enter-hint{display:none}html.everyday-ui .experience-control{font-size:11px;padding:6px}html.everyday-ui .hero h1{font-size:27px}.answer-code pre{font-size:12px}}
+@media(max-width:580px){html.everyday-ui .shell:not(.sidebar-small){grid-template-columns:58px minmax(0,1fr)}html.everyday-ui .sidebar{padding:16px 8px}html.everyday-ui .brand{margin:0 4px 24px}html.everyday-ui .sidebar .brand>div:not(.brand-mark),html.everyday-ui .sidebar .brand>.collapse,html.everyday-ui .sidebar .new-thread span,html.everyday-ui .sidebar .new-thread kbd,html.everyday-ui .sidebar nav span,html.everyday-ui .sidebar nav kbd,html.everyday-ui .sidebar .recent,html.everyday-ui .account-control>span:not(.account-avatar),html.everyday-ui .account-control>svg{display:none}html.everyday-ui .new-thread,html.everyday-ui .nav-item{justify-content:center;padding:0}html.everyday-ui .account-control{padding:12px 0 0;justify-content:center}html.everyday-ui .workspace{padding:10px 12px 16px}html.everyday-ui header{padding:0 14px}html.everyday-ui .hero h1{font-size:26px}html.everyday-ui .hero>p{font-size:13px}html.everyday-ui .workspace>.suggestions{display:flex;overflow:auto}html.everyday-ui .suggestions button{min-width:145px;flex:0 0 auto}html.everyday-ui .message-user{max-width:95%;padding:11px 14px}html.everyday-ui .message-assistant{padding-left:0}html.everyday-ui .message-assistant:before{display:none}html.everyday-ui .composer-controls{align-items:flex-end}html.everyday-ui .composer-card{padding:9px!important}html.everyday-ui .top-actions .model-pill{font-size:11px;padding:8px 10px}html.everyday-ui .connection-shortcut{font-size:9px}html.everyday-ui #draft-status{font-size:9px}}
+@media(max-height:660px){html.everyday-ui .workspace:not(:has(.conversation:not([hidden]))){justify-content:flex-start;padding-top:28px;padding-bottom:18px;overflow:auto}html.everyday-ui .hero .orbit-stage{height:40px;margin-bottom:10px}html.everyday-ui .hero .floating-mark{width:36px;height:36px}html.everyday-ui .workspace>.hero{margin-bottom:16px}html.everyday-ui .hero h1{font-size:28px}html.everyday-ui .example-link{margin-top:8px}}
+@media(prefers-reduced-transparency:reduce){html.everyday-ui .sidebar,html.everyday-ui .composer-card,html.everyday-ui .anchored-popover{background:#20252e;backdrop-filter:none;-webkit-backdrop-filter:none}}
+@media(prefers-contrast:more){html.everyday-ui{--ui-line:#ffffff66}html.everyday-ui .message-text,.answer-content{color:#fff!important}html.everyday-ui .composer-card,html.everyday-ui .anchored-popover{border-color:#c4ccda}}
+@media(prefers-reduced-motion:reduce){html.everyday-ui *,html.everyday-ui *:before,html.everyday-ui *:after{scroll-behavior:auto!important;transition:none!important}}
+
+html.everyday-ui .answer-content p{font-size:inherit;line-height:inherit;color:inherit;margin:0 0 16px}
+html.everyday-ui .answer-content>:last-child{margin-bottom:0}
+html.everyday-ui .reply-actions button{margin-top:0}
+html.everyday-ui .answer-code-copy{margin:0;border:0;background:none;padding:5px 8px}
+.answer-code-status{padding:0 14px 8px;color:#aebbd0;font-size:11px}.answer-code-status:empty{display:none}
+
+html.everyday-ui .active-run-link{border:0;background:none;color:#cadcf1;font-size:11px;padding:2px 0;text-decoration:underline;text-underline-offset:3px}
+html.everyday-ui .send[data-action=stop]{opacity:1;background:#dce5f3;color:#182333}
+html.everyday-ui .send[data-action=stop] svg{width:15px;height:15px;fill:currentColor}

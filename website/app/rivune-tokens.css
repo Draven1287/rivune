@@ -1,0 +1,27 @@
+/* Shared with Rivune/Theme.swift. Interior only; never draw desktop window chrome. */
+:root {
+  --rivune-canvas: #070a0e;
+  --rivune-sidebar: #06080b;
+  --rivune-surface: #0d1117;
+  --rivune-raised: #171e27;
+  --rivune-control: #121820;
+  --rivune-text: rgb(255 255 255 / 94%);
+  --rivune-secondary: rgb(255 255 255 / 70%);
+  --rivune-muted: rgb(255 255 255 / 52%);
+  --rivune-accent: #c0def3;
+  --rivune-border: rgb(199 222 242 / 12%);
+  --rivune-control-height: 36px;
+  --rivune-control-radius: 10px;
+  --rivune-panel-radius: 16px;
+  --rivune-space: 12px;
+  --rivune-font: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.rivune-control {
+  min-height: var(--rivune-control-height); border-radius: var(--rivune-control-radius);
+  border: 1px solid var(--rivune-border); padding: 0 12px;
+  background: var(--rivune-control); color: var(--rivune-text); font: inherit;
+}
+.rivune-control:hover, .rivune-control:active { background: var(--rivune-raised); }
+.rivune-control:focus-visible { outline: 1px solid var(--rivune-accent); outline-offset: 2px; }
+.rivune-control:disabled { opacity: .5; }
+@media (prefers-reduced-motion: reduce) { .rivune-control { transition: none; } }

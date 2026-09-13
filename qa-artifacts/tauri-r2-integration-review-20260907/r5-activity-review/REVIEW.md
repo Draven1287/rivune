@@ -1,0 +1,11 @@
+# Frozen R5 activity checkpoint review
+
+No blocking data-flow finding established in this bounded source/parser review. Listener detachment is not implemented or verified here; do not mark that acceptance item passed. Verified all released snapshot hashes. Independently16 parser/identity tests pass with path-only test import/fixture relocation. No browser/native execution or host engine acceptance.
+
+Ledger validation binds entries to run/conversation, contiguous sequence from authoritative baseSequence, deterministic event ID, accepted fields/enums and bounded entry/string/delta sizes. Truncated prefixes are accepted only through the explicit base. Renderer replaces the ledger using a signature, displays summaries as text, skips answerDelta and never fabricates earlier events. Invalid activity clears only its own list/error state; it does not rewrite the durable transcript or draft.
+
+Event notification data is used only as a refresh hint, not as trusted display content. A bounded256-ID cache suppresses duplicates and a40ms timer coalesces nearby hints. The handler calls refresh only, not submit/retry. Missing notification sequences require no delta reconstruction because snapshots replace the ledger. Existing refresh request-order and navigation guards prevent older completing reads from replacing newer applied reads or switched-conversation state. Owner10 rendered activity/model,50attachment and67integrated results remain owner-reported.
+
+Detach limitation: desktop-host onRunEvent returns listen's unsubscribe function, but app.mjs discards the resolved function and has no cleanup for this listener/timer. A live same-document remount/reinitialization is not established in the current single-init app, so this review does not assign a speculative production defect. Before claiming detach/reconnect acceptance, add an owned subscription cleanup path and test delayed subscription resolution plus pending timer during teardown. Native window/process teardown behavior remains unverified.
+
+Actual host ledger production, engine progress, cross-platform/native lifecycle and combined integration remain separate. This snapshot contains an activity display, not proof of enabled/live Constellation execution.

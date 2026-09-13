@@ -1,0 +1,11 @@
+import {mountCapturedDiff} from './diff-viewer.mjs';import {fixture} from './fixtures.mjs';
+const a=await fixture(),b=await fixture({operationId:'operation-B',capture:'b',contents:[['new.txt',null,'Operation B only\n']]}),large=await fixture({operationId:'operation-large',capture:'c',chunkSize:16384,contents:[['large.txt','x'.repeat(65535)+'😀\r\n\tend original','λ'.repeat(40000)+'\r\n\tend proposed']]});
+let delay=false,pending=[];const requests=[],registry=new Map([a,b,large].map(f=>[f.prepared.operationId,f]));
+const viewer=mountCapturedDiff({container:document.querySelector('#diff'),adapter:{readPreparedDiff:async req=>{requests.push(req);document.querySelector('#requests').textContent=JSON.stringify(requests,null,2);if(delay&&req.preparedOperationId==='operation-A')return new Promise(resolve=>pending.push(async()=>resolve(await a.readPreparedDiff(req))));return registry.get(req.preparedOperationId).readPreparedDiff(req)}}});
+document.querySelector('#normal').onclick=()=>{delay=false;viewer.setPrepared(a.prepared)};
+document.querySelector('#large').onclick=()=>{delay=false;viewer.setPrepared(large.prepared)};
+document.querySelector('#delay').onclick=()=>{delay=true;viewer.setPrepared(a.prepared)};
+document.querySelector('#switch').onclick=()=>{delay=false;viewer.setPrepared(b.prepared)};
+document.querySelector('#resolve').onclick=()=>pending.splice(0).forEach(f=>f());
+document.querySelector('#stale').onclick=()=>viewer.setPrepared({...a.prepared,state:'stale'});
+viewer.setPrepared(a.prepared);

@@ -1,0 +1,31 @@
+/* Isolated proposal: parent supplies desktop column or narrow replacement region. */
+.host-results{box-sizing:border-box;min-width:0;min-height:0;max-height:100%;overflow:auto;background:#101722;color:#e5eaf2;border-left:1px solid #526077;padding:12px;font:inherit;overflow-wrap:anywhere;color-scheme:dark}
+.host-results *{box-sizing:border-box}
+.host-results-header{display:flex;align-items:center;flex-wrap:wrap;gap:8px;background:#101722}
+.host-results h2{font-size:1rem;flex:1 1 120px;margin:0}
+.host-results button{font:inherit;color:inherit;background:#1a2637;border:1px solid #637188;border-radius:8px;min-height:44px;padding:8px 12px;white-space:normal;overflow-wrap:anywhere;cursor:pointer}
+.host-results button:disabled{opacity:.6;cursor:default}
+.host-results :focus-visible{outline:2px solid #c0d5ff;outline-offset:2px}
+.host-results ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.host-results li button{display:block;text-align:left;width:100%}
+.host-results li span{display:block;font-size:.85em;margin-top:6px;color:#c1cbd9}
+.host-results dd{margin:0 0 8px;overflow-wrap:anywhere}
+.host-results-text{min-width:0;min-height:0}
+.host-results textarea{display:block;width:100%;height:clamp(120px,35dvh,420px);min-width:0;resize:vertical;overflow:auto;white-space:pre;background:#0d1520;color:inherit;border:1px solid #637188;border-radius:6px;padding:10px;font:13px/1.5 ui-monospace,monospace}
+.host-results-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+@media(max-width:700px){.host-results{width:100%;border-left:0;padding:10px}.host-results-header{align-items:flex-start}.host-results textarea{height:30dvh}}
+/* The chat stays mounted while Results replaces its visual region on narrow windows. */
+.host-layout.has-results{grid-template-columns:220px minmax(0,1fr) minmax(280px,34%)}
+.host-results{border:1px solid #526077;border-radius:14px}
+.host-chat-header .host-result-actions{display:flex;flex-wrap:wrap;gap:8px}
+@media(max-width:1200px){
+ .host-layout.has-results{grid-template-columns:240px minmax(0,1fr)}
+ .host-layout.has-results>.host-sidebar{grid-column:1;grid-row:1}
+ .host-layout.has-results>.host-chat,.host-layout.has-results>.host-results{grid-column:2;grid-row:1}
+ .host-chat.results-replaced{visibility:hidden;pointer-events:none}
+}
+@media(max-width:700px){
+ .host-layout.has-results{display:grid;grid-template-columns:minmax(0,1fr);width:100%}
+ .host-layout.has-results>.host-chat,.host-layout.has-results>.host-results{grid-column:1;grid-row:1}
+ .host-results{width:100%;min-height:0;max-height:100%;border-radius:12px}
+}

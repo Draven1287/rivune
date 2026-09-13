@@ -1,0 +1,5 @@
+{
+  "channel": "development",
+  "tauri": { "endpoint": null, "publicKey": null },
+  "sparkle": { "endpoint": null, "publicKey": null }
+}

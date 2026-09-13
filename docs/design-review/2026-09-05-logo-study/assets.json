@@ -1,0 +1,26 @@
+[
+  {
+    "file": "converge.png",
+    "width": 1254,
+    "height": 1254,
+    "sha256": "a093515fc1a526a35f158d3b72719b8e5ca84228542f63d5fcc3efacddd6f3ab"
+  },
+  {
+    "file": "cross.png",
+    "width": 1254,
+    "height": 1254,
+    "sha256": "13ca7ca3e30f08b3c6b779b2603efee4a35833acac93fa72a78015dbed1a5e4d"
+  },
+  {
+    "file": "halo.png",
+    "width": 1254,
+    "height": 1254,
+    "sha256": "2819b406af5bce2cb4dc3a6e7be0d72e9e544ec202ceaa0caeea9f8c0c9561d2"
+  },
+  {
+    "file": "ribbon.png",
+    "width": 1254,
+    "height": 1254,
+    "sha256": "e88a0ee31f0fb1e147e990dd70043557192b63d6599d37acc8ab56dc9c2d161b"
+  }
+]

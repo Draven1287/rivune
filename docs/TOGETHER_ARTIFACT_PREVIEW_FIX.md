@@ -1,0 +1,26 @@
+# Together artifacts and static preview — September 6, 2026
+
+## Scope and baseline
+
+The installed0609 live Lantern Pages baseline exposed duplicate whole-site contributions, clipped shared palette/requirements, clipped persisted contributions/reviews, an invented integration sequence, and a blank native preview. The baseline site is unchanged: index.html5141bytes SHA256492d236b9b6b11d11030136bf98ea9d0a54e7ebc465c663eba88af5119b937cc; styles.css6759bytes SHA2565446562f82086919c2c6ce733c7336a0491c03fbc1591bc08d08f2f523b705d0. This pass does not improve or claim visual approval of that design. Its reported1.83:1 footer-focus contrast remains a baseline finding.
+
+## Corrections
+
+- File plans declare disjoint Owned files JSON arrays for each task. Each contributor receives an explicit intermediate file/handoff contract, rather than interpreting the final whole-product schema as its own assignment. Concrete file plans missing ownership or declaring overlap are rejected. A contribution with extra, missing, duplicated or partner-owned paths, empty contents or missing handoff stops the run before review; the complete drafts remain available. Structured file integration must contain the exact union of assigned paths.
+- Planning keeps complete sections or rejects the entire plan above12,000 UTF8bytes/with a truncation marker. No section is shortened mid-field. The second coordinator can rewrite the complete proposed plan; if no valid plan exists, the run fails before contributions.
+- Phase payloads preserve complete plans, files and reviews. Only prior conversational context may be dropped to fit the112KiB encoded JSON envelope. If artifacts still do not fit, the phase stops with a size error instead of clipping code/contracts. Integration above240KB is rejected, not shortened. Oversized structured-file bridge frames are not partially cut; existing transport size rejection/disconnect retains complete local artifacts.
+- TogetherTrace now saves optional complete proposed/reviewed plans, raw contributions and raw reviews, alongside validated/display fields. Older histories still decode. Full contribution and validated review text is preserved; display filtering of internal notes does not erase raw evidence. Historical text already truncated by0609 cannot be reconstructed by this change.
+- The runner supplies the actual execution-order section: Codex plan, Claude plan review, parallel contributions, mutual partner quality review, Codex integration with Claude fallback. Actual successful integration provenance is persisted. Prompts request measurable acceptance checks and supported findings, not manufactured disagreement. A model-authored statement elsewhere is not evidence of an executed action.
+- WebKit's old network-blocker regular expression used unsupported alternation. Its compilation failed; the attempted HTML error page was itself rejected by file-only navigation, leaving white space. Three separately compiled equivalent protocol rules fix that failure. JavaScript remains disabled, remote requests remain blocked, and navigation remains inside the canonical selected folder. Native loading/error/retry states, file-load failure callbacks, a15-second page-load timeout and navigation-generation ownership replace silent failure. No remote URL or JavaScript exception was introduced.
+
+## Regression evidence
+
+The isolated231-test native suite passed on final code before metadata bump. Added fixtures exercise a two-file split with30KB-class contributions and a long complete shared contract, full phase-payload/history round trips, duplicate whole-site rejection, oversized artifacts stopping before review with intact saved evidence, and escaped JSON size rejection. Final-source cases also validate exact assigned-file union and ignore obsolete preview navigation completions.
+
+Actual isolated WKWebView fixtures establish that the old rule fails compilation, the new production rules compile, and local index.html with a local stylesheet reaches didFinish while JavaScript is disabled. Navigation boundary fixtures reject external paths, sibling-prefix paths, HTTPS and downloads. This is actual WebKit loading proof, not an installed-app visual or accessibility sign-off. No live model call was made in this implementation pass.
+
+Seven native inputs changed: Models.swift, RivuneStore.swift, RivuneCollaborationRunner.swift, ProjectWorkspace.swift, their two test files, and the project build number. Packaging/CI/exporter/website files were not edited. Account and direct updater remain disabled. The next authorized installed-app Together design run is separate acceptance for live provider behavior, final visual quality, keyboard/focus contrast and artifact sizes.
+
+## Installed 0610 receipt
+
+Installed Rivune 0.2 (2026090610) at /Applications/Rivune.app after the final 231/231 test pass and a dormant universal Release build. Deep strict ad-hoc signature verification passed. CUA observed Loading 9%, then the restored baseline conversation with Ready state. Source freeze and installation hashes are in /private/tmp/rivune-review-2026090610/installation.json. This did not constitute live artifact or design acceptance. The independent installed preview check was inconclusive because CUA timed out after the folder picker; a main-thread sample was idle, so this is not evidence of an app freeze.

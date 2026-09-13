@@ -1,0 +1,22 @@
+/* Custom colors are confined to Graphite. Existing Galaxy and Orbit stay intact. */
+body[data-background="plain"]{background:var(--rivune-graphite-background,#080c12);--focus:var(--rivune-graphite-accent,#c1e1ff)}
+body[data-background="plain"] .sidebar,body[data-background="plain"] .ambient{background:var(--rivune-graphite-background,#080c12)}
+body[data-background="plain"] .send,body[data-background="plain"] .primary{background:var(--rivune-graphite-accent,#c1e1ff);color:#080c12}
+body[data-background="plain"] .conversation[aria-pressed="true"]{border-left-color:var(--rivune-graphite-accent,#c1e1ff)}
+.graphite-controls{padding:22px 0;border-top:1px solid var(--line);color:#edf0f5}
+.graphite-controls h4{font-size:14px;font-weight:600;margin:0 0 8px}
+.graphite-controls p{font-size:12px;line-height:1.65;color:#a3afbd;margin:8px 0}
+.graphite-controls fieldset{border:0;padding:0;margin:20px 0;min-width:0}
+.graphite-controls legend{font-size:12px;font-weight:600;margin-bottom:10px;padding:0}
+.graphite-presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.graphite-presets button{font-size:12px;background:#101720;border:1px solid #657486;border-radius:8px;padding:8px 12px}
+.graphite-presets button[aria-pressed="true"]{border-color:#c1e1ff;background:#223244}
+.graphite-controls label{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;color:#a3afbd;flex-wrap:wrap}
+.graphite-controls input{width:116px;max-width:100%;background:#080c12;color:#edf0f5;border-radius:8px;padding:8px 10px;font-family:ui-monospace,monospace}
+.graphite-controls input[aria-invalid="true"]{border-color:#f0b5ae}
+.graphite-controls #graphite-color-error{color:#f0b5ae}
+.graphite-color-sample{display:flex;flex-direction:column;gap:7px;border:1px solid #657486;border-radius:11px;padding:18px;margin:18px 0;background:var(--graphite-sample-bg,#080c12);color:#8796a6;font-size:12px}
+.graphite-color-sample strong{font-size:14px;color:var(--graphite-sample-accent,#c1e1ff)}
+.graphite-actions{display:flex;gap:10px;flex-wrap:wrap}
+.graphite-controls .graphite-save-status{color:#c8d8e8}
+.graphite-controls button:focus-visible,.graphite-controls input:focus-visible{outline:2px solid #c1e1ff;outline-offset:3px}

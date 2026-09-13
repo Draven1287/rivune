@@ -1,0 +1,50 @@
+{
+  "id": "unknown-explicit-retry-context",
+  "sourceKind": "conversations.json",
+  "input": [
+    {
+      "id": "10000000-0000-4000-8000-000000000001",
+      "title": "Fictional project conversation",
+      "preview": "Fictional response",
+      "updatedAt": 810000001,
+      "mode": "ChatGPT",
+      "isFavorite": true,
+      "isArchived": false,
+      "projectID": "30000000-0000-4000-8000-000000000001",
+      "turns": [
+        {
+          "id": "20000000-0000-4000-8000-000000000001",
+          "prompt": "Fictional original request 🌎",
+          "mode": "ChatGPT",
+          "createdAt": 810000000,
+          "attachments": [
+            {
+              "id": "40000000-0000-4000-8000-000000000001",
+              "name": "fixture.txt",
+              "textContent": "Fictional project text",
+              "byteCount": 22
+            }
+          ],
+          "chatGPTAnswer": {
+            "id": "50000000-0000-4000-8000-000000000001",
+            "source": "ChatGPT",
+            "content": "Fictional response\nPreserve this line.",
+            "responseTime": 0.5,
+            "provenance": "Synthetic recording provider"
+          },
+          "executionState": "complete",
+          "retryContext": {
+            "version": 999,
+            "marker": "synthetic unsupported future snapshot"
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "preserveRawUnsupportedSnapshot": true,
+    "exactRetryAvailable": false,
+    "noProviderDispatch": true,
+    "noSourceWrites": true
+  }
+}

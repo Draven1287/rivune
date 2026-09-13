@@ -1,0 +1,23 @@
+/* Silver intelligence network: one continuous scene beneath the entire shell. */
+html.everyday-ui[data-backdrop=network] .cosmos{inset:-18px;background:#030405 url('/rivune-intelligence.png') center/cover no-repeat;animation:none;filter:none;transform:translate(var(--depth-x,0px),var(--depth-y,0px));transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
+html.everyday-ui[data-backdrop=network] .cosmos>div{display:none}
+html.everyday-ui[data-backdrop=network] .cosmos:after{display:block;content:'';position:absolute;inset:0;background:#03050712;transition:background .7s ease}
+html.everyday-ui[data-backdrop=network][data-environment=focused] .cosmos:after{background:#030507ad}
+html.everyday-ui[data-backdrop=network] .sidebar{background:#111419a8;border-color:#dce5f01f;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+html.everyday-ui[data-backdrop=network] header{background:#0a0d1280;border-color:#dce5f012;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+html.everyday-ui[data-backdrop=network] .workspace:not(:has(.conversation:not([hidden]))){padding-bottom:clamp(28px,7vh,74px)}
+html.everyday-ui[data-backdrop=network] .hero .floating-mark{transform:perspective(650px) rotateY(var(--mark-y,0deg)) rotateX(var(--mark-x,0deg));transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
+html.everyday-ui[data-backdrop=network] .hero h1{color:#f1f3f6;text-shadow:0 2px 18px #0009;font-size:clamp(28px,3vw,36px)}
+html.everyday-ui[data-backdrop=network] .hero>p{color:#c4cbd5}
+html.everyday-ui[data-backdrop=network] .example-link{color:#b4c0d1}
+html.everyday-ui[data-backdrop=network] .composer-card{background:#151a21cf;border-color:#d8e4f04d;box-shadow:0 20px 55px #0007,inset 0 1px 0 #eff5ff1f;backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px)}
+html.everyday-ui[data-backdrop=network] .composer-card:focus-within{border-color:#dce7f08c;box-shadow:0 20px 55px #0007,0 0 0 3px #dce7f00c,inset 0 1px 0 #eff5ff1f}
+html.everyday-ui[data-backdrop=network] .suggestions button{background:#121820b5;border-color:#ccd9e633;color:#d5dce6;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+html.everyday-ui[data-backdrop=network] .suggestions button:hover{background:#29333ecf;border-color:#dce7f070}
+html.everyday-ui[data-backdrop=network] .anchored-popover{background:#192029ee;border-color:#d7e4f04d;box-shadow:0 18px 54px #0008,inset 0 1px 0 #eff8ff1c;backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px)}
+html.everyday-ui[data-backdrop=network] .conversation{box-shadow:none}
+html.everyday-ui[data-backdrop=network][data-environment=focused] .message-user{background:#141a23d6}
+html.everyday-ui[data-backdrop=network][data-motion=off] .cosmos,html.everyday-ui[data-backdrop=network][data-motion=off] .hero .floating-mark{transform:none;transition:none}
+@media(prefers-reduced-motion:reduce){html.everyday-ui[data-backdrop=network] .cosmos,html.everyday-ui[data-backdrop=network] .hero .floating-mark{transform:none;transition:none}html.everyday-ui[data-backdrop=network] .cosmos:after{transition:none}}
+@media(prefers-reduced-transparency:reduce){html.everyday-ui[data-backdrop=network] .sidebar,html.everyday-ui[data-backdrop=network] .composer-card,html.everyday-ui[data-backdrop=network] .anchored-popover,html.everyday-ui[data-backdrop=network] .suggestions button{background:#151b23;backdrop-filter:none;-webkit-backdrop-filter:none}}
+@media(prefers-contrast:more){html.everyday-ui[data-backdrop=network] .cosmos:after{background:#030507db}html.everyday-ui[data-backdrop=network] .composer-card,html.everyday-ui[data-backdrop=network] .anchored-popover{background:#121820;border-color:#dce7f0}}

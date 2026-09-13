@@ -91,6 +91,7 @@ scripts/package_macos_dmg.sh
 scripts/prepare_open_source.py
 scripts/prepare_update_feed.py
 scripts/test_update_signatures.py
+scripts/test_dmg_release_guards.py
 scripts/validate_bridge_budget.swift
 third-party-licenses/sparkle/LICENSE
 third-party-licenses/supabase-swift/LICENSE

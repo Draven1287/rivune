@@ -1,0 +1,548 @@
+{
+  "categories": {
+    "frontend-build-development": 93,
+    "frontend-runtime-candidate": 3,
+    "frontend-generated-css-attribution": 1,
+    "native-runtime-candidate": 202,
+    "native-build-proc-macro-development": 52
+  },
+  "missing": [
+    {
+      "ecosystem": "npm",
+      "name": "@napi-rs/wasm-runtime",
+      "version": "1.2.3",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rolldown/binding-darwin-arm64",
+      "version": "1.0.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@tailwindcss/oxide-android-arm64",
+      "version": "4.2.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@tailwindcss/oxide-darwin-x64",
+      "version": "4.2.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@tailwindcss/oxide-freebsd-x64",
+      "version": "4.2.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@tailwindcss/oxide-linux-arm-gnueabihf",
+      "version": "4.2.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@tailwindcss/oxide-linux-arm64-gnu",
+      "version": "4.2.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@tailwindcss/oxide-linux-arm64-musl",
+      "version": "4.2.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@tailwindcss/oxide-linux-x64-gnu",
+      "version": "4.2.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@tailwindcss/oxide-linux-x64-musl",
+      "version": "4.2.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@tailwindcss/oxide-wasm32-wasi",
+      "version": "4.2.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@tailwindcss/oxide-win32-arm64-msvc",
+      "version": "4.2.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@tailwindcss/oxide-win32-x64-msvc",
+      "version": "4.2.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@tybys/wasm-util",
+      "version": "0.10.3",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-android-arm64",
+      "version": "1.31.1",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-darwin-x64",
+      "version": "1.31.1",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-freebsd-x64",
+      "version": "1.31.1",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-linux-arm-gnueabihf",
+      "version": "1.31.1",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-linux-arm64-gnu",
+      "version": "1.31.1",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-linux-arm64-musl",
+      "version": "1.31.1",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-linux-x64-gnu",
+      "version": "1.31.1",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-linux-x64-musl",
+      "version": "1.31.1",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-win32-arm64-msvc",
+      "version": "1.31.1",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-win32-x64-msvc",
+      "version": "1.31.1",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@emnapi/runtime",
+      "version": "1.10.0",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rolldown/binding-android-arm64",
+      "version": "1.0.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rolldown/binding-darwin-x64",
+      "version": "1.0.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rolldown/binding-freebsd-x64",
+      "version": "1.0.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rolldown/binding-linux-arm-gnueabihf",
+      "version": "1.0.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rolldown/binding-linux-arm64-gnu",
+      "version": "1.0.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rolldown/binding-linux-arm64-musl",
+      "version": "1.0.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rolldown/binding-linux-ppc64-gnu",
+      "version": "1.0.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rolldown/binding-linux-s390x-gnu",
+      "version": "1.0.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rolldown/binding-linux-x64-gnu",
+      "version": "1.0.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rolldown/binding-linux-x64-musl",
+      "version": "1.0.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rolldown/binding-openharmony-arm64",
+      "version": "1.0.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rolldown/binding-wasm32-wasi",
+      "version": "1.0.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rolldown/binding-win32-arm64-msvc",
+      "version": "1.0.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rolldown/binding-win32-x64-msvc",
+      "version": "1.0.1",
+      "category": "frontend-build-development",
+      "license": "MIT",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-android-arm64",
+      "version": "1.33.0",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-darwin-x64",
+      "version": "1.33.0",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-freebsd-x64",
+      "version": "1.33.0",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-linux-arm-gnueabihf",
+      "version": "1.33.0",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-linux-arm64-gnu",
+      "version": "1.33.0",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-linux-arm64-musl",
+      "version": "1.33.0",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-linux-x64-gnu",
+      "version": "1.33.0",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-linux-x64-musl",
+      "version": "1.33.0",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-win32-arm64-msvc",
+      "version": "1.33.0",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "npm",
+      "name": "lightningcss-win32-x64-msvc",
+      "version": "1.33.0",
+      "category": "frontend-build-development",
+      "license": "MPL-2.0",
+      "installed": false
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "alloc-stdlib",
+      "version": "0.2.4",
+      "category": "native-runtime-candidate",
+      "license": "BSD-3-Clause",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "block2",
+      "version": "0.6.2",
+      "category": "native-runtime-candidate",
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "defmt-parser",
+      "version": "1.0.0",
+      "category": "native-build-proc-macro-development",
+      "license": "MIT OR Apache-2.0",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "dispatch2",
+      "version": "0.3.1",
+      "category": "native-runtime-candidate",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "objc2",
+      "version": "0.6.4",
+      "category": "native-runtime-candidate",
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "objc2-app-kit",
+      "version": "0.3.2",
+      "category": "native-runtime-candidate",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "objc2-core-foundation",
+      "version": "0.3.2",
+      "category": "native-runtime-candidate",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "objc2-core-graphics",
+      "version": "0.3.2",
+      "category": "native-runtime-candidate",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "objc2-encode",
+      "version": "4.1.0",
+      "category": "native-runtime-candidate",
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "objc2-exception-helper",
+      "version": "0.1.1",
+      "category": "native-runtime-candidate",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "objc2-io-surface",
+      "version": "0.3.2",
+      "category": "native-runtime-candidate",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "objc2-web-kit",
+      "version": "0.3.2",
+      "category": "native-runtime-candidate",
+      "license": "Zlib OR Apache-2.0 OR MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "selectors",
+      "version": "0.36.1",
+      "category": "native-runtime-candidate",
+      "license": "MPL-2.0",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "unic-char-property",
+      "version": "0.9.0",
+      "category": "native-runtime-candidate",
+      "license": "MIT/Apache-2.0",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "unic-char-range",
+      "version": "0.9.0",
+      "category": "native-runtime-candidate",
+      "license": "MIT/Apache-2.0",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "unic-common",
+      "version": "0.9.0",
+      "category": "native-runtime-candidate",
+      "license": "MIT/Apache-2.0",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "unic-ucd-ident",
+      "version": "0.9.0",
+      "category": "native-runtime-candidate",
+      "license": "MIT/Apache-2.0",
+      "installed": true
+    },
+    {
+      "ecosystem": "cargo",
+      "name": "unic-ucd-version",
+      "version": "0.9.0",
+      "category": "native-runtime-candidate",
+      "license": "MIT/Apache-2.0",
+      "installed": true
+    }
+  ],
+  "uniqueNoticeTexts": 187
+}
