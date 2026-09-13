@@ -119,10 +119,26 @@ Run here on 2026-09-13 against merge head, not quoted from a checkpoint:
 - Swift CI (`build-and-test`) → green on `macos-26` under Xcode 26.6: export
   test, `Rivune Mac` build, `Rivune Mac` tests, `Rivune iOS` build.
 
-One caveat worth recording: the **first** `npm test` run, immediately after
-`npm ci` on a loaded machine, took 180 s and failed 2 of 88 on timing-sensitive
-assertions. Three warm runs since have been clean. The suite is sound but has a
-small cold-start fragility that will read as a flake in CI.
+A cold-start defect surfaced during that verification and is fixed in this
+change. The **first** `npm test` after `npm ci` took 3 m 2 s and failed 2 of 88.
+It was not a timing-sensitive assertion, as it first appeared, but a race with a
+real consequence, in `rivune-tauri/tests/local-claude.test.mjs`:
+
+- The concurrency test waited for the spawned child by draining a fixed **100
+  microtask ticks**. Spawning awaits `locate`, `readiness` and a real `mkdtemp`,
+  so on a cold machine those ticks drain long before the filesystem replies and
+  `assert.ok(child)` fails.
+- That failure abandoned the in-flight handler, which holds the **module-global
+  single-flight lock** (`scripts/local-claude.mjs:11`). The next test then got
+  `409 Busy` where it expected `503 Unready` — a second, purely cascading failure.
+- The abandoned handler also kept its **three-minute deadline timer** alive, which
+  is what held the run open for 180 s.
+
+The fix bounds the wait by wall-clock instead of tick count, and ends the request
+in a `finally` so a failure cannot leak the lock. Verified: cold runs now pass
+88/88 in about 2 s instead of failing 2 of 88 in 3 m 2 s, including under 12x CPU
+oversubscription. A genuinely missing child still fails — confirmed by injecting
+one — now in 10 s, reporting only the test that actually broke instead of two.
 
 ## 5. Reconciliation findings
 
@@ -200,8 +216,7 @@ In order:
    leaving it ambiguous is not.
 4. **Carry `CONSTELLATION_ENGINE_DIRECTION.md` vocabulary** into the site and
    any new UI, leaving serialized identifiers untouched.
-5. **Fix the cold-start test fragility** (§4) before it reads as CI flake.
-6. **Then extend:** real Council and Swarm as distinct validated strategies,
+5. **Then extend:** real Council and Swarm as distinct validated strategies,
    participants beyond two providers, and evidence-based verification — tests,
    sources, a working preview — so a result is trusted because it was checked,
    not because the models agreed.
