@@ -1,0 +1,7 @@
+/* Approved galaxy composition; small finishing corrections. */
+.theme-native-cosmos .cosmos-hero{border-bottom:0}
+.theme-native-cosmos .footer{border:1px solid #b7d6ed28;border-radius:24px;padding:26px 28px 20px;margin-bottom:24px;overflow:hidden;grid-template-columns:auto 1fr}
+.theme-native-cosmos .footer-origin{justify-self:end}
+.theme-native-cosmos .footer nav{grid-column:1/-1}
+.contact-email{overflow-wrap:anywhere;user-select:text}
+@media(max-width:600px){.theme-native-cosmos .footer{grid-template-columns:1fr;padding:24px 20px}.theme-native-cosmos .footer-origin{justify-self:start}}

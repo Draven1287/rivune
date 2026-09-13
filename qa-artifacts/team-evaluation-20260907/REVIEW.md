@@ -1,0 +1,41 @@
+# T03/T04 quality trial preflight — September 7, 2026
+
+**Blocked before inference. Zero provider requests, zero answers, no quality score.** No changes were made to Rivune source, installed app, account settings, credentials, or personal instruction files. Native UI ownership remained with the app task.
+
+This was a feasibility check for two frozen synthetic tasks: library reminder evidence (T03) and a family welcome email (T04), each comparing A alone, B alone, and Council A+B with A appointed in advance. It was not a manually simulated Council run and does not prove installed-app behavior.
+
+## Verified observations
+
+- `preflight.json` records the installed app identity and hashes of the five reviewed execution/admission files from the frozen build0620 source. The preflight is runnable with `python3 qa-artifacts/team-evaluation-20260907/preflight.py`; it performs only filesystem reads and CLI version/help commands. It cannot send inference requests or silently clear its own blockers.
+- Local CLI versions: Codex0.144.3, Claude Code2.1.251. Exact help output is saved beside the receipt. The frozen prompt hashes passed the existing plan validator.
+- Frozen `TerminalAIService.swift:261–300` disables a long list of Codex tools/features, uses an empty temporary working directory, `read-only`, `--ephemeral`, `--ignore-user-config`, and `--ignore-rules`. Its environment at735–749 retains the real home directory.
+- `~/.codex/AGENTS.md` exists. Its content was not copied to evaluation artifacts. Actual loading in a provider request is **unverified** because no request was made. Codex help defines `--ignore-user-config` as excluding `config.toml`, and `--ignore-rules` as excluding execpolicy rules; neither is proof of global instruction exclusion. Official [Codex instruction documentation](https://learn.chatgpt.com/docs/agent-configuration/agents-md) describes global AGENTS discovery in Codex home. This combination leaves clean-context isolation unproven; it does not establish that private data was transmitted.
+- Claude's installed help explicitly documents `--safe-mode` as disabling CLAUDE.md and customizations, while retaining authentication. `--tools ""` disables built-in tools. Production supplies both. Help also says `--bare` skips OAuth/keychain, so switching to that would not be a justified drop-in subscription fix.
+- `TerminalAIService.swift:588–614` creates temporary raw stdout/stderr files and schedules deletion. The service returns only parsed text plus elapsed time. Its `378–432` parsers discard provider envelope metadata, and nonzero exit turns into a generic process failure. This limits the requested raw failed-output/resolved-metadata receipt through the unchanged production seam; missing measurements must remain unknown.
+- `RivuneStore.swift:3127–3147` admits Claude team models with **automatic effort only**. The help's separate global effort list is intentionally not interpreted as a per-model matrix. A harness must not bypass this guard just because `--effort high` exists.
+
+## Configuration proposal, not an executed configuration
+
+A: `gpt-6-astra` / `high` on the Codex CLI; B: `opus` / automatic effort on the Claude CLI; A as manager, fallback stop. Astra/high appears in local Codex metadata. Opus appears in Claude help. These are requested identifiers; current subscription entitlement and Claude's resolved model version remain unverified. No assertion that this is the smartest available pair is made. The exact chosen pair needs a fresh production admission receipt before dispatch.
+
+Keep the original cap: six logical runs, nominal ten model calls, at most twelve including the existing one-length-repair-per-Council allowance. No retries, substitute models, paid APIs, hidden fallback, tool access, or new authentication. Run logical trials sequentially, preserve the production within-Council behavior, and count requests before dispatch. Stop after any auth/quota/eligibility ambiguity. The five-minute text-trial cap must use verified process cancellation.
+
+A future harness must call the actual production CouncilRunner and transport, and use the actual direct `independentPrompt` wrapper. The wrapper differences are part of the product-path comparison and must be recorded. A separate rewrite of Council prompts is a surrogate experiment, not app proof.
+
+## Minimal follow-up proposal
+
+1. **Verified instruction isolation.** Investigate an explicit supported Codex option on the exact installed version that suppresses global/project instructions and automatic memory while retaining ordinary subscription authentication. Do not assume `project_doc_max_bytes=0`, an empty cwd, `--ignore-user-config`, or a changed home does this. Do not rename the user's AGENTS, replace HOME, copy auth, or disable policies to make the test pass. If no supported option proves this, leave the production-layer trial blocked and implement a supported adapter boundary deliberately.
+2. **Opt-in evaluation receipt observer.** Add a narrow transport observer at the process/parse boundary. Normal app runs should not start keeping raw logs by default. For explicitly synthetic evaluation runs, retain exact prompt bytes, answer bytes, parsed events, exit status, timestamps, request role/identity, and provider-supplied model/usage when present. Keep unknown fields null.
+3. **Separate raw and shareable evidence.** Never dump environment/auth/config files. Raw process output can still contain sensitive diagnostics. Retain bounded raw output only in the explicit private evaluation directory with restrictive permissions; generate a separate allowlisted, credential-redacted receipt for sharing. Record original-byte hashes and redaction status without claiming redacted bytes are an exact raw copy. Unknown fields containing possible secrets should be omitted from the shareable receipt. If safe retention cannot be established, record that limitation and stop rather than claim complete evidence.
+4. **Budget and admission envelope.** The harness wraps the unchanged production runner with a hard twelve-request counter, captured exact member configuration, stop fallback, five-minute run deadline, and failure stop state. It must not fake `TeamAdmissionEvidence` or use account-default values where a pinned value was promised. Draft/synthesis/repair outputs are all retained; semantic scores remain preliminary until independent review.
+
+## Acceptance tests before a live trial
+
+- A harmless synthetic canary in fake global AGENTS, project AGENTS, and memory: inspect the actual constructed request through a local recording server or supported diagnostic seam, proving absence of every canary and custom tool. Use a fake home/auth fixture only in that offline test; no real credential copying. Test defaults, user-config ignored, and the proposed isolation setting separately.
+- Unknown CLI version or missing isolation capability must block before process inference dispatch. A recording executable should prove no inference arguments are launched when admission fails.
+- Success, malformed JSON, nonzero exit, partial output, and output-limit failure must all produce one durable evaluation receipt and retain allowed output. Token/model fields absent from envelopes stay null. Redaction fixtures include a fake bearer token and URL query secret; raw and sanitized hashes must be clearly distinguished.
+- Cancellation at prelaunch and postlaunch races must terminate the process and reap it; one timeout must not leave a hidden worker. The next logical trial cannot start until the prior worker is confirmed stopped.
+- A concurrent attempt to exceed call12 must dispatch no call13. Existing bounded repair counts toward the cap. One provider failure stops the remaining scheduled trials without retry or replacement.
+- Recording transport verifies identical requested model/effort and exact task context in A/B baselines and every Council phase; no rubric, repository file, previous response, or hidden account-default substitution enters the request. Claude explicit effort remains ineligible unless real per-model support evidence is added to production.
+
+These are proposed tests, not claimed passing results. Existing297 app tests and this local preflight do not establish prompt isolation or answer quality.

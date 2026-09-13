@@ -1,0 +1,14 @@
+[package]
+name = "rivune-desktop-shell-spike"
+version = "0.0.1"
+edition = "2021"
+publish = false
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+
+[features]
+custom-protocol = ["tauri/custom-protocol"]

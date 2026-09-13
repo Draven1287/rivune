@@ -1,0 +1,19 @@
+/* A restrained galaxy at rest; a quiet reading surface once a chat opens. */
+html.everyday-ui[data-backdrop=galaxy] .cosmos{filter:saturate(.55) contrast(.96) brightness(.88)}
+html.everyday-ui[data-backdrop=galaxy] .cosmos>div{display:none}
+html.everyday-ui[data-backdrop=galaxy] .cosmos:after{background:linear-gradient(90deg,#080c1659,#080c1630 65%),linear-gradient(0deg,#080b129c,#080c1630 55%,#080c1620)}
+html.everyday-ui[data-backdrop=galaxy] .sidebar{background:#111722b8;border-color:#d8e4f01c;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+html.everyday-ui[data-backdrop=galaxy] header{background:#0d142080;border-bottom-color:#d8e4f012;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+html.everyday-ui[data-backdrop][data-environment=focused] .cosmos:after{display:block;content:'';position:absolute;inset:0;background:#070b12e6;transition:background .35s ease}
+html.everyday-ui[data-environment=focused] .conversation{background:#090e1766;border:0;box-shadow:none;border-radius:16px}
+html.everyday-ui[data-environment=focused] .message-text,html.everyday-ui[data-environment=focused] .answer-content{color:#e9edf5}
+
+html.everyday-ui[data-backdrop=galaxy] .suggestions button{background:#111b29b3;border-color:#d8e4f024;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+
+/* Templates share the same restrained glass surface as Connections. */
+html.everyday-ui .top-actions #prompt-templates{border:1px solid #d8e8f02b;border-radius:999px;padding:9px 14px;background:linear-gradient(145deg,#53647a25,#14203475);box-shadow:inset 0 1px 0 #ffffff12,0 5px 18px #0002;backdrop-filter:blur(24px) saturate(115%);-webkit-backdrop-filter:blur(24px) saturate(115%);color:#d4deeb}
+html.everyday-ui .top-actions #prompt-templates:hover,html.everyday-ui .top-actions #prompt-templates[aria-expanded=true]{background:linear-gradient(145deg,#71839935,#25334690);border-color:#d8e8f04d}
+html.everyday-ui .anchored-popover[aria-label="Prompt templates"]{background:linear-gradient(145deg,#415268c4,#121c2be8);border-color:#dceaf04d;box-shadow:0 18px 54px #0007,inset 0 1px 0 #ffffff26;backdrop-filter:blur(36px) saturate(125%);-webkit-backdrop-filter:blur(36px) saturate(125%)}
+@media(prefers-reduced-transparency:reduce){html.everyday-ui .top-actions #prompt-templates,html.everyday-ui .anchored-popover[aria-label="Prompt templates"]{background:#1b2533;backdrop-filter:none;-webkit-backdrop-filter:none}}
+@media(prefers-contrast:more){html.everyday-ui[data-backdrop][data-environment=focused] .cosmos:after{background:#070b12f5}html.everyday-ui .anchored-popover[aria-label="Prompt templates"]{background:#111a27;border-color:#dceaf0}}
+@media(prefers-reduced-motion:reduce){html.everyday-ui[data-backdrop][data-environment=focused] .cosmos:after{transition:none}}

@@ -1,0 +1,154 @@
+[
+  {
+    "key": "S00",
+    "title": "[Symphony S00] Establish the canonical app source for Symphony",
+    "path": "/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/tools/symphony/S00.md",
+    "dependencies": [],
+    "priority": "P0"
+  },
+  {
+    "key": "S01",
+    "title": "[Symphony S01] Verify current retry and desktop lifecycle integration",
+    "path": "/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/tools/symphony/S01.md",
+    "dependencies": [
+      "S00"
+    ],
+    "priority": "P0"
+  },
+  {
+    "key": "S02",
+    "title": "[Symphony S02] Deliver the first connection and useful conversation",
+    "path": "/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/tools/symphony/S02.md",
+    "dependencies": [
+      "S00"
+    ],
+    "priority": "P0"
+  },
+  {
+    "key": "S03",
+    "title": "[Symphony S03] Finalize Rivune visual system and consistent branding",
+    "path": "/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/tools/symphony/S03.md",
+    "dependencies": [
+      "S00"
+    ],
+    "priority": "P1"
+  },
+  {
+    "key": "S04",
+    "title": "[Symphony S04] Implement versioned Constellation model and lead configuration",
+    "path": "/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/tools/symphony/S04.md",
+    "dependencies": [
+      "S00",
+      "S02"
+    ],
+    "priority": "P1"
+  },
+  {
+    "key": "S05",
+    "title": "[Symphony S05] Implement Swarm within Constellation Engine",
+    "path": "/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/tools/symphony/S05.md",
+    "dependencies": [
+      "S00",
+      "S02",
+      "S04"
+    ],
+    "priority": "P1"
+  },
+  {
+    "key": "S06",
+    "title": "[Symphony S06] Add protected API connections and enforceable permissions",
+    "path": "/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/tools/symphony/S06.md",
+    "dependencies": [
+      "S00"
+    ],
+    "priority": "P1"
+  },
+  {
+    "key": "S07",
+    "title": "[Symphony S07] Complete projects, files, artifacts and optional work panels",
+    "path": "/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/tools/symphony/S07.md",
+    "dependencies": [
+      "S00",
+      "S02"
+    ],
+    "priority": "P1"
+  },
+  {
+    "key": "S08",
+    "title": "[Symphony S08] Complete categorized Settings and accessible interaction",
+    "path": "/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/tools/symphony/S08.md",
+    "dependencies": [
+      "S00",
+      "S03"
+    ],
+    "priority": "P1"
+  },
+  {
+    "key": "S09",
+    "title": "[Symphony S09] Add full Orbit, Galaxy motion and local background customization",
+    "path": "/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/tools/symphony/S09.md",
+    "dependencies": [
+      "S00",
+      "S03",
+      "S08"
+    ],
+    "priority": "P2"
+  },
+  {
+    "key": "S10",
+    "title": "[Symphony S10] Add microphone dictation into the draft",
+    "path": "/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/tools/symphony/S10.md",
+    "dependencies": [
+      "S00",
+      "S08"
+    ],
+    "priority": "P2"
+  },
+  {
+    "key": "S11",
+    "title": "[Symphony S11] Deliver data-preserving macOS, Windows and Linux packaging",
+    "path": "/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/tools/symphony/S11.md",
+    "dependencies": [
+      "S00",
+      "S01",
+      "S02",
+      "S06"
+    ],
+    "priority": "P1"
+  },
+  {
+    "key": "S12",
+    "title": "[Symphony S12] Maintain approved website and connect verified downloads",
+    "path": "/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/tools/symphony/S12.md",
+    "dependencies": [
+      "S11"
+    ],
+    "priority": "P2"
+  },
+  {
+    "key": "S13",
+    "title": "[Symphony S13] Validate complete product workflow, performance and release readiness",
+    "path": "/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/tools/symphony/S13.md",
+    "dependencies": [
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05",
+      "S06",
+      "S07",
+      "S08",
+      "S11"
+    ],
+    "priority": "P1"
+  },
+  {
+    "key": "S14",
+    "title": "[Symphony S14] Prepare optional commercial plans after core usability",
+    "path": "/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/tools/symphony/S14.md",
+    "dependencies": [
+      "S13"
+    ],
+    "priority": "P3"
+  }
+]

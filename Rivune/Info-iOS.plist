@@ -50,11 +50,11 @@
 		<key>Enabled</key>
 		<false/>
 		<key>URL</key>
-		<string></string>
+		<string>https://tbiviqglzozlyijrhbug.supabase.co</string>
 		<key>PublishableKey</key>
-		<string></string>
+		<string>sb_publishable_DO4vmqIJe_wKUrUyQiDlhA_6JJ1xObg</string>
 		<key>email</key>
-		<false/>
+		<true/>
 		<key>google</key>
 		<false/>
 		<key>apple</key>

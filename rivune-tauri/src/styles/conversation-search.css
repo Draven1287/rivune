@@ -1,0 +1,27 @@
+/* Search stays in the sidebar; results reuse the existing conversation list. */
+html.everyday-ui .conversation-search-trigger[hidden]{display:none!important}
+#conversation-search-form{display:flex;align-items:center;gap:7px;position:relative;min-width:0;min-height:39px;padding:0 7px;border:1px solid #d8e4f02b;border-radius:10px;background:#ffffff08}
+#conversation-search-form:focus-within{border-color:#bbcde475;box-shadow:0 0 0 2px #a6c6ef0d}
+.conversation-search-icon{display:flex;flex:0 0 15px;color:#9eabbf}
+.conversation-search-icon svg{width:15px;height:15px}
+#conversation-search{min-width:0;width:100%;border:0;outline:0;background:none;color:#eef2f8;padding:9px 0;font:inherit;font-size:12px;line-height:1.4}
+#conversation-search::placeholder{color:#a0a9b8}
+#conversation-search::-webkit-search-cancel-button{display:none}
+#conversation-search-form .conversation-search-close{display:grid;place-items:center;flex:0 0 25px;width:25px;height:28px;padding:0;border:0;border-radius:6px;background:transparent;color:#abb7c8;font-size:20px;line-height:1}
+#conversation-search-form .conversation-search-close:hover,#conversation-search-form .conversation-search-close:focus-visible{background:#ffffff12;color:#fff;outline:1px solid #c8d6eb4d}
+#conversation-search-status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+html.everyday-ui .recent .history-title-text{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html.everyday-ui .recent .history-search-snippet{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#9ca9bc;font-size:11px;line-height:1.5;font-weight:400;margin-top:4px}
+@media(max-width:600px){
+ html.everyday-ui .shell.search-active:not(.sidebar-small){grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(130px,min(38dvh,260px)) minmax(0,1fr)}
+ html.everyday-ui .shell.search-active .sidebar{display:flex;flex-direction:column;align-items:stretch;gap:0;padding:10px 14px;min-height:0;overflow:hidden}
+ html.everyday-ui .shell.search-active .sidebar .brand,html.everyday-ui .shell.search-active .sidebar .new-thread,html.everyday-ui .shell.search-active .sidebar .sidebar-bottom{display:none!important}
+ html.everyday-ui .shell.search-active .sidebar nav{display:block;margin:0;flex:0 0 auto}
+ html.everyday-ui .shell.search-active .sidebar nav>.nav-item{display:none!important}
+ html.everyday-ui .shell.search-active .sidebar .recent{display:block;min-height:0;overflow:auto;flex:1;margin-top:5px}
+ html.everyday-ui .shell.search-active .sidebar .recent .nav-label{margin:7px 10px 5px}
+ html.everyday-ui .shell.search-active .sidebar .recent .history-title-text,html.everyday-ui .shell.search-active .sidebar .recent .history-search-snippet{display:block}
+ html.everyday-ui .shell.search-active .sidebar .recent .history-actions{opacity:1}
+ html.everyday-ui .shell.search-active main{min-height:0}
+}
+@media(prefers-contrast:more){#conversation-search-form{background:#10151e;border-color:#bdcde6}.history-search-snippet{color:#d6dfec!important}}

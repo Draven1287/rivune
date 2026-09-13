@@ -1,0 +1,12 @@
+/* Selected calm treatment mapped to the existing desktop host; galaxy stays at the edges. */
+.chat-first.theme-orbit.host-workspace{background:linear-gradient(90deg,#070d1890 0%,#080e18b8 24%,#080e18f5 65%),url('./assets/rivune-workspace-milky-way.png') left center/cover}
+.chat-first.theme-orbit.host-workspace .app-header{background:#080f1b66}
+.chat-first.theme-orbit.host-workspace .host-sidebar{background:linear-gradient(#091220a6,#091220db)}
+.chat-first.theme-orbit.host-workspace .host-chat{background:#101722}
+.chat-first.theme-orbit.host-workspace .host-chat-header{background:#111a26}
+.chat-first.theme-orbit.host-workspace .host-composer{background:linear-gradient(120deg,#253246,#1a2637)}
+@media(max-width:700px){
+  .chat-first.theme-orbit.host-workspace{background:#0b121d}
+  .chat-first.theme-orbit.host-workspace .app-header,.chat-first.theme-orbit.host-workspace .mobile-panel-tabs{background:#0b121d}
+  .chat-first.theme-orbit.host-workspace .host-sidebar{background:#101a29}
+}

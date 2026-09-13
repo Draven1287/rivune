@@ -1,0 +1,11 @@
+{
+  "id": "truncated-drafts",
+  "sourceKind": "workspace-drafts.json",
+  "rawUTF8": "{\"drafts\":{\"new\":{\"text\":\"Fictional unfinished",
+  "expect": {
+    "state": "recovery-required",
+    "preserveOriginalBytes": true,
+    "noSourceWrites": true,
+    "dispatchCount": 0
+  }
+}

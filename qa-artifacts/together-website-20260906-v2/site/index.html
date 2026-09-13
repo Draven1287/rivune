@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <meta name='description' content='Lantern Pages is a fictional neighborhood book club for curious readers and unhurried conversation.'>
+  <title>Lantern Pages — A neighborhood book club</title>
+  <link rel='stylesheet' href='styles.css'>
+</head>
+<body>
+  <a class='skip-link' href='#main-content'>Skip to main content</a>
+
+  <header class='site-header'>
+    <a class='brand' href='#top' aria-label='Lantern Pages home'>
+      <svg class='brand__mark' viewBox='0 0 36 42' aria-hidden='true' focusable='false'>
+        <path d='M10 11h16l4 8v17H6V19l4-8Z' fill='currentColor'/>
+        <path d='M13 4h10l3 7H10l3-7Z' fill='none' stroke='currentColor' stroke-width='2'/>
+        <path d='M12 20c4-3 8-3 12 0v10c-4-3-8-3-12 0V20Z' fill='none' stroke='#f8f3e8' stroke-width='1.7'/>
+      </svg>
+      <span class='brand__text'>Lantern Pages</span>
+    </a>
+
+    <nav class='site-nav' aria-label='Primary navigation'>
+      <ul>
+        <li><a href='#gathering'>Next gathering</a></li>
+        <li><a href='#shelf'>Reading shelf</a></li>
+        <li><a href='#evening'>The evening</a></li>
+        <li><a href='#questions'>Questions</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id='main-content' tabindex='-1'>
+    <section class='hero' id='top' aria-labelledby='hero-title'>
+      <div class='hero__copy'>
+        <p class='hero__eyebrow'>A neighborhood book club · Alder Ward</p>
+        <h1 id='hero-title'>Good books.<br>Better evenings.</h1>
+        <p class='hero__lede'>Once a month, we gather around one remarkable book and follow the conversation wherever it leads. New readers are always welcome.</p>
+
+        <div class='hero__actions'>
+          <a class='button' href='#gathering'>See the next gathering</a>
+          <a class='text-link' href='#evening'>What to expect <span aria-hidden='true'>→</span></a>
+        </div>
+
+        <aside class='hero__next' aria-label='Next meeting at a glance'>
+          <span class='hero__next-label'>Next at the table</span>
+          <span class='hero__next-date'>Saturday, October 17, 2026</span>
+          <span class='hero__next-detail'>7:00–9:00 p.m. · The Juniper Room</span>
+        </aside>
+      </div>
+
+      <div class='hero__art' aria-hidden='true'>
+        <svg class='table-scene' viewBox='0 0 680 720' focusable='false'>
+          <defs>
+            <linearGradient id='lantern-glow' x1='0' y1='0' x2='0' y2='1'>
+              <stop offset='0' stop-color='#f3c883' stop-opacity='.95'/>
+              <stop offset='1' stop-color='#c85f36' stop-opacity='.14'/>
+            </linearGradient>
+            <pattern id='cloth-lines' width='16' height='16' patternUnits='userSpaceOnUse'>
+              <path d='M0 16 16 0' stroke='currentColor' stroke-opacity='.08'/>
+            </pattern>
+            <clipPath id='table-clip'>
+              <path d='M51 448C159 402 510 397 626 450l-45 211H96L51 448Z'/>
+            </clipPath>
+          </defs>
+
+          <path d='M340 73c129 0 234 123 234 274 0 75-26 143-70 193H176c-44-50-70-118-70-193C106 196 211 73 340 73Z' fill='url(#lantern-glow)'/>
+          <path d='M119 91h442v353H119z' fill='none' stroke='currentColor' stroke-width='3'/>
+          <path d='M340 92v352M120 326h440' fill='none' stroke='currentColor' stroke-width='2' opacity='.35'/>
+          <path d='M129 101h422v215H129z' fill='currentColor' opacity='.92'/>
+          <circle cx='455' cy='166' r='43' fill='#f8f3e8' opacity='.92'/>
+          <path d='M129 275c80-52 139-21 206-58 69-38 135-22 216 35v64H129v-41Z' fill='#244536'/>
+          <path d='M129 291c92-30 141-7 205-34 86-36 144-6 217 26v33H129v-25Z' fill='#17352a'/>
+
+          <path d='M317 39h46l12 25h-70l12-25Z' fill='currentColor'/>
+          <path d='M321 63h38l20 99h-78l20-99Z' fill='#d16a3e' stroke='currentColor' stroke-width='3'/>
+          <path d='M312 162h56' stroke='currentColor' stroke-width='7'/>
+          <path d='M340 15v24' stroke='currentColor' stroke-width='3'/>
+          <path d='M329 85c8-8 16-8 23 0v48c-7 7-15 7-23 0V85Z' fill='#f8d99c'/>
+
+          <path d='M51 448C159 402 510 397 626 450l-45 211H96L51 448Z' fill='#d6a66f' stroke='currentColor' stroke-width='4'/>
+          <path d='M51 448C159 402 510 397 626 450l-45 211H96L51 448Z' fill='url(#cloth-lines)' clip-path='url(#table-clip)'/>
+          <path d='M101 483c131-34 347-32 476 1' fill='none' stroke='currentColor' stroke-width='2' opacity='.32'/>
+
+          <g transform='translate(189 408) rotate(-7)'>
+            <path d='M0 25 119 0l96 45-117 30L0 25Z' fill='#f8f3e8' stroke='currentColor' stroke-width='3'/>
+            <path d='m98 75 7-63M105 12c36 3 72 14 110 33M98 75C66 62 34 48 0 25' fill='none' stroke='currentColor' stroke-width='2'/>
+            <path d='m25 29 57 19m47-19 57 18' stroke='currentColor' stroke-width='2' opacity='.25'/>
+          </g>
+
+          <g transform='translate(450 445)'>
+            <ellipse cx='54' cy='112' rx='64' ry='17' fill='currentColor' opacity='.16'/>
+            <path d='M5 27h94v58c0 25-20 45-45 45h-4C25 130 5 110 5 85V27Z' fill='#f8f3e8' stroke='currentColor' stroke-width='3'/>
+            <path d='M100 45h11c31 0 31 49 0 49H98' fill='none' stroke='currentColor' stroke-width='7'/>
+            <path d='M24 15c8-12 1-18 4-27M51 15c8-12 1-18 4-27M77 15c8-12 1-18 4-27' fill='none' stroke='#d16a3e' stroke-width='3' stroke-linecap='round'/>
+          </g>
+
+          <g transform='translate(77 460)'>
+            <path d='M0 39h99l-9 108H13L0 39Z' fill='#1e4032' stroke='currentColor' stroke-width='3'/>
+            <path d='M18 39c4-30 59-40 68 0' fill='none' stroke='currentColor' stroke-width='3'/>
+            <path d='M44 19c-8-27 4-51 29-59-3 26-10 46-29 59ZM45 20C29-1 9-7-10 3 5 20 21 27 45 20Z' fill='#6f8a5d' stroke='currentColor' stroke-width='2'/>
+          </g>
+
+          <path d='M123 661v32M552 661v32' stroke='currentColor' stroke-width='7'/>
+          <path d='M72 693h536' stroke='currentColor' stroke-width='3' opacity='.25'/>
+        </svg>
+      </div>
+    </section>
+
+    <section class='feature' id='gathering' aria-labelledby='gathering-title'>
+      <div class='feature__heading section-heading'>
+        <p class='section-kicker'>October selection · Meeting no. 28</p>
+        <h2 id='gathering-title'>Our next gathering</h2>
+      </div>
+
+      <div class='feature__layout'>
+        <figure class='feature__cover'>
+          <svg viewBox='0 0 420 620' role='img' aria-labelledby='featured-cover-title' focusable='false'>
+            <title id='featured-cover-title'>Fictional cover for The Cartographer of Rain by Mira Vale</title>
+            <rect width='420' height='620' fill='#17352a'/>
+            <path d='M0 390C86 333 153 377 215 323c64-56 117-35 205-99v396H0V390Z' fill='#285240'/>
+            <path d='M0 438c79-42 149-10 213-63 67-55 131-38 207-96' fill='none' stroke='#e8b86c' stroke-width='4'/>
+            <path d='M0 483c91-36 145-2 223-55 61-42 117-27 197-80' fill='none' stroke='#e8b86c' stroke-width='2' opacity='.7'/>
+            <g fill='none' stroke='#f8f3e8' stroke-width='2' opacity='.72'>
+              <path d='M47 75c41 19 75 11 102-24 29 40 63 49 105 25 28 42 67 48 119 18'/>
+              <path d='M47 94c41 19 75 11 102-24 29 40 63 49 105 25 28 42 67 48 119 18'/>
+              <path d='M47 113c41 19 75 11 102-24 29 40 63 49 105 25 28 42 67 48 119 18'/>
+            </g>
+            <circle cx='309' cy='390' r='54' fill='#c85f36'/>
+            <path d='M309 354v72M273 390h72M284 365l50 50M334 365l-50 50' stroke='#f8f3e8' stroke-width='2' opacity='.8'/>
+            <text x='42' y='178' fill='#f8f3e8' font-family='Georgia, serif' font-size='49' letter-spacing='1'>
+              <tspan x='42'>The</tspan>
+              <tspan x='42' dy='55'>Cartographer</tspan>
+              <tspan x='42' dy='55'>of Rain</tspan>
+            </text>
+            <text x='45' y='566' fill='#f8f3e8' font-family='Arial, sans-serif' font-size='18' letter-spacing='4'>MIRA VALE</text>
+          </svg>
+        </figure>
+
+        <div class='feature__copy'>
+          <p class='feature__label'>This month we are reading</p>
+          <h3><cite>The Cartographer of Rain</cite></h3>
+          <p class='feature__author'>A novel by Mira Vale</p>
+          <p class='feature__description'>A mapmaker arrives in a drought-struck harbor town carrying charts of storms that have not happened yet. Quietly uncanny and rich with moral tension, Vale’s novel asks what we owe one another when certainty becomes a kind of shelter.</p>
+          <blockquote>
+            <p>“A book about prediction that keeps returning us to the untidy courage of paying attention.”</p>
+          </blockquote>
+
+          <dl class='meeting-facts'>
+            <div class='meeting-facts__item'>
+              <dt>Date</dt>
+              <dd><time datetime='2026-10-17'>Saturday, October 17, 2026</time></dd>
+            </div>
+            <div class='meeting-facts__item'>
+              <dt>Time</dt>
+              <dd><time datetime='19:00'>7:00</time>–<time datetime='21:00'>9:00 p.m.</time></dd>
+            </div>
+            <div class='meeting-facts__item'>
+              <dt>Venue</dt>
+              <dd>The Juniper Room<br>42 Alder Lane, Alder Ward</dd>
+            </div>
+            <div class='meeting-facts__item'>
+              <dt>Reading</dt>
+              <dd>Pages 1–168<br>Come even if you are not finished</dd>
+            </div>
+          </dl>
+
+          <p class='feature__note'>No reservation is needed. Bring the book if you have it; a few shared copies will be on the table.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class='shelf' id='shelf' aria-labelledby='shelf-title'>
+      <div class='shelf__intro'>
+        <p class='section-kicker'>From recent conversations</p>
+        <h2 id='shelf-title'>The reading shelf</h2>
+        <p>Three books we are still thinking about—kept here not as ratings, but as traces of conversations worth continuing.</p>
+      </div>
+
+      <ol class='shelf__rail'>
+        <li class='book'>
+          <figure class='book__cover'>
+            <svg viewBox='0 0 300 440' role='img' aria-labelledby='cover-title-one' focusable='false'>
+              <title id='cover-title-one'>Fictional cover for Small Fires in the Orchard by Tamsin Reed</title>
+              <rect width='300' height='440' fill='#d9c7a1'/>
+              <path d='M38 0v440M262 0v440' stroke='#17352a' stroke-width='2' opacity='.28'/>
+              <path d='M150 426V198' stroke='#17352a' stroke-width='6'/>
+              <path d='M151 262c-48-7-81-35-91-84 49 2 83 30 91 84ZM149 311c45-8 76-35 91-80-50 0-80 28-91 80Z' fill='#55705b' stroke='#17352a' stroke-width='2'/>
+              <g fill='#c85f36'>
+                <path d='M83 158c-20-27-8-54 18-64 3 18 13 25 20 38 10 20-2 41-21 46 5-12 3-23-4-33-1 10-5 15-13 13Z'/>
+                <path d='M188 199c-18-24-7-48 16-57 2 16 11 22 17 34 9 17-2 36-19 40 5-10 3-20-3-29-1 9-5 13-11 12Z'/>
+              </g>
+              <text x='58' y='54' fill='#17352a' font-family='Georgia, serif' font-size='30'>
+                <tspan x='58'>Small Fires</tspan>
+                <tspan x='58' dy='34'>in the Orchard</tspan>
+              </text>
+              <text x='58' y='403' fill='#17352a' font-family='Arial, sans-serif' font-size='13' letter-spacing='3'>TAMSIN REED</text>
+            </svg>
+          </figure>
+          <div class='book__meta'>
+            <span class='book__number' aria-hidden='true'>01</span>
+            <h3><cite>Small Fires in the Orchard</cite></h3>
+            <p class='book__author'>Tamsin Reed</p>
+            <p class='book__note'>A tender, unsentimental story about inherited land and the small rebellions required to call a place home.</p>
+          </div>
+        </li>
+
+        <li class='book'>
+          <figure class='book__cover'>
+            <svg viewBox='0 0 300 440' role='img' aria-labelledby='cover-title-two' focusable='false'>
+              <title id='cover-title-two'>Fictional cover for The Hours Between Bridges by Oren Bell</title>
+              <rect width='300' height='440' fill='#244a3b'/>
+              <circle cx='150' cy='216' r='112' fill='none' stroke='#e4b974' stroke-width='2'/>
+              <circle cx='150' cy='216' r='82' fill='none' stroke='#e4b974' stroke-width='1' opacity='.58'/>
+              <path d='M0 259h300M18 244c43-49 84-49 126 0 46-58 91-58 138 0' fill='none' stroke='#f8f3e8' stroke-width='5'/>
+              <path d='M18 244v33M144 244v33M282 244v33' stroke='#f8f3e8' stroke-width='3'/>
+              <path d='M0 290c40-13 71-13 111 0s71 13 110 0 55-13 79-5M0 312c40-13 71-13 111 0s71 13 110 0 55-13 79-5' fill='none' stroke='#e4b974' stroke-width='2' opacity='.8'/>
+              <text x='34' y='58' fill='#f8f3e8' font-family='Georgia, serif' font-size='29'>
+                <tspan x='34'>The Hours</tspan>
+                <tspan x='34' dy='34'>Between Bridges</tspan>
+              </text>
+              <text x='36' y='402' fill='#f8f3e8' font-family='Arial, sans-serif' font-size='13' letter-spacing='3'>OREN BELL</text>
+            </svg>
+          </figure>
+          <div class='book__meta'>
+            <span class='book__number' aria-hidden='true'>02</span>
+            <h3><cite>The Hours Between Bridges</cite></h3>
+            <p class='book__author'>Oren Bell</p>
+            <p class='book__note'>Bell turns one sleepless river crossing into a luminous meditation on memory, strangers, and missed departures.</p>
+          </div>
+        </li>
+
+        <li class='book'>
+          <figure class='book__cover'>
+            <svg viewBox='0 0 300 440' role='img' aria-labelledby='cover-title-three' focusable='false'>
+              <title id='cover-title-three'>Fictional cover for A Field Guide to Quiet Things by Elian Moss</title>
+              <rect width='300' height='440' fill='#c8673f'/>
+              <rect x='25' y='25' width='250' height='390' fill='none' stroke='#f8f3e8' stroke-width='2' opacity='.7'/>
+              <g fill='none' stroke='#17352a' stroke-width='2.5'>
+                <path d='M148 346c1-71 2-142 3-212'/>
+                <path d='M150 171c-35-31-68-34-99-9 27 30 60 33 99 9ZM150 220c39-35 75-38 108-10-29 33-65 36-108 10ZM150 277c-30-27-59-29-86-8 24 26 53 29 86 8Z' fill='#f0dfba'/>
+                <path d='M151 135c-10-22-5-42 14-59 18 25 13 45-14 59Z' fill='#e4b974'/>
+              </g>
+              <circle cx='67' cy='337' r='20' fill='#17352a'/>
+              <circle cx='233' cy='126' r='12' fill='#f0dfba'/>
+              <text x='46' y='63' fill='#17352a' font-family='Georgia, serif' font-size='27'>
+                <tspan x='46'>A Field Guide</tspan>
+                <tspan x='46' dy='32'>to Quiet Things</tspan>
+              </text>
+              <text x='47' y='390' fill='#17352a' font-family='Arial, sans-serif' font-size='13' letter-spacing='3'>ELIAN MOSS</text>
+            </svg>
+          </figure>
+          <div class='book__meta'>
+            <span class='book__number' aria-hidden='true'>03</span>
+            <h3><cite>A Field Guide to Quiet Things</cite></h3>
+            <p class='book__author'>Elian Moss</p>
+            <p class='book__note'>Part essay, part natural history, this attentive little book makes ordinary silence feel newly inhabited.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class='evening' id='evening' aria-labelledby='evening-title'>
+      <div class='evening__intro'>
+        <p class='section-kicker'>Come as you are</p>
+        <h2 id='evening-title'>An evening at Lantern Pages</h2>
+        <p>You do not need a polished interpretation or a stack of notes. Curiosity is enough. We keep the group conversational, make room for quieter voices, and leave with more questions than we brought.</p>
+      </div>
+
+      <ol class='evening__flow'>
+        <li class='evening__step'>
+          <time class='evening__time' datetime='19:00'>7:00</time>
+          <div>
+            <h3>Settle in</h3>
+            <p>Tea is poured, chairs are gathered, and introductions happen without an icebreaker.</p>
+          </div>
+        </li>
+        <li class='evening__step'>
+          <time class='evening__time' datetime='19:20'>7:20</time>
+          <div>
+            <h3>Open the book</h3>
+            <p>One reader begins with a passage, then the room follows what feels alive—character, craft, disagreement, or surprise.</p>
+          </div>
+        </li>
+        <li class='evening__step'>
+          <time class='evening__time' datetime='20:35'>8:35</time>
+          <div>
+            <h3>Turn the page</h3>
+            <p>We close with lingering thoughts and reveal the next selection. Conversation often continues on the walk home.</p>
+          </div>
+        </li>
+      </ol>
+
+      <aside class='evening__aside'>
+        <p class='evening__aside-label'>A small courtesy</p>
+        <p>Spoilers are welcome; certainty is optional. We discuss ideas generously and never confuse a strong opinion with the final word.</p>
+      </aside>
+    </section>
+
+    <section class='faq' id='questions' aria-labelledby='questions-title'>
+      <div class='faq__heading section-heading'>
+        <p class='section-kicker'>Before you arrive</p>
+        <h2 id='questions-title'>Useful questions</h2>
+      </div>
+
+      <div class='faq__list'>
+        <details>
+          <summary>Do I need to finish the book?</summary>
+          <div class='faq__answer'>
+            <p>No. For the October 17 gathering, read as much of pages 1–168 as you can. The conversation may include details from that portion, but unfinished readers are warmly welcome.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Can I come on my own?</summary>
+          <div class='faq__answer'>
+            <p>Absolutely. Most regulars first arrived alone, and the opening few minutes are set aside for simple introductions.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Is the venue accessible?</summary>
+          <div class='faq__answer'>
+            <p>The Juniper Room at 42 Alder Lane is step-free, with an accessible restroom and armless seating. Seating can be rearranged as needed.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Does it cost anything?</summary>
+          <div class='faq__answer'>
+            <p>No. Lantern Pages is free to attend, no reservation is required, and there is never an expectation to buy the featured book.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class='site-footer'>
+    <div class='site-footer__brand'>
+      <span class='site-footer__name'>Lantern Pages</span>
+      <p>Books worth lingering over.<br>Neighbors worth knowing.</p>
+    </div>
+
+    <nav class='site-footer__nav' aria-label='Footer navigation'>
+      <ul>
+        <li><a href='#gathering'>October gathering</a></li>
+        <li><a href='#shelf'>Reading shelf</a></li>
+        <li><a href='#questions'>Questions</a></li>
+        <li><a href='#top'>Back to top <span aria-hidden='true'>↑</span></a></li>
+      </ul>
+    </nav>
+
+    <p class='sample-note'>Lantern Pages and all books, people, venues, addresses, and events shown here are fictional sample content.</p>
+  </footer>
+</body>
+</html>

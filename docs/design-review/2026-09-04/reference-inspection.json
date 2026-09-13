@@ -1,0 +1,130 @@
+{
+  "revision": 3,
+  "layouts": [
+    {
+      "width": 1710,
+      "screen": "home",
+      "overflow": false
+    },
+    {
+      "width": 1710,
+      "screen": "active",
+      "overflow": false
+    },
+    {
+      "width": 1710,
+      "screen": "decision",
+      "overflow": false
+    },
+    {
+      "width": 1710,
+      "screen": "project",
+      "overflow": false
+    },
+    {
+      "width": 1710,
+      "screen": "connections",
+      "overflow": false
+    },
+    {
+      "width": 1710,
+      "screen": "settings",
+      "overflow": false
+    },
+    {
+      "width": 1710,
+      "screen": "approval",
+      "overflow": false
+    },
+    {
+      "width": 1710,
+      "screen": "error",
+      "overflow": false
+    },
+    {
+      "width": 900,
+      "screen": "home",
+      "overflow": false
+    },
+    {
+      "width": 900,
+      "screen": "active",
+      "overflow": false
+    },
+    {
+      "width": 900,
+      "screen": "decision",
+      "overflow": false
+    },
+    {
+      "width": 900,
+      "screen": "project",
+      "overflow": false
+    },
+    {
+      "width": 900,
+      "screen": "connections",
+      "overflow": false
+    },
+    {
+      "width": 900,
+      "screen": "settings",
+      "overflow": false
+    },
+    {
+      "width": 900,
+      "screen": "approval",
+      "overflow": false
+    },
+    {
+      "width": 900,
+      "screen": "error",
+      "overflow": false
+    },
+    {
+      "width": 640,
+      "screen": "home",
+      "overflow": false
+    },
+    {
+      "width": 640,
+      "screen": "active",
+      "overflow": false
+    },
+    {
+      "width": 640,
+      "screen": "decision",
+      "overflow": false
+    },
+    {
+      "width": 640,
+      "screen": "project",
+      "overflow": false
+    },
+    {
+      "width": 640,
+      "screen": "connections",
+      "overflow": false
+    },
+    {
+      "width": 640,
+      "screen": "settings",
+      "overflow": false
+    },
+    {
+      "width": 640,
+      "screen": "approval",
+      "overflow": false
+    },
+    {
+      "width": 640,
+      "screen": "error",
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "accountSettingsBack": true,
+  "reviewNavigation": true,
+  "stop": true,
+  "draftPreserved": true
+}

@@ -1,0 +1,21 @@
+# Sent draft clearing at admission — source ready for review
+
+Live source only; four-file isolated delta and before/after hashes in qa-artifacts/sent-draft-implementation-20260910/. Frozen candidate5fa49168 and its147 source files remain unchanged. All3 Results QA bundle files match the build receipt. No export, application build/launch, provider execution, installed change or single-instance work.
+
+## Implementation
+Submit dispatch captures an internal conversation/prompt/revision guard before preparation and carries it to execution. Under the existing lifecycle/workspace admission lock, admission_candidate rechecks editability, exact conversation, prompt and required revision, guards overflow, clears only text, increments revision once and appends the exact run to the same candidate. The existing single durable save persists this candidate. Preparation now requires revision/prompt agreement even for plain drafts. Existing request-ID lookup precedes draft validation so an exact replay remains idempotent after the clear. Existing recovery-reservation fencing remains in place; callers reconcile cleared reservations rather than redispatch them.
+
+Retry-run continues through the existing no-draft-guard execution path and retains its original admitted context; invocation retry remains untouched. Attachments, context, team and other conversation metadata are not cleared. The save-fault path retains its original pre-rename rejection/post-rename uncertainty behavior, with run and cleared text now belonging to the same persisted candidate.
+
+Controller captures text and edit generation before save, retains an in-memory sent-version fence, and adopts blank only after an authoritative snapshot contains the exact request/conversation/prompt plus a blank draft at an advanced revision. Polling and explicit reconciliation use the same rule. A newer local generation remains dirty, including an edit away and back to identical text, while its base revision advances for its next explicit save. Draft-save acknowledgement now also uses the generation fence. Rejection removes the fence without clearing text. Restart derives the blank from host storage; no journal schema or acknowledgement expansion is needed.
+
+## Contract interpretation and validation
+The acceptance contract was checked against current source. The atomic candidate mutation is factored into a private helper used by the actual locked admission path, allowing persistence tests without executing a provider. The internal guard is created at dispatch rather than added to persisted AdmittedRequest, preserving retry semantics. No external bridge/schema change.
+
+Four focused Rust test groups PASS on the existing locked/offline library test target: atomic admission/restart/replay; plain/stale/wrong identity/read-only/overflow rejection; write/sync/rename fault reopen; unrelated conversation and metadata preservation/retry isolation. These execute actual candidate construction and durable save/reopen but do not execute the provider continuation or claim end-to-end native UI proof. One initial compile failed due to a missing test-only time import; corrected and rerun on the same target.
+
+Twelve selected controller tests PASS: eight cases implement the seven specified timelines with an extra distinct-newer-text/identical-text-generation variant, plus four adjacent send/rejection/uncertainty/configuration checks. The second-controller case starts another controller after host active-conversation selection changes and verifies the original request targets its own conversation. Restart retains the journal reservation and reconciles without another submission. These are started real-controller instances with synthetic bridge/journal, not mounted React/browser interaction tests. TypeScript check PASS. No broad browser matrix or unrelated native tests rerun.
+
+Logs: host-tests.log, controller-tests.log, typecheck.log. Full assertions in sent_draft_tests.rs and hostController.test.mjs; source-hashes.json, scoped-source.patch and preservation.json capture identity. This supersedes the frozen foundation hashes only for the two explicitly changed live production files; it does not modify the accepted exported foundation.
+
+Ready for independent source/atomicity review before export. React/native visual clear behavior and runtime launch remain unclaimed.

@@ -1,0 +1,13 @@
+{
+  "sourceTreeSHA256": "171ccf39b8cbee0189968505950f1085e12d5b261ecfeb61813e2e878d2c7f28",
+  "filesByteIdentical": 148,
+  "totalBytes": 8254539,
+  "exactAllowlist": true,
+  "dependencyReferencesChecked": 148,
+  "lockDirectDependenciesMatch": true,
+  "registryIntegrityComplete": true,
+  "nativeOutputWiring": true,
+  "authoritativeSourceCompared": true,
+  "limitations": "Static literal dependency checks; not compilation, secret audit, asset rights or cross-platform runtime proof."
+}
+

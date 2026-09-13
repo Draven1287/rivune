@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#000000">
+  <title>Rivune — Halo R</title>
+  <style>
+    :root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #f3f5f5; background: #000; font-synthesis: none; --muted: #8e969b; --hairline: rgba(255,255,255,.12); }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    button { font: inherit; cursor: pointer; }
+    button:focus-visible, a:focus-visible { outline: 2px solid #c9e3e9; outline-offset: 5px; }
+    button:disabled { cursor: default; }
+    [hidden] { display: none !important; }
+    .page { width: min(1200px, calc(100% - 80px)); margin: 0 auto; padding: 36px 0 52px; }
+    .masthead { display: flex; align-items: center; justify-content: space-between; padding-bottom: 52px; gap: 24px; }
+    .wordmark { font-size: 18px; font-weight: 650; letter-spacing: -.6px; }
+    .eyebrow, .study-tag, .direction, .peripheral, .progress, .wordmark-outline { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .eyebrow { color: #919a9f; text-transform: uppercase; font-size: 10px; letter-spacing: 2px; }
+    .intro { margin-bottom: 38px; }
+    h1 { margin: 0 0 15px; font-size: clamp(32px, 4.5vw, 52px); font-weight: 450; line-height: 1.08; letter-spacing: -2px; }
+    .intro p { max-width: 660px; margin: 0; font-size: 15px; color: #929a9f; line-height: 1.65; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .concept { position: relative; overflow: hidden; border: 1px solid #23272a; border-radius: 20px; background: linear-gradient(156deg, #0b0d0f 0, #030404 26%, #000 68%); transition: border-color .2s ease; }
+    .concept:hover { border-color: #495157; }
+    .featured { display: grid; grid-template-columns: 1fr 1fr; align-items: center; margin-bottom: 32px; border-color: #3b444a; background: radial-gradient(ellipse at 26% 38%, #152028 0%, #080c0f 36%, #000 74%); }
+    .featured .art { height: 350px; padding: 48px 28px 30px; }
+    .featured .art img { width: min(280px, 86%); }
+    .featured .concept-content { padding: 55px 38px 42px 12px; }
+    .featured h2 { font-size: 32px; letter-spacing: -1px; }
+    .featured p { font-size: 15px; line-height: 1.65; max-width: 320px; margin-bottom: 26px; }
+    .featured .card-footer { flex-wrap: wrap; justify-content: flex-start; gap: 16px 22px; }
+    .featured .concept-note { flex-basis: 100%; }
+    .comparison-label { margin: 0 0 16px; font-size: 11px; font-weight: 400; color: #929ca3; letter-spacing: .6px; }
+    .evolution { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-bottom: 38px; }
+    .evolution .art { height: 260px; padding: 35px 12px 8px; }
+    .evolution .art img { width: 240px; max-width: 100%; }
+    .evolution .concept-content { padding: 8px 22px 24px; }
+    .evolution .concept p { min-height: 60px; margin-bottom: 20px; }
+    .evolution .direction { left: 22px; }
+    .evolution .current { border-color: #64737e; }
+    .evolution .mini-lockup { display: flex; align-items: center; gap: 9px; margin: 18px 0; font-size: 17px; letter-spacing: -.5px; }
+    .evolution .mini-lockup img { width: 42px; height: 42px; object-fit: contain; mix-blend-mode: screen; }
+    @media (max-width: 760px) { .evolution { grid-template-columns: 1fr; } .evolution .concept p { min-height: 0; } }
+    .direction { position: absolute; top: 24px; left: 27px; z-index: 1; font-size: 10px; letter-spacing: 1.6px; color: #828c93; }
+    .art { height: clamp(205px, 23vw, 300px); display: grid; place-items: center; padding: 29px; }
+    .art img { width: min(240px, 75%); height: 100%; object-fit: contain; mix-blend-mode: screen; }
+    .concept-content { padding: 4px 27px 26px; }
+    .concept h2 { font-size: 20px; font-weight: 500; letter-spacing: -.4px; margin: 0 0 8px; }
+    .concept p { color: #959ea4; font-size: 13px; line-height: 1.5; margin: 0 0 25px; }
+    .card-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .concept-note { font-size: 10px; color: #717c83; letter-spacing: .7px; text-transform: uppercase; }
+    .preview-button { background: #eff3f5; color: #121517; border: 1px solid #eff3f5; border-radius: 8px; padding: 10px 14px; font-size: 12px; font-weight: 550; display: flex; align-items: center; gap: 21px; transition: background .2s ease; }
+    .preview-button:hover { background: #d1dce1; }
+    .footnote { margin: 24px 0 0; color: #758087; font-size: 11px; line-height: 1.7; }
+    dialog { position: fixed; inset: 0; max-width: none; max-height: none; width: 100%; height: 100%; height: 100dvh; margin: 0; padding: 0; border: 0; overflow: auto; color: #f0f3f5; background: #000; }
+    dialog::backdrop { background: #000; }
+    .dialog-toolbar { position: absolute; top: 0; left: 0; right: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 28px 34px; }
+    .study-tag { color: #7f8b93; font-size: 10px; letter-spacing: 1.3px; text-transform: uppercase; line-height: 1.7; }
+    .study-tag strong { color: #c6cdd1; font-weight: 400; }
+    .toolbar-actions { display: flex; gap: 10px; }
+    .quiet-button { padding: 9px 13px; border-radius: 8px; color: #b3bdc3; border: 1px solid #30363a; background: #090b0d; font-size: 12px; transition: border-color .2s, background .2s; }
+    .quiet-button:hover { border-color: #7b8a94; background: #111619; }
+    .startup { position: relative; min-height: 520px; height: 100%; overflow: hidden; display: grid; place-items: center; isolation: isolate; }
+    .startup::before { content: ""; position: absolute; z-index: -1; width: 55vmin; height: 55vmin; border-radius: 50%; background: radial-gradient(ellipse, rgba(143,172,186,.035), transparent 67%); }
+    .startup-identity { position: relative; display: flex; flex-direction: column; align-items: center; padding-bottom: 25px; }
+    .wordmark-outline { color: transparent; -webkit-text-stroke: .65px #a4adb4; letter-spacing: 4px; font-weight: 600; font-size: 20px; margin-bottom: 23px; }
+    .logo-frame { position: relative; width: 210px; height: 210px; }
+    .logo-frame img { position: absolute; width: 100%; height: 100%; object-fit: contain; mix-blend-mode: screen; }
+    .logo-base { opacity: .14; }
+    .logo-reveal { clip-path: inset(calc(100% - var(--reveal, 0%)) 0 0 0); filter: brightness(1.06); }
+    .progress { position: absolute; top: 59%; left: calc(100% + 43px); width: 52px; font-size: 13px; color: #aab6bd; font-variant-numeric: tabular-nums; letter-spacing: .7px; }
+    .progress-echo { right: calc(100% + 43px); left: auto; text-align: right; }
+    .peripheral { position: absolute; font-size: 10px; color: #55616a; letter-spacing: 1.35px; opacity: .55; transition: opacity 1s ease, color 1s ease; }
+    .north { top: 23%; left: 50%; transform: translateX(-50%); }
+    .west { top: 50%; left: 10%; }
+    .east { top: 50%; right: 10%; }
+    .south { bottom: 23%; left: 50%; transform: translateX(-50%); }
+    .startup.is-finished .peripheral { opacity: 1; color: #8a989f; }
+    .startup-bottom { position: absolute; bottom: 40px; left: 24px; right: 24px; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+    .study-explanation { font-size: 11px; color: #758089; margin: 0; line-height: 1.6; }
+    .enter-preview { min-width: 194px; justify-content: center; opacity: 0; visibility: hidden; transform: translateY(5px); transition: opacity .3s ease, transform .3s ease; }
+    .startup.is-finished .enter-preview { opacity: 1; visibility: visible; transform: none; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .workspace-preview { min-height: 100%; padding: 112px 28px 28px; background: radial-gradient(ellipse at 85% 0%, #17252c 0%, #06090b 34%, #000 75%); }
+    .mock-window { display: grid; grid-template-columns: 215px minmax(0, 1fr); max-width: 1260px; min-height: calc(100dvh - 140px); margin: auto; background: rgba(4,7,9,.83); border: 1px solid #344047; border-radius: 21px; overflow: hidden; box-shadow: 0 28px 90px #000, inset 0 1px rgba(255,255,255,.1); }
+    .mock-sidebar { padding: 26px 18px 22px; display: flex; flex-direction: column; border-right: 1px solid #222b30; background: linear-gradient(140deg, rgba(24,34,40,.52), rgba(3,6,8,.6) 65%); }
+    .mock-brand { display: flex; align-items: center; gap: 11px; padding: 0 9px; font-size: 20px; font-weight: 550; letter-spacing: -.5px; }
+    .mock-brand img { width: 34px; height: 34px; object-fit: contain; mix-blend-mode: screen; }
+    .mock-nav { display: grid; gap: 9px; margin-top: 39px; font-size: 13px; }
+    .mock-nav span { padding: 12px 13px; color: #8d9ba4; }
+    .mock-nav .selected { color: #ecf2f5; background: linear-gradient(160deg, #25333c, #11191f); border: 1px solid #384851; border-radius: 9px; }
+    .mock-side-bottom { margin-top: auto; padding: 20px 11px 0; color: #9babb5; font-size: 11px; line-height: 1.8; }
+    .status-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #89959d; margin-right: 6px; vertical-align: 2px; }
+    .mock-main { display: flex; flex-direction: column; min-width: 0; padding: 25px 28px 32px; background: linear-gradient(140deg, rgba(14,21,25,.5), #06090b 65%); }
+    .mock-main-header { display: flex; align-items: center; justify-content: space-between; gap: 18px; color: #97a6af; font-size: 11px; }
+    .mock-body { width: min(690px, 100%); margin: auto; padding: 64px 0 46px; text-align: center; }
+    .mock-hero-logo { width: 68px; height: 68px; object-fit: contain; mix-blend-mode: screen; margin-bottom: 15px; }
+    .mock-body h2 { font-size: clamp(26px, 3vw, 39px); font-weight: 450; letter-spacing: -1.2px; margin: 0 0 14px; }
+    .mock-body > p { margin: 0 0 31px; color: #93a3ad; font-size: 13px; line-height: 1.7; }
+    .provider-pills { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+    .provider-pill { display: flex; align-items: center; gap: 11px; text-align: left; padding: 11px 15px; background: linear-gradient(135deg, rgba(45,59,67,.5), #0e1519); border: 1px solid #34414a; border-radius: 12px; }
+    .provider-letter { display: block; width: 24px; height: 24px; background: #e6e8eb; mask: url(../providers/codex.svg) center/contain no-repeat; }
+    .provider-pill.claude .provider-letter { background: #df9b7c; mask-image: url(../providers/claude.svg); }
+    .provider-pill strong { display: block; font-size: 12px; font-weight: 500; }
+    .provider-pill small { display: block; font-size: 9px; margin-top: 4px; color: #8b9ca7; }
+    .mock-composer { text-align: left; border: 1px solid #39474f; border-radius: 20px; background: linear-gradient(155deg, rgba(41,55,65,.88), rgba(16,24,30,.98) 60%); padding: 22px; box-shadow: inset 0 1px rgba(220,240,250,.09), 0 18px 36px #0005; }
+    .mock-placeholder { color: #b4c0c8; font-size: 15px; margin: 0 0 48px; }
+    .mock-composer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 20px; color: #97a9b5; font-size: 11px; }
+    .mock-send { width: 29px; height: 29px; border-radius: 50%; display: grid; place-items: center; background: #303c45; color: #82909a; font-size: 17px; }
+    .mock-disclaimer { color: #7f909c; font-size: 10px; line-height: 1.65; margin: 17px 0 0; }
+    @media (max-width: 850px) { .west { left: 5%; } .east { right: 5%; } .peripheral { font-size: 8px; letter-spacing: .8px; } .mock-window { grid-template-columns: 170px minmax(0, 1fr); } .mock-sidebar { padding: 24px 12px; } .mock-main { padding: 23px 21px; } }
+    @media (max-width: 620px) { .page { width: calc(100% - 36px); padding: 26px 0 36px; } .masthead { padding-bottom: 44px; } .masthead .eyebrow { font-size: 8px; letter-spacing: 1px; } h1 { letter-spacing: -1.4px; } .intro { margin-bottom: 29px; } .intro p { font-size: 13px; } .grid { grid-template-columns: 1fr; gap: 16px; } .art { height: 256px; } .concept-content { padding: 0 23px 23px; } .direction { left: 23px; } .dialog-toolbar { padding: 20px 18px; align-items: flex-start; } .study-tag { font-size: 8px; letter-spacing: .8px; max-width: 130px; } .quiet-button { font-size: 11px; padding: 8px 10px; } .toolbar-actions { gap: 7px; } .startup { min-height: 650px; } .wordmark-outline { font-size: 18px; } .logo-frame { width: 166px; height: 166px; } .progress { left: calc(100% + 13px); width: 39px; font-size: 11px; } .progress-echo { right: calc(100% + 13px); left: auto; } .north { top: 22%; } .south { bottom: 27%; } .west { top: auto; bottom: 35%; left: 6%; } .east { top: auto; bottom: 35%; right: 6%; } .startup-bottom { bottom: 30px; gap: 16px; } .workspace-preview { padding: 94px 12px 12px; } .mock-window { min-height: calc(100dvh - 106px); grid-template-columns: 1fr; border-radius: 16px; } .mock-sidebar { padding: 17px; border-right: 0; border-bottom: 1px solid #222b30; } .mock-brand { font-size: 17px; padding: 0; } .mock-brand img { width: 25px; height: 25px; } .mock-nav, .mock-side-bottom { display: none; } .mock-main { padding: 21px 15px 30px; } .mock-body { padding: 45px 0 20px; } .mock-main-header { font-size: 10px; } .mock-composer { padding: 19px; } .mock-body h2 { font-size: 28px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
+    @media (max-width: 620px) { .featured { grid-template-columns: 1fr; margin-bottom: 28px; } .featured .art { height: 286px; padding: 42px 28px 8px; } .featured .art img { width: 244px; } .featured .concept-content { padding: 8px 23px 27px; } .featured h2 { font-size: 28px; } .featured p { font-size: 14px; margin-bottom: 20px; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="masthead"><span class="wordmark">Rivune</span><span class="eyebrow">Identity study · Halo + R</span></header>
+    <section class="intro" aria-labelledby="page-title">
+      <h1 id="page-title">Halo, with a hint of R.</h1>
+      <p>The polished silver stays. The new shape brings Rivune’s initial into Halo’s curves. Compare the three directions, then see each one arrive on black.</p>
+      <a class="preview-button" href="space-startup.html" style="display:inline-flex;margin-top:20px">Watch the silver orbit in space <span aria-hidden="true">↗</span></a>
+    </section>
+    <section class="evolution" aria-label="Compare Halo and Rivune monograms">
+      <article class="concept">
+        <span class="direction">THE ORIGINAL HALO</span>
+        <div class="art"><img src="halo.png" alt="Original Halo: two opposing silver curves and a blue pearl" width="1254" height="1254"></div>
+        <div class="concept-content"><h2>Halo</h2><p>The open orbit you liked. Two silver curves around a single blue pearl.</p><div class="mini-lockup"><img src="halo.png" alt="" width="42" height="42">Rivune</div><button class="preview-button" data-concept="halo" aria-label="Preview original Halo startup">Preview startup <span aria-hidden="true">↗</span></button></div>
+      </article>
+      <article class="concept">
+        <span class="direction">THE FIRST SILVER MERGE</span>
+        <div class="art"><img src="ribbon-halo.png" alt="First silver merge: an R-shaped ribbon with an outer crescent" width="1254" height="1254"></div>
+        <div class="concept-content"><h2>Ribbon Halo</h2><p>A more readable R, with a polished silver fold and a curved outer edge.</p><div class="mini-lockup"><img src="ribbon-halo.png" alt="" width="42" height="42">Rivune</div><button class="preview-button" data-concept="ribbonHalo" aria-label="Preview first silver merge startup">Preview startup <span aria-hidden="true">↗</span></button></div>
+      </article>
+      <article class="concept current">
+        <span class="direction">NEW EXPLORATION</span>
+        <div class="art"><img src="halo-r.png" alt="Halo R: polished silver orbital curves with an inward return, an R-like lower sweep, and a blue pearl" width="1254" height="1254"></div>
+        <div class="concept-content"><h2>Halo R</h2><p>Halo leads. An inner curve and a lower sweep suggest the Rivune initial.</p><div class="mini-lockup"><img src="halo-r.png" alt="" width="42" height="42">Rivune</div><button class="preview-button" data-concept="haloR" aria-label="Preview Halo R startup">Preview startup <span aria-hidden="true">↗</span></button></div>
+      </article>
+    </section>
+    <h2 class="comparison-label" id="original-directions">The original directions</h2>
+    <section class="grid" aria-labelledby="original-directions">
+      <article class="concept">
+        <span class="direction">01 / CROSS</span>
+        <div class="art"><img src="cross.png" alt="Cross: a silver intersecting X-shaped rune" width="512" height="512"></div>
+        <div class="concept-content"><h2>Cross</h2><p>Two directions meet in one precise, unmistakable mark.</p><div class="card-footer"><span class="concept-note">Precise · architectural</span><button class="preview-button" data-concept="cross" aria-label="Preview Cross startup">Preview startup <span aria-hidden="true">↗</span></button></div></div>
+      </article>
+      <article class="concept">
+        <span class="direction">02 / CONVERGE</span>
+        <div class="art"><img src="converge.png" alt="Converge: a silver Y-shaped symbol with a central diamond" width="512" height="512"></div>
+        <div class="concept-content"><h2>Converge</h2><p>The familiar Rivune silhouette, refined around a single point.</p><div class="card-footer"><span class="concept-note">Familiar · sculptural</span><button class="preview-button" data-concept="converge" aria-label="Preview Converge startup">Preview startup <span aria-hidden="true">↗</span></button></div></div>
+      </article>
+      <article class="concept">
+        <span class="direction">03 / RIBBON</span>
+        <div class="art"><img src="ribbon.png" alt="Ribbon: a folded silver ribbon forming the letter R" width="512" height="512"></div>
+        <div class="concept-content"><h2>Ribbon</h2><p>A continuous silver fold gives Rivune a signature of its own.</p><div class="card-footer"><span class="concept-note">Fluid · distinctive</span><button class="preview-button" data-concept="ribbon" aria-label="Preview Ribbon startup">Preview startup <span aria-hidden="true">↗</span></button></div></div>
+      </article>
+      <article class="concept">
+        <span class="direction">04 / HALO</span>
+        <div class="art"><img src="halo.png" alt="Halo: two opposing silver orbital arcs around a pearl-like dot" width="512" height="512"></div>
+        <div class="concept-content"><h2>Halo</h2><p>Two perspectives orbit a shared center of clarity.</p><div class="card-footer"><span class="concept-note">Quiet · connected</span><button class="preview-button" data-concept="halo" aria-label="Preview Halo startup">Preview startup <span aria-hidden="true">↗</span></button></div></div>
+      </article>
+    </section>
+    <p class="footnote">Visual concepts only. Startup percentages illustrate an animation; they do not measure loading or provider connections. No changes are made to your app.</p>
+  </main>
+
+  <dialog id="study-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+    <h2 class="sr-only" id="dialog-title">Rivune startup animation study</h2>
+    <p class="sr-only" id="dialog-description">A logo reveal with an illustrative percentage. No app is loading and no providers are connected. Replay the study or close it at any time.</p>
+    <header class="dialog-toolbar">
+      <div class="study-tag"><strong id="concept-label">Cross</strong><br><span id="study-label">Animation study</span></div>
+      <div class="toolbar-actions"><button type="button" class="quiet-button" id="replay-button">Replay</button><button type="button" class="quiet-button" id="close-button" autofocus>Close <span aria-hidden="true">×</span></button></div>
+    </header>
+    <section class="startup" id="startup-stage" aria-label="Logo reveal">
+      <span class="peripheral north" aria-hidden="true">CONNECTED INTELLIGENCE</span>
+      <span class="peripheral west" aria-hidden="true">YOUR WORKSPACE</span>
+      <div class="startup-identity">
+        <div class="wordmark-outline" aria-hidden="true">RIVUNE</div>
+        <div class="logo-frame" id="logo-frame"><img class="logo-base" id="startup-logo-base" src="cross.png" alt=""><img class="logo-reveal" id="startup-logo-reveal" src="cross.png" alt="Cross logo concept"></div>
+        <span class="progress progress-echo" aria-hidden="true">0%</span><span class="progress" id="progress-number" aria-hidden="true">0%</span>
+      </div>
+      <span class="peripheral east" aria-hidden="true">ONE CLEARER ANSWER</span>
+      <span class="peripheral south" aria-hidden="true">ROOM TO THINK</span>
+      <div class="startup-bottom"><button type="button" class="preview-button enter-preview" id="enter-preview" tabindex="-1">Enter workspace preview <span aria-hidden="true">↗</span></button><p class="study-explanation">Illustrative progress · no loading or connections</p></div>
+    </section>
+    <section class="workspace-preview" id="workspace-stage" hidden aria-label="Static Rivune workspace concept">
+      <div class="mock-window">
+        <aside class="mock-sidebar" aria-label="Workspace preview sidebar">
+          <div class="mock-brand"><img data-workspace-logo src="cross.png" alt=""><span>Rivune</span></div>
+          <div class="mock-nav" aria-label="Illustrative navigation"><span class="selected">New conversation</span><span>Conversations</span><span>Library</span></div>
+          <div class="mock-side-bottom"><span class="status-dot" aria-hidden="true"></span>No providers connected<br>Visual study only</div>
+        </aside>
+        <div class="mock-main">
+          <div class="mock-main-header"><span>Your workspace</span><span>INTERFACE STUDY</span></div>
+          <div class="mock-body">
+            <img class="mock-hero-logo" data-workspace-logo src="cross.png" alt="">
+            <h2>Good things start here.</h2>
+            <p>Your ideas. A little more perspective.</p>
+            <div class="provider-pills" aria-label="Proposed provider naming"><div class="provider-pill"><span class="provider-letter" aria-hidden="true"></span><div><strong>ChatGPT</strong><small>via Codex CLI</small></div></div><div class="provider-pill claude"><span class="provider-letter" aria-hidden="true"></span><div><strong>Claude</strong><small>via Claude Code CLI</small></div></div></div>
+            <div class="mock-composer" aria-label="Composer appearance preview; input is unavailable"><p class="mock-placeholder">What’s on your mind?</p><div class="mock-composer-bottom"><span>Two perspectives, one conversation</span><span class="mock-send" aria-hidden="true">↑</span></div></div>
+            <p class="mock-disclaimer">Static appearance preview. Provider naming is a proposal; no messages can be sent.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <p class="sr-only" id="animation-status" role="status" aria-live="polite"></p>
+  </dialog>
+  <script>
+    (() => {
+      const concepts = {
+        cross: { name: 'Cross', file: 'cross.png' },
+        converge: { name: 'Converge', file: 'converge.png' },
+        ribbon: { name: 'Ribbon', file: 'ribbon.png' },
+        halo: { name: 'Halo', file: 'halo.png' },
+        ribbonHalo: { name: 'Ribbon Halo', file: 'ribbon-halo.png' },
+        haloR: { name: 'Halo R', file: 'halo-r.png' }
+      };
+      const dialog = document.getElementById('study-dialog');
+      const startup = document.getElementById('startup-stage');
+      const workspace = document.getElementById('workspace-stage');
+      const logoFrame = document.getElementById('logo-frame');
+      const enterButton = document.getElementById('enter-preview');
+      const closeButton = document.getElementById('close-button');
+      const status = document.getElementById('animation-status');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let frame = 0;
+      let opener = null;
+      let selected = concepts.cross;
+
+      function cancelAnimation() {
+        if (frame) window.cancelAnimationFrame(frame);
+        frame = 0;
+      }
+      function updateProgress(value) {
+        logoFrame.style.setProperty('--reveal', value + '%');
+        document.querySelectorAll('.progress').forEach(element => { element.textContent = value + '%'; });
+      }
+      function finishAnimation() {
+        frame = 0;
+        updateProgress(100);
+        startup.classList.add('is-finished');
+        enterButton.tabIndex = 0;
+        status.textContent = selected.name + ' animation complete. Workspace appearance preview is available.';
+      }
+      function replay() {
+        cancelAnimation();
+        startup.hidden = false;
+        workspace.hidden = true;
+        dialog.scrollTop = 0;
+        document.getElementById('study-label').textContent = 'Animation study';
+        startup.classList.remove('is-finished');
+        enterButton.tabIndex = -1;
+        updateProgress(0);
+        status.textContent = selected.name + ' illustrative logo animation. No loading or connections.';
+        if (reducedMotion.matches) { finishAnimation(); return; }
+        const startedAt = performance.now();
+        function tick(now) {
+          if (!dialog.open) { cancelAnimation(); return; }
+          const elapsed = Math.min((now - startedAt) / 3200, 1);
+          updateProgress(Math.floor((1 - Math.pow(1 - elapsed, 1.45)) * 100));
+          if (elapsed >= 1) finishAnimation();
+          else frame = window.requestAnimationFrame(tick);
+        }
+        frame = window.requestAnimationFrame(tick);
+      }
+      document.querySelectorAll('[data-concept]').forEach(button => {
+        button.addEventListener('click', () => {
+          selected = concepts[button.dataset.concept];
+          opener = button;
+          document.getElementById('concept-label').textContent = selected.name;
+          document.getElementById('dialog-title').textContent = 'Rivune — ' + selected.name + ' startup study';
+          document.getElementById('startup-logo-base').src = selected.file;
+          document.getElementById('startup-logo-reveal').src = selected.file;
+          document.getElementById('startup-logo-reveal').alt = selected.name + ' logo concept';
+          document.querySelectorAll('[data-workspace-logo]').forEach(image => { image.src = selected.file; });
+          dialog.showModal();
+          document.body.style.overflow = 'hidden';
+          closeButton.focus();
+          replay();
+        });
+      });
+      document.getElementById('replay-button').addEventListener('click', replay);
+      closeButton.addEventListener('click', () => dialog.close());
+      dialog.addEventListener('close', () => {
+        cancelAnimation();
+        document.body.style.overflow = '';
+        status.textContent = '';
+        if (opener) opener.focus();
+      });
+      dialog.addEventListener('cancel', cancelAnimation);
+      enterButton.addEventListener('click', () => {
+        cancelAnimation();
+        startup.hidden = true;
+        workspace.hidden = false;
+        document.getElementById('study-label').textContent = 'Workspace study';
+        status.textContent = selected.name + ' static workspace preview. No providers are connected and no messages can be sent.';
+        document.getElementById('replay-button').focus();
+      });
+      reducedMotion.addEventListener('change', event => {
+        if (event.matches && dialog.open && !startup.hidden) { cancelAnimation(); finishAnimation(); }
+      });
+    })();
+  </script>
+</body>
+</html>

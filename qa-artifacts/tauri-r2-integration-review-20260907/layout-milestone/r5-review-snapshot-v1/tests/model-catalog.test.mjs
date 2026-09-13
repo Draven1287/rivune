@@ -1,0 +1,23 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {parseModelCatalog,parseModelSelection} from '../web/core.mjs';
+const fixture=JSON.parse(fs.readFileSync(new URL('../../../tauri-r2-integration-review-20260907/r5-model-catalog/fixtures/catalog.json',import.meta.url)));
+test('accepted fixture catalog retains scoped identifiers and unknown states',()=>assert.deepEqual(parseModelCatalog(structuredClone(fixture)),fixture));
+for(const [name,alter] of [
+ ['duplicate provider',c=>c.providers.push(c.providers[0])],
+ ['duplicate model',c=>c.providers[0].models.push(c.providers[0].models[0])],
+ ['duplicate effort',c=>c.providers[0].models[0].efforts.push(c.providers[0].models[0].efforts[0])],
+ ['unknown defaults',c=>c.providers[0].defaults.modelID='invented'],
+ ['private path',c=>c.providers[0].executablePath='/private/path'],
+ ['missing default capability',c=>delete c.providers[0].supportsProviderDefault],
+ ['unknown authentication value',c=>c.providers[0].authentication='probably-signed-in'],
+ ['oversize UTF8 identity',c=>c.providers[0].id='é'.repeat(65)],
+]) test(`catalog rejects ${name}`,()=>{const c=structuredClone(fixture);alter(c);assert.throws(()=>parseModelCatalog(c));});
+test('selection accepts explicit provider default without inventing a model',()=>{const s={schemaVersion:1,providerID:'opaque',modelID:null,effortID:null,catalogRevision:'v1'};assert.deepEqual(parseModelSelection(s),s);assert.equal(parseModelSelection(null),null);});
+test('selection rejects effort without a model and missing fields',()=>{assert.throws(()=>parseModelSelection({schemaVersion:1,providerID:'p',modelID:null,effortID:'high',catalogRevision:'v1'}));assert.throws(()=>parseModelSelection({schemaVersion:1,providerID:'p',catalogRevision:'v1'}));});
+import {parseTeamSelection,parseRichDraftReceipt,modelChoiceIdentity} from '../web/core.mjs';
+const pick=(id='one')=>({schemaVersion:1,providerID:id,modelID:null,effortID:null,catalogRevision:'v1'});
+test('team validates ordered distinct routes and lead range',()=>{const team={schemaVersion:1,leadIndex:1,members:[pick(),pick('two')]};assert.equal(parseTeamSelection(team),team);assert.throws(()=>parseTeamSelection({...team,leadIndex:2}));assert.throws(()=>parseTeamSelection({...team,members:[pick(),pick()]}));});
+test('durable receipt must echo exact selection and team',()=>{const request={conversationID:'c',mutationID:'m',expectedRevision:1,attachmentIDs:[],selection:pick(),team:null};const receipt={...request,state:'durable',revision:2};assert.equal(parseRichDraftReceipt(receipt,request),receipt);assert.throws(()=>parseRichDraftReceipt({...receipt,selection:pick('two')},request));const missing={...receipt};delete missing.team;assert.throws(()=>parseRichDraftReceipt(missing,request));});
+test('choice identity changes with model, effort, team order and lead',()=>{const a={selection:pick(),team:{schemaVersion:1,leadIndex:0,members:[pick(),pick('two')]}};for(const change of [x=>x.selection.modelID='new',x=>x.selection.effortID='high',x=>x.team.leadIndex=1,x=>x.team.members.reverse()]){const b=structuredClone(a);change(b);assert.notEqual(modelChoiceIdentity(a),modelChoiceIdentity(b));}});

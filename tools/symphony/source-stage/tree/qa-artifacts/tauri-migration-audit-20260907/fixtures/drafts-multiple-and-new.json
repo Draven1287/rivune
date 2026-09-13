@@ -1,0 +1,28 @@
+{
+  "id": "drafts-multiple-and-new",
+  "sourceKind": "workspace-drafts.json",
+  "input": {
+    "selectedConversationID": "10000000-0000-4000-8000-000000000001",
+    "drafts": {
+      "10000000-0000-4000-8000-000000000001": {
+        "text": "Fictional project draft A 🌎\nKeep formatting.",
+        "attachments": []
+      },
+      "10000000-0000-4000-8000-000000000002": {
+        "text": "Fictional draft B",
+        "attachments": [],
+        "selectedArtifact": null
+      },
+      "new": {
+        "text": "Unsent new conversation",
+        "attachments": []
+      }
+    }
+  },
+  "expect": {
+    "preserveAllKeys": true,
+    "preserveTextBytes": true,
+    "selectedConversationID": "10000000-0000-4000-8000-000000000001",
+    "dispatchCount": 0
+  }
+}

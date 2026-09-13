@@ -1,0 +1,15 @@
+[package]
+name = "rivune-legacy-import-archive"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.89"
+publish = false
+
+[dependencies]
+rivune-legacy-import-preview = { path = "../import-preview" }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["raw_value"] }
+sha2 = "0.10"
+
+[features]
+fault-injection = []

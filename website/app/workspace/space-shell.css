@@ -1,0 +1,77 @@
+/* Rivune's silver identity continues into a quiet, readable black workspace. */
+.ws-app { --ws-bg:#030609; --ws-sidebar:#05090df2; --ws-surface:#0d131a; --ws-raised:#131d26; --ws-line:#26313d; --ws-text:#eef4fa; --ws-secondary:#b2bfcb; --ws-muted:#8b9ba9; --ws-accent:#b5dbf5; position:relative; isolation:isolate; background:#030609; padding:14px 14px 14px 0; }
+.ws-space-field { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:-1; }
+.ws-space-field > i { position:absolute; background:#d3e9f7; border-radius:50%; box-shadow:0 0 4px #a2c9e655; }
+.ws-app::before { content:""; position:absolute; inset:0; z-index:-1; pointer-events:none; background:radial-gradient(ellipse at 63% 0%,#1741613a,transparent 45%),radial-gradient(ellipse at 10% 96%,#0d22313b,transparent 46%); }
+.ws-sidebar { background:linear-gradient(180deg,#060a0eee,#04070cee); padding:16px 18px 9px; width:252px; min-width:252px; }
+.ws-brand-row { padding-bottom:31px; }.ws-brand > span:last-child { color:#f2f6fb; letter-spacing:-.04em; font-size:22px; }
+.ws-provider-mark--rivune { background:#000 url('/brand/rivune-orbit-stars.png') center / contain no-repeat; border-color:#b6d6ef22; box-shadow:0 1px 0 #f0faff0d inset,0 3px 12px #0004; }
+.ws-brand .ws-provider-mark { width:35px;height:35px;border:1px solid #b6d6ef18;border-radius:10px; }
+.ws-provider-mark--codex { color:#e0e8ec; border-color:#d0e0ef25; background:linear-gradient(145deg,#24303a,#131b22); }
+.ws-provider-mark--claude { color:#e0ac94; background:linear-gradient(145deg,#302624,#1d1716); }
+.ws-new-conversation { background:linear-gradient(135deg,#202b35e6,#101a23e6); border-color:#c9e0f424; box-shadow:0 1px 0 #f0f7ff0b inset,0 5px 18px #0003; color:#e5edf6; }
+.ws-new-conversation:hover { background:linear-gradient(135deg,#283945,#172631); border-color:#c9e0f445; }
+.ws-sidebar-search-row { margin-bottom:24px; }.ws-sidebar-search { color:#8094a5; }.ws-sidebar-search input::placeholder { color:#93a5b3; }
+.ws-sidebar-empty { font-size:11px; color:#879aa9; }.ws-conversations > button.is-selected { background:#172532; box-shadow:0 0 0 1px #aecbe313 inset; }.ws-workspace-header { color:#93a7b7; }
+.ws-sidebar-footer > button { color:#9babbb; }.ws-sidebar-footer > button:hover { background:#14212c; }
+.ws-connection-card { background:linear-gradient(120deg,#17232de0,#0e151de8); border:1px solid #c5e0f423; box-shadow:0 1px 0 #e1f4ff07 inset; }
+.ws-main { position:relative; isolation:isolate; border:1px solid #bad6ed16; border-radius:24px; background:linear-gradient(150deg,#0b121af0,#070c11f7 52%,#091019f5); box-shadow:0 0 0 1px #020507,0 18px 70px #0006,0 1px 0 #d8ecff0e inset; }
+.ws-main::before { content:""; position:absolute; inset:0; z-index:-1; pointer-events:none; background:radial-gradient(ellipse at 57% -14%,#365f8138,transparent 49%); }
+.ws-toolbar { border-bottom:1px solid #c3dbef08; height:57px;min-height:57px; }.ws-toolbar h1 { color:#a2b4c4; font-size:11px; }
+.ws-home { padding:38px 38px 60px; }.ws-home-content { width:min(760px,100%); margin-top:0; }.ws-home-identity { margin-bottom:20px; }
+.ws-home-identity .ws-provider-mark { width:82px;height:82px;border-radius:22px;border-color:#b3d3ef23; box-shadow:0 2px 0 #ebf7ff0b inset,0 0 50px #83b9ee12,0 12px 25px #0005; }
+.ws-home-identity > span:last-child { color:#8fa9be; letter-spacing:.17em; font-size:9px; }
+.ws-home-content > h2 { color:#eff6fd; font-size:clamp(28px,3vw,39px); line-height:1.22; letter-spacing:-.045em; font-weight:500; text-wrap:balance; }
+.ws-home-description { color:#a5b6c6; max-width:490px;margin-inline:auto!important; }.ws-home-models { margin:27px 0 27px;gap:10px; }
+.ws-home-models > button { border-color:#cce6fc12; background:#0b131bdd; color:#b0c1d0; border-radius:11px; }
+.ws-home-models > button[aria-pressed="true"] { border-color:#9bbfd95c; background:linear-gradient(125deg,#233544ba,#14202bd9); color:#e6f2fb; box-shadow:0 1px 0 #e8f6ff0c inset,0 3px 20px #0003; }.ws-choice-dot { background:#b1e1fe; box-shadow:0 0 10px #97d9ff4d; }
+.ws-composer { background:linear-gradient(135deg,#182631f2,#101923fa 64%,#142230fa); border:1px solid #c4e0f82b; box-shadow:0 1px 0 #f3faff09 inset,0 16px 40px #0005,0 0 36px #87c5ff04; border-radius:21px; }
+.ws-composer:focus-within { border-color:#8bbadf88;box-shadow:0 1px 0 #f3faff12 inset,0 16px 40px #0005,0 0 32px #8cc8ff0b; }.ws-composer textarea::placeholder { color:#b4c3d0; }.ws-composer-controls { padding-bottom:15px; }
+.ws-team-consent { color:#afbdca;border-color:#b0d2f115; }.ws-team-consent input { accent-color:#b4dff9; }.ws-mode-select select { color:#c8d8e5; }.ws-tools-note { color:#8fa2b1; }
+.ws-send { background:linear-gradient(145deg,#fbfdff,#b6d4e9); box-shadow:0 1px 0 #fff8 inset,0 0 17px #a7daff17; color:#132534; }.ws-send:disabled { background:#253745; color:#758d9f; box-shadow:none; }
+.ws-home-starters > button { color:#a7bacb;background:#0b141c99;border-color:#b9d6ed15; }.ws-home-starters > button:hover { background:#1b2a36; border-color:#b9d6ed35; }.ws-composer-hint,.ws-home .ws-composer-hint { color:#90a5b8; }
+.ws-activity { background:#090f16;border-color:#c5def016; }.ws-user-message p { background:linear-gradient(135deg,#192935,#15212b);border-color:#b9d6ed1d;color:#e0eaf4; }
+.ws-setting-section,.ws-work-card,.ws-work-empty,.ws-search { background:#0d1720;border-color:#b9d6ed1a; }.ws-setting-row { border-color:#b9d6ed14; }.ws-setting-row p,.ws-settings-content>header p { color:#9cadbc; }.ws-setting-button { background:#1c2b38;border-color:#bcd8eb26;color:#d9e9f4; }.ws-settings-status.is-ready { color:#bbdecc; }
+.ws-connect-dialog { background:linear-gradient(145deg,#14222ed9,#080e15fa);border-color:#b1d4ef36;box-shadow:0 30px 100px #000b,0 1px 0 #e6f5ff12 inset;backdrop-filter:blur(35px); }.ws-connect-dialog::backdrop { background:#010407b8;backdrop-filter:blur(10px); }.ws-connect-submit { background:linear-gradient(145deg,#edf6fd,#b7d5ea);color:#101e29; }.ws-connect-dialog textarea { background:#060d14;border-color:#a9d0ec26;color:#d8e9f4; }.ws-notice { background:#182734;border-color:#afcee729;color:#c7deef; }.ws-app--sidebar-collapsed { padding-left:14px; }
+.ws-arrival { position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;background:#000;color:#eaf4fb;overflow:auto;isolation:isolate;font:inherit; }
+.ws-arrival::backdrop { background:#000; }.ws-arrival .ws-space-field { position:fixed;animation:ws-stars-arrive 2s ease both; }.ws-arrival-haze { position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 38%,#0b273c65,transparent 55%);animation:ws-stars-arrive 2s ease both; }
+.ws-arrival-top { position:absolute;top:22px;left:28px;right:28px;display:flex;justify-content:space-between;align-items:center;z-index:3; }.ws-arrival-top > span { font:10px ui-monospace,SFMono-Regular,monospace;letter-spacing:3px;color:#a8bfd0; }.ws-arrival-top button { display:flex;align-items:center;gap:12px;padding:8px 12px;background:#0c172099;border:1px solid #c7e1f421;border-radius:8px;color:#b2c7d8;font-size:10px; }
+.ws-arrival-center { width:min(820px,100%);min-height:100%;margin:auto;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:86px 30px 32px; }.ws-arrival-eyebrow { font:8px ui-monospace,SFMono-Regular,monospace;letter-spacing:2.7px;color:#88a6bc;margin-bottom:-9px!important; }
+.ws-arrival-art { position:relative;width:min(100%,85.5vh,630px);aspect-ratio:3 / 2;flex-shrink:0; }.ws-arrival-artwork { position:absolute;inset:0;mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent),linear-gradient(to bottom,transparent,#000 5%,#000 92%,transparent);mask-composite:intersect; }.ws-arrival-artwork>div { position:absolute;inset:0;background:url('/brand/rivune-space.png') center/contain no-repeat;mix-blend-mode:screen; }.ws-arrival-ghost { clip-path:inset(14% 18% 26% 18%);opacity:0;filter:grayscale(1);animation:ws-ghost-arrive 2.35s ease both; }.ws-arrival-reveal { clip-path:inset(0 0 26%);animation:ws-mark-arrive 2.35s cubic-bezier(.2,.7,.2,1) both; }.ws-arrival-wordmark { clip-path:inset(74% 0 0);animation:ws-wordmark-arrive 2.7s ease both; }
+.ws-arrival-count { position:absolute;left:-28px;top:43%;font:10px ui-monospace,SFMono-Regular,monospace;letter-spacing:1px;color:#bdd6e8;font-variant-numeric:tabular-nums; }.ws-arrival-count--right { left:auto;right:-28px; }
+.ws-arrival-status { position:relative;text-align:center;margin-top:-12px;max-width:430px; }.ws-arrival-status h1 { font-size:18px;font-weight:450;letter-spacing:-.025em;line-height:1.4;margin:8px 0!important; }.ws-arrival-status p { font-size:11px;color:#8faabd;line-height:1.65;max-width:390px; }.ws-arrival-state-dot { display:inline-block;width:5px;height:5px;border-radius:50%;background:#8b9ba7; }.ws-arrival-state-dot.ready { background:#b6e4d0;box-shadow:0 0 12px #b6e4d055; }.ws-arrival-state-dot.checking { background:#b5dcf7;animation:ws-status-pulse 1.4s ease infinite; }
+.ws-arrival-checks { display:grid;grid-template-columns:1fr 1fr;gap:10px;width:min(410px,100%);margin-top:22px; }.ws-arrival-checks>div { display:flex;align-items:center;gap:10px;padding:13px 14px;border:1px solid #b8d6ef1c;border-radius:11px;background:linear-gradient(145deg,#0f1c27c9,#070c12db);box-shadow:0 1px 0 #dcefff07 inset; }.ws-arrival-check-symbol { font:12px ui-monospace,SFMono-Regular,monospace;color:#9db7ca; }.ws-arrival-checks strong { display:block;font-size:10px;font-weight:500;color:#c4d6e4; }.ws-arrival-checks small { display:block;font-size:8px;color:#829aae;margin-top:4px; }.ws-arrival-check-state { margin-left:auto;font-size:10px;color:#7b90a1; }.ws-arrival-checks>.is-ready { border-color:#b7dfca30; }.ws-arrival-checks>.is-ready .ws-arrival-check-state { color:#b7dfca; }
+.ws-arrival-actions { display:flex;align-items:center;gap:14px;margin-top:21px; }.ws-arrival-primary { display:flex;align-items:center;justify-content:center;gap:33px;padding:10px 18px;border:1px solid #effaff5c;border-radius:9px;background:linear-gradient(145deg,#f5f9fe,#bdd7eb);box-shadow:0 2px 19px #b9dcf912;color:#101e29;font-size:11px; }.ws-arrival-primary:hover { background:#f8fcff; }.ws-arrival-recheck { background:transparent;border:0;color:#a3bfd1;font-size:10px;padding:8px; }.ws-arrival-footnote { margin-top:16px!important;font-size:8px;line-height:1.7;text-align:center;color:#758fa3; }
+.ws-arrival-side { position:fixed;top:43%;font:8px ui-monospace,SFMono-Regular,monospace;letter-spacing:2px;color:#6d899d;pointer-events:none; }.ws-arrival-side--left { left:7%; }.ws-arrival-side--right { right:7%; }
+@keyframes ws-ghost-arrive { 0%,30%{opacity:.13}100%{opacity:0} }@keyframes ws-stars-arrive { from{opacity:0}to{opacity:1} }@keyframes ws-mark-arrive { from{clip-path:inset(74% 0 26%);opacity:.35}to{clip-path:inset(0 0 26%);opacity:1} }@keyframes ws-wordmark-arrive { 0%,65%{opacity:0}100%{opacity:1} }@keyframes ws-status-pulse { 50%{opacity:.3} }
+@media(max-width:1000px) { .ws-arrival-side{display:none}.ws-sidebar{width:226px;min-width:226px}.ws-home{padding-inline:25px}.ws-home-content>h2{font-size:30px} }
+@media(max-width:760px) { .ws-app{padding:7px}.ws-sidebar{background:#071019fa}.ws-app--sidebar-collapsed{padding:7px}.ws-main{border-radius:18px}.ws-home{padding:30px 22px 45px}.ws-home-identity .ws-provider-mark{width:67px;height:67px;border-radius:18px}.ws-home-content>h2{font-size:28px}.ws-arrival-top{left:19px;right:19px}.ws-arrival-center{padding:80px 24px 32px}.ws-arrival-art{width:min(100%,90vw,570px)}.ws-arrival-count{left:8px}.ws-arrival-count--right{left:auto;right:8px}.ws-arrival-eyebrow{font-size:7px;letter-spacing:1.7px}.ws-arrival-status{margin-top:2px}.ws-arrival-checks{margin-top:20px}.ws-arrival-checks>div{padding:11px 10px;gap:8px}.ws-arrival-top button{font-size:9px}.ws-home-models{gap:6px}.ws-home-models>button{padding:9px 10px} }
+@media(max-width:390px) { .ws-home{padding-inline:15px}.ws-home-models>button{gap:5px;font-size:10px}.ws-arrival-checks{grid-template-columns:1fr}.ws-arrival-center{padding-top:78px}.ws-arrival-art{width:100%}.ws-arrival-status h1{font-size:17px}.ws-arrival-top>span{font-size:9px} }
+@media(prefers-reduced-motion:reduce) { .ws-arrival *, .ws-arrival *::before,.ws-arrival *::after { animation:none!important;transition:none!important; } }
+
+.ws-splash-mark,.ws-mini-rivune { background:#000 url('/brand/rivune-orbit-stars.png') center / contain no-repeat; }
+@media (max-height:740px) and (min-width:761px) {
+  .ws-home { padding:24px 35px 30px; }
+  .ws-home-identity { margin-bottom:15px;gap:13px; }
+  .ws-home-identity .ws-provider-mark { width:57px;height:57px;border-radius:16px; }
+  .ws-home-content > h2 { font-size:29px; }
+  .ws-home-description { font-size:12px; }
+  .ws-home-models { margin:18px 0 20px; }
+  .ws-home .ws-composer textarea { min-height:67px;height:67px; }
+  .ws-home-starters { margin-top:12px; }
+  .ws-arrival-center { padding:67px 30px 22px; }
+  .ws-arrival-art { width:min(100%,60vh,465px); }
+  .ws-arrival-eyebrow { margin-bottom:-4px!important; }
+  .ws-arrival-status { margin-top:0; }
+  .ws-arrival-status h1 { font-size:17px;margin:7px 0!important; }
+  .ws-arrival-checks { margin-top:17px; }
+  .ws-arrival-actions { margin-top:16px; }
+  .ws-arrival-footnote { margin-top:12px!important; }
+}
+@media(max-width:420px) {
+  .ws-home-content > h2 { margin-bottom:12px; }
+  .ws-home-identity .ws-provider-mark { width:57px;height:57px;border-radius:16px; }
+  .ws-home-models { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:22px 0; }
+  .ws-home-models > button { min-width:0;position:relative;flex-direction:column;justify-content:center;gap:7px;padding:10px 4px;font-size:10px; }
+  .ws-home-models .ws-choice-dot { position:absolute;right:7px;top:8px; }
+}

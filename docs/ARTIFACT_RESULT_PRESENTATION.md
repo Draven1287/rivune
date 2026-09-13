@@ -1,0 +1,45 @@
+# Native artifact result presentation — 0611
+
+The baseline final answer was a complete JSON file envelope rendered as a code block. Build 0611 consumes supported manifests in primary answer cards. Users see a readable summary, a named website/files result, file names, measured byte count, and Preview/Open files. The complete unchanged response remains in an Original response disclosure. Contributions and reviews retain the existing separate collaboration inspector.
+
+ResponseArtifact uses the same bounded path/count/size validation as project preparation. Empty summaries/files, traversal, duplicate normalized paths, unsupported file types, incomplete JSON and excessive sizes cannot become a ready artifact. Ordinary prose/code still uses the existing Markdown renderer. This is bounded static-file support, not an arbitrary application executor.
+
+The viewer captures an immutable selected response with its answer UUID. It does not read store.turns.last. Preview, file inspection, copy/share contents, and save all use that captured response. Preview stages complete files in a unique private temporary directory and removes that directory when its owner is released. It cannot overwrite the selected project. The existing static WebKit policy keeps JavaScript disabled and remote requests/navigation blocked.
+
+Save to folder opens an explicit folder chooser, prepares original/proposed contents, and requires Apply reviewed changes. Existing symlink/root identity and preflight conflict protections remain in ProjectWorkspace. It does not auto-apply during preview. Save receipts and revert remain session-scoped; the chat card uses neutral save instructions rather than falsely claiming an enduring saved/unsaved state. Share contents shares text, not a named downloadable file.
+
+Folder selection snapshots run off the main actor. Loading, Cancel, and a 20-second UI admission timeout are visible. Cancel or a superseding selection prevents late results from being adopted; filesystem reads already blocked in the OS may finish later. This is a robustness improvement, not a claim that the previous CUA timeout was a proven app hang.
+
+Four added regressions check large complete manifests/private per-answer staging/cleanup, malformed and unsafe rejection, saving the older answer with existing conflict detection, and cancelled folder loads rejecting late state. Existing production WebKit tests continue to exercise local HTML/CSS loading and restrictive navigation. Structural checks are labeled as such; no browser or visual-quality pass is invented from model text.
+
+No baseline Lantern files, model run, packaging/CI/exporter, or website changes are part of this implementation. Browser companion parity remains a separate coordination item. The stronger real Together rerun and visual acceptance remain outstanding until the native coordinator performs them.
+
+## Build receipt
+
+Final 235/235 native tests passed with no skips or failures: /tmp/rivune-draft-tests/Logs/Test/Test-Rivune Mac-2026.09.06_18-17-26--0600.xcresult. Dormant universal Release build succeeded. Installed /Applications/Rivune.app version0.2 build2026090611, deep strict ad-hoc signature verified. Account Enabled=false and DIRECT_UPDATES absent. Installation/source hashes: /private/tmp/rivune-review-2026090611/installation.json; 70 frozen native inputs in source/ and source-manifest.json. Installed06010 rollback preserved in the same review directory. CUA launch observed Loading6%.
+
+## 0612 preview admission correction
+
+Installed 0611 showed the new result card, named files, measured size, collapsed original output, and Preview action correctly. Its staged preview remained dark. An additional source issue compared canonical stored roots against the original temporary directory URL during SwiftUI updates, permitting redundant reloads. Build 0612 canonicalizes the incoming root before the admission comparison. The actual WebKit regression now loads once and repeats both equivalent root spellings with the same revision/retry, asserting that no second completion or loading state occurs.
+
+Final 0612 suite: 235/235 passed, no skips/failures, /tmp/rivune-draft-tests/Logs/Test/Test-Rivune Mac-2026.09.06_18-25-05--0600.xcresult. Universal dormant Release and strict ad-hoc verification passed. Installed version0.2(2026090612); receipt/source freeze /private/tmp/rivune-review-2026090612/. Account and direct updates remain disabled. Baseline index.html/styles.css SHA256 still match the preserved originals.
+
+Installed 0612 smoke: primary answer card correctly displays summary, Website files (2 files,11,900 bytes), names, Preview, collapsed Original response, and separate collaboration details. Preview opens its dedicated viewer, but the rendered area remains dark gray with no visible spinner/error and no WebArea in the sheet AX tree. Therefore the installed rendered preview remains unresolved despite passing isolated WebKit fixtures and equivalent-root regression. No Save/Apply or live model call was made; UI and rendered diagnosis were handed to the native coordinator with this limitation explicit. Do not describe the installed preview as fixed until rendered acceptance succeeds.
+
+## First presentation follow-up (source candidate, not installed)
+
+Independent 0612 UI evidence showed Files→Preview immediately renders the complete baseline site. This establishes that the files and basic native rendering work; the first presentation remains faulty. Both a simple mounted SwiftUI sheet and the actual ResponseArtifactViewer sheet passed isolated first-load WebKit pixel assertions before the candidate, so those fixtures do not reproduce the installed failure.
+
+The source candidate uses MountedStaticWebView to admit navigation only after the view has an NSWindow and nonzero viewport. Window attachment and layout callbacks trigger admission; state publication is deferred outside SwiftUI's update callback with a MainActor task, not an arbitrary timed sleep. Dismantling cancels queued admission and existing navigation. A status dependency injection allows the mounted fixture to observe the actual artifact viewer while leaving the production default unchanged.
+
+Two focused fixtures pass: detached/nonzero view cannot navigate until attached and queued admissions are cancelled; the actual first-presentation SwiftUI sheet loads its privately staged HTML/CSS and produces the expected rendered background pixels without changing tabs. Installed acceptance is still required; the prior fixtures also painted successfully. No restart/reinstallation is permitted while the coordinator's live v2 run remains active on0612.
+
+## 0613 live-protocol corrections
+
+The actual v2 run failed before contributions on0612. Its complete proposed plan (9,546 UTF-8 bytes) used explicit Codex→Claude and Claude→Codex handoff lines, which the old English-substring dependency heuristic rejected. Its complete reviewed plan (13,365 bytes) exceeded the old12,000byte bound. The new validator accepts explicit directional handoffs and allows a complete24KiB plan. Both input and normalized-plan bounds remain enforced without clipping; the112KiB exact phase envelope remains unchanged. Raw proposed/reviewed plans remain stored intact.
+
+A second compatibility error required final files[].contents, although the documented ProjectSnapshot and result viewer use files[].content. Final integration now uses the same ResponseArtifact parser as the viewer plus exact assigned-file union; the integrator prompt explicitly requires summary/files[].content. Intermediate contribution files still use contents with a handoff field. The synthetic fixture was corrected to emit the documented final schema rather than perpetuate the mismatch.
+
+Exact live proposed/reviewed plan texts are embedded as regression data in RivuneDeterministicTests.swift. The full synthetic pipeline starts with actual ProjectSnapshot composer instructions, normalizes both observed plans, performs seven fixture-runner phases, checks intact raw and selected reviewed plan, parses the canonical final manifest, and verifies staged file contents. It explicitly rejects the old plural final field. This proves protocol compatibility for the recorded case; it does not claim those synthetic files satisfy the live visual brief or replace the next actual provider run.
+
+Final0613 suite passed238/238 without skips or failures: /tmp/rivune-draft-tests/Logs/Test/Test-Rivune Mac-2026.09.06_18-44-35--0600.xcresult. Universal dormant Release build succeeded,70 frozen inputs matched root/build mirror, and strict ad-hoc verification passed. Installed /Applications/Rivune.app0.2(2026090613), preserving0612 rollback. Receipt/source hashes in /private/tmp/rivune-review-2026090613/installation.json. Basic launch showed Loading5%; UI immediately handed to the native coordinator for installed first-preview verification and same-brief live retry. No new model calls, baseline/v2file writes, or direct history edits by implementation owner.

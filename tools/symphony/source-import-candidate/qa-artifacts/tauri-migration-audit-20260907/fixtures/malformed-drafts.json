@@ -1,0 +1,16 @@
+{
+  "id": "malformed-drafts",
+  "sourceKind": "workspace-drafts.json",
+  "input": {
+    "selectedConversationID": "10000000-0000-4000-8000-000000000001",
+    "drafts": [
+      "not-a-dictionary"
+    ]
+  },
+  "expect": {
+    "state": "recovery-required",
+    "preserveOriginalBytes": true,
+    "noSourceWrites": true,
+    "dispatchCount": 0
+  }
+}

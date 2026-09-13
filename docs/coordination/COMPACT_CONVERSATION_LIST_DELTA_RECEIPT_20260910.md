@@ -1,0 +1,11 @@
+# Compact conversation list review corrections
+
+Boundary: qa-artifacts/compact-conversation-list-20260910/delta-source-hashes.json records all seven source/test files. Only tests/hostRenderer.test.tsx changed in this correction; product files and styling remain unchanged. This supersedes earlier mismatched test evidence. Import candidate/native app remain unchanged; no export performed.
+
+The mounted preservation case now supplies eight distinct conversations with valid newer activity than the active conversation and asserts that fixture precondition. Failed-save and failed-open cases explicitly focus the destination row before clicking, assert that exact row retains focus, assert Message is not focused, and preserve the selected conversation and mobile pane. The failed-open case confirms a successful preceding draft save and retained visible draft.
+
+The retained preview already uses mutable createFixture openConversation/getSnapshot: open assigns snapshot.activeConversationID, refresh returns a clone. Manual desktop and320 filtered Saved conversation2 navigation changed the heading and focused Message; no product navigation fix was needed. React act-environment mode is disabled after the retained preview's final test mount so subsequent manual events run normally. An unexpected full-page reload reset fixture state during inspection; its cause is unverified. Selection is intentionally synthetic and resets on reload, unlike refresh through the app's Refresh button.
+
+Selected results are now collapsed by default in a32px top rail. Expanding reserves measured space above the app instead of covering it. At320x568 the collapsed panel leaves Show all and Settings visible and clickable. All three selected mounted tests passed at default desktop,320x568 and390x844. TypeScript and all four pure projection tests passed. Independent source delta review matched all seven hashes and found no blocking scoped findings; see qa-artifacts/compact-conversation-list-20260910/INDEPENDENT_DELTA_REVIEW.md.
+
+Only existing4317 selected synthetic fixture used. No provider, real persistence, native build/launch/restart, new server, publication, or private forwarding. Composer remains untouched pending stable compact-list review.

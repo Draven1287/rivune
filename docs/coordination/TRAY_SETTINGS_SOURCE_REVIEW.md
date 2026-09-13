@@ -1,0 +1,30 @@
+# Tray Settings source review — 2026-09-09
+
+Read-only audit of current design direction and source. Only this report was written. No native, browser, dirty-draft, build or test execution; no supplemental private QA record accessed. Earlier approval requests remain untouched. Builder is sole implementation owner.
+
+Path abbreviations: **React** = `prototypes/ai-native-workspace`; **Tauri** = `qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2`.
+
+## Current event path
+
+`Tauri/src-tauri/src/tray.rs:98` dispatches `SETTINGS_ID` to `open_settings`. `main.rs:103` first calls `open_main` (show → unminimize → focus, lines 91–100), then emits `rivune://open-settings`. `Tauri/web/desktop-host.mjs:51` exposes `onOpenSettings` through Tauri listen.
+
+React `src/host/lifecycle.ts:81` requires all six lifecycle capabilities as own function properties and validates listener cleanup. Its coordinator installs Settings first, then shutdown (lines 149–152), deduplicates start, and releases subscriptions on disposal. Settings callbacks are allowed only while lifecycle phase is idle. `src/host/HostWorkspace.tsx:57–81` mounts this coordinator only after workspace adapter, lifecycle adapter and durable journal capability checks; startup/recovery gating occurs before that mount. The callback sets Settings state; line 83 invokes native HTML dialog showModal/close. Escape resets state through onCancel; explicit Close resets it too (line 140).
+
+**Finding closed in source:** the former assertion that React has no Settings listener is obsolete. The current host React path implements it. Existing `tests/lifecycle.test.mjs:17` covers subscription/cleanup and `tests/hostRenderer.test.tsx:244` contains a mounted Settings event open/close case. Their presence is not a fresh passing test result.
+
+## Remaining findings and acceptance
+
+- **P2 — Early Settings activation can be lost.** Rust emits once without pending-request storage or renderer-ready acknowledgement. React subscribes asynchronously after startup and capability checks. A click before subscription focuses the window but can never reach the dialog. Source reproduction: defer startup status or onOpenSettings registration, emit the host event, then complete mount. **Acceptance:** retain a bounded pending navigation request or gate delivery on renderer readiness; replay it once after registration, with repeated clicks idempotent and no extra dialogs.
+- **P2 — Recovery/incomplete-capability state has no Settings receiver while the tray entry remains enabled.** `HostWorkspace.tsx:33–40` renders recovery/unavailable instead of ConnectedHostWorkspace; its failed capability branch also returns before lifecycle registration. Tray Settings still calls open_settings. This can be deliberate, but currently produces only focus with no explanation. **Acceptance:** explicitly disable the action in unavailable states or expose a safe Settings-unavailable explanation; do not bypass the recovery editing restrictions.
+- **P2 — Dock reopening remains an unimplemented explicit source path.** `main.rs:443–466` hides main on CloseRequested and handles ExitRequested, but has no Reopen branch. Tray Open/Settings can restore an existing hidden window; `open_main` errors if that window is absent rather than recreating it. **Acceptance:** later verify and, if required, wire Dock activation after close/minimize; one existing main window and one tray must remain. Do not infer native behavior from the handler comment or HTML dialog tests.
+- **Focus verification gap:** showModal provides normal dialog focus behavior, and close/Escape reset state, but HostWorkspace keeps no explicit Settings opener/fallback focus ref. A tray invocation has no DOM trigger and may restore whichever element was previously focused. **Acceptance:** mounted tests assert initial focus, Tab containment, Escape/Close dismissal and a deliberate usable return target for both sidebar and tray entry. Native window foreground/minimize behavior still requires a later authorized native check.
+- **Packaging provenance gap, not proof of a broken installed app:** checked-in `tauri.conf.json:7` still points to `../web`, whose inspected index is the legacy DOM frontend. The React index loads its own main.tsx. An external packaging/staging override could differ; none was assumed or executed. **Acceptance:** identify the exact effective packaging config and React entry/bridge load order before claiming this listener is in any desktop artifact. Source listener existence alone is insufficient.
+
+## Bounded test method proposed — not executed
+
+1. Use a targeted browser component fixture for HostWorkspace with a complete synthetic bridge and clean empty workspace. Register/capture onOpenSettings, await an explicit listener-ready signal, invoke it, and assert one open dialog, focus containment and close/Escape return focus. Unmount/remount and assert listener cleanup and one callback. Never use real profile data or invoke provider/save methods.
+2. Add separate clean-fixture cases for delayed listener registration, startup recovery and rejected subscription. Assert the selected pending-event policy or explicit unavailable state. Keep tests independent from the existing broader dirty-draft/shutdown suite.
+3. Test Rust dispatch with a small injected action seam or mock runtime: SETTINGS_ID calls open/focus before event delivery, and focus failure is surfaced. This proves dispatch ordering only, not native menu rendering.
+4. Only with later explicit native authorization, manually select Settings once in the already-authorized Rivune process, then inspect **Rivune's own window**, with a short bounded timeout. Verify hidden/minimized restoration and dismissal. Do not enumerate or repeatedly inspect SystemUIServer. If the native menu cannot be selected or observed within the bound, record that portion unverified and stop; component event injection must not be labelled end-to-end tray acceptance.
+
+No cross-task messages were sent for this audit. Lead can read this report locally; there is no request to alter pending approvals or resume desktop work.

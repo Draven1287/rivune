@@ -1,0 +1,9 @@
+# Council correction recheck
+
+Requested hashes independently match: host 6275d028b15e85bf319136bed996780a0edbe09cf565e2e5c5c1130709692568; acceptance tests 6b196e444c1caa2cc1c6c163865d0cfc3c8a9e6f84a0ed8f284e9b100bacb45f. Read-only review; no Rust or Node suite independently rerun. Owner reports 93 library, 2 binary, 52 Node plus keyboard/wire/syntax passes.
+
+Remaining P1: host.rs:1634–1638 retry admission postrename save failure installs a running RunRecord plus Reserved TeamSession, then returns uncertain before registration/worker launch:1647–1651. It records no persistence uncertainty marker. Reconcile therefore returns accepted without recovery; cancellation requires a failed run and excludes Reserved session status. Reopen changes the run to failed but leaves Reserved, still neither retryable nor cancellable. This is a concrete workerless recovery gap at admission, separate from the now-corrected finalCompleted boundary.
+
+Required regression: admit an invocation-specific retry of a failed Council with PersistFault::AfterRename, verify uncertain acknowledgement and no registered worker, then exercise reconcile and reopen. Require an explicit recoverable not-started or cancellable state, durable evidence, and no provider redispatch. Runtime owns implementation and regression execution.
+
+The prior finalCompleted two-failure path now retains the candidate with terminal persistence marker and reconciliation saves it; its owner regression injects two AfterWrite failures then reconciles and reopens with one answer. Fault hook mutex lifetime is fixed. The delayed replay P2 now compares failedAttemptID and the owner regression forces B to fail, rejects replay of A unchanged, then succeeds only using B identity. These specific corrections are resolved at source plus owner-executed regression scope. Broad P1 closure remains held for the admission boundary above. No native, build, installed or live-provider acceptance.

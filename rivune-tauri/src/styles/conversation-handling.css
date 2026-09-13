@@ -1,0 +1,14 @@
+/* Quiet controls stay discoverable on hover, keyboard focus and touch. */
+html.everyday-ui .message-user{position:relative;padding-right:42px}
+html.everyday-ui .message-user .message-menu{position:absolute;right:5px;top:6px;width:30px;height:30px;display:grid;place-items:center;padding:0;margin:0;border:0;border-radius:8px;background:transparent;color:#aab7c7;font-size:19px;opacity:.5}
+html.everyday-ui .message-user:hover .message-menu,html.everyday-ui .message-user:focus-within .message-menu{opacity:1}
+html.everyday-ui .message-user .message-menu:hover{background:#ffffff0b}
+html.everyday-ui .message-user:focus{outline:1px solid #becddd60;outline-offset:4px}
+html.everyday-ui .message-outline button{white-space:normal;text-align:left;line-height:1.5;overflow-wrap:anywhere}
+html.everyday-ui .jump-to-latest{max-width:calc(100% - 48px);font-size:11px;border-radius:999px;box-shadow:0 6px 20px #0005;background:#26303beF;min-height:36px}
+html.everyday-ui .conversation{scrollbar-width:thin;scrollbar-gutter:stable;overscroll-behavior:contain}
+html.everyday-ui .conversation .reply-actions{display:flex;align-items:center;gap:8px;margin-top:16px}
+html.everyday-ui .conversation .reply-actions button{min-height:34px;border:1px solid #ffffff10;border-radius:8px;padding:5px 10px;color:#b8c4d4;background:#ffffff03}
+html.everyday-ui .conversation .reply-actions button:hover{background:#ffffff0a;color:#eef2f6}
+@media(max-height:660px){html.everyday-ui[data-worlds=true] .hero .floating-mark{width:72px;height:72px}html.everyday-ui[data-worlds=true] .hero .orbit-stage{height:76px}html.everyday-ui[data-worlds=true] .workspace>.hero{margin-bottom:12px}}
+@media(hover:none){html.everyday-ui .message-user .message-menu{opacity:1}}

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rivune — One AI Team for Mac</title>
+  <meta name="description" content="Rivune is an open-source native Mac workspace in development: one conversation, one AI team, and a lead that chooses how the team should work. See the current direction and release availability.">
+  <link rel="canonical" href="{{CANONICAL}}">
+  <meta property="og:title" content="Rivune — One AI Team for Mac">
+  <meta property="og:description" content="One native Mac conversation where a lead coordinates your AI team. See Rivune's current development direction and release availability.">
+  <meta property="og:image" content="https://draven1287.github.io/rivune/assets/og.png">
+  <meta property="og:url" content="{{CANONICAL}}">
+  <meta name="theme-color" content="#090a0b">
+  <link rel="icon" href="/rivune/assets/rivune-icon-128.png">
+  <link rel="stylesheet" href="/rivune/site.css">
+  {{ROBOTS}}
+</head>
+<body>
+  {{FIXTURE_BANNER}}
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav shell">
+    <a class="brand" href="/rivune/" aria-label="Rivune home"><img class="icon" src="/rivune/assets/rivune-icon-128.png" alt="" width="32" height="32"><img class="wordmark" src="/rivune/assets/rivune-wordmark.svg" alt="Rivune" width="112" height="15"></a>
+    <nav class="nav-links" aria-label="Main navigation"><a href="#product">The app</a><a href="#workflow">How it works</a><a href="#requirements">What you need</a><a class="nav-action" href="#download">Get Rivune <span aria-hidden="true">&nbsp;↗</span></a></nav>
+    <details class="mobile-menu"><summary>Menu</summary><nav aria-label="Mobile navigation"><a href="#product">The app</a><a href="#workflow">How it works</a><a href="#requirements">What you need</a><a href="#download">Get Rivune</a></nav></details>
+  </header>
+  <main id="main" tabindex="-1">
+    <section class="hero shell">
+      <div class="eyebrow"><span class="dot" aria-hidden="true"></span>Native AI teamwork for Mac</div>
+      <h1>One conversation.<br><span>Your AI team.</span></h1>
+      <p class="lede">Rivune is an open-source native Mac workspace in development. You write one prompt; an appointed lead coordinates the available team and owns one final answer or deliverable.</p>
+      <div class="hero-actions">{{HERO_DOWNLOAD}}<a class="button button-quiet" href="#product">See the native app <span aria-hidden="true">→</span></a></div>
+      <p class="hero-note">{{HERO_NOTE}}</p>
+      <ul class="facts"><li>Native Mac app</li><li>One conversation and team</li><li>Lead-directed workflow in development</li></ul>
+    </section>
+
+    <section class="section shell product-proof" id="product" aria-labelledby="product-title">
+      <div class="product-copy"><p class="kicker">Current native development</p><h2 id="product-title">The team works behind one familiar composer.</h2><p>Rivune keeps the prompt, team controls, provider readiness, and conversation history in one native workspace. Detailed coordination stays available without taking over the conversation.</p></div>
+      <figure class="product-frame"><img src="/rivune/assets/native-workspace.png" width="1152" height="768" alt="Rivune's dark native Mac workspace showing one message composer, a two-member team control, provider readiness, and conversation navigation."><a class="product-image-zoom" href="/rivune/assets/native-workspace.png" target="_blank" rel="noopener">View larger image <span aria-hidden="true">↗</span></a><figcaption>Rivune development preview. Interface may change before release.</figcaption></figure>
+    </section>
+
+    <section class="shell modes" id="workflow" aria-labelledby="workflow-title">
+      <div class="modes-heading"><h2 id="workflow-title">One team. A workflow chosen for the request.</h2><p class="kicker">Product direction</p></div>
+      <p class="team-direction">Rivune's lead is intended to propose how the available team should work, explain the choice briefly, and own the final result. You can keep the recommendation or use a supported manual override.</p>
+      <div class="strategy-lead"><div><span class="strategy-label">Target default</span><h3>Auto, led by the appointed AI</h3></div><p>Your lead chooses an approach and coordinates the team within the access you allow.</p></div>
+      <div class="mode-columns">
+        <article class="mode" id="council" aria-labelledby="council-title" data-availability="not-in-source-preview">
+          <div class="mode-heading"><h3 id="council-title">Council strategy</h3><span class="mode-status">Current native development</span></div>
+          <p class="mode-purpose">Independent perspectives.<br>One lead-owned answer.</p>
+          <p>Members answer the same question independently. The appointed lead reviews the contributions and delivers one final answer.</p>
+          <ol class="mode-flow" aria-label="Council strategy flow"><li>Independent answers</li><li>Lead review</li><li>Final answer</li></ol>
+        </article>
+        <article class="mode" id="swarm" aria-labelledby="swarm-title" data-availability="not-in-source-preview">
+          <div class="mode-heading"><h3 id="swarm-title">Swarm strategy</h3><span class="mode-status">Not implemented</span></div>
+          <p class="mode-purpose">Separate bounded tasks.<br>One integrated deliverable.</p>
+          <p>The lead assigns separate tasks to available workers, coordinates review, and brings their work into one deliverable.</p>
+          <ol class="mode-flow" aria-label="Swarm strategy flow"><li>Assign work</li><li>Bounded execution</li><li>Review and integrate</li></ol>
+        </article>
+      </div>
+      <p class="mode-availability">Mac installer coming soon. Automatic teamwork and Swarm are still in development; developer source is available. Configurable Council is currently limited to later local development builds.</p>
+      <a class="guide-link" href="/rivune/council-vs-swarm/">Read how Rivune coordinates one team <span aria-hidden="true">→</span></a>
+    </section>
+
+    <section class="section shell split" id="requirements" aria-labelledby="requirements-title">
+      <div class="section-heading"><p class="kicker">Before you get started</p><h2 id="requirements-title">Your Mac.<br>Your provider access.</h2><p>Rivune is the workspace. The AI models come from the providers you connect.</p><p>Provider subscriptions, permissions, usage limits, and charges apply separately.</p></div>
+      <ul class="requirements"><li><h3>A compatible Mac</h3><p>{{MAC_REQUIREMENT}}</p></li><li><h3>A supported provider connection</h3><p>The current source preview supports Codex CLI and Claude Code CLI. Install the tool you want to use and complete that provider's sign-in. Rivune Settings checks whether it is ready.</p></li><li><h3>Access to the models you choose</h3><p>Your provider must allow access to the selected model. A free account may not include it. Using Rivune does not grant access or include AI usage.</p></li><li><h3>Workflow availability</h3><p>Source preview 4 predates the one-team experience. Council exists only in later local development; real Swarm and Auto are not public release features. Connecting a provider does not enable them.</p></li></ul>
+    </section>
+
+    <section class="section shell" id="download" aria-labelledby="download-title">
+      <div class="download-card"><div><p class="kicker">Rivune for Mac</p><h2 id="download-title">{{DOWNLOAD_TITLE}}</h2><p class="muted">{{DOWNLOAD_DESCRIPTION}}</p><a class="source-link" href="https://github.com/Draven1287/rivune/releases/tag/v0.2.0-source-preview.4">For developers: source preview 4 <span aria-hidden="true">↗</span></a><p class="source-note">The source ZIP requires Xcode to build. It is not a signed Mac installer or DMG.</p></div><div class="release-box">{{DOWNLOAD_CONTROL}}{{RELEASE_META}}<p>{{RELEASE_NOTE}}</p></div></div>
+      <h3 class="install-heading">{{INSTALL_HEADING}}</h3><p class="install-note">{{INSTALL_NOTE}}</p>
+      <ol class="install-steps"><li><h3>Open the DMG</h3><p>Open the downloaded Rivune disk image from your Downloads folder.</p></li><li><h3>Drag Rivune to Applications</h3><p>Drag the Rivune icon onto the Applications folder in the installer window.</p></li><li><h3>Launch Rivune</h3><p>Open Applications, then Rivune. Follow setup to connect a supported provider.</p></li></ol>{{INTEGRITY}}
+    </section>
+
+    <section class="section shell split support" id="support" aria-labelledby="support-title"><div class="section-heading"><p class="kicker">Open source. Clear boundaries.</p><h2 id="support-title">Know what you're opening.</h2><p>Inspect the code, understand where your requests go, and get help when you need it.</p></div><div><h3>Your requests and your privacy</h3><p class="muted">Conversation history is stored locally by default. AI requests go to connected providers. A future lead-directed workflow may share approved context across team members; the run record should show what was used.</p><a href="/rivune/privacy/">Read privacy &amp; data sharing →</a><h3 style="margin-top:28px">Need a hand?</h3><p class="muted">Use GitHub Issues for questions and bugs. You'll need a GitHub account to post. Remove private prompts, keys, and personal details before sharing a report.</p><div class="support-links"><a href="https://github.com/Draven1287/rivune/issues">Get help on GitHub ↗</a><a href="https://github.com/Draven1287/rivune/blob/main/SECURITY.md">Report a security issue ↗</a></div></div></section>
+  </main>
+  <footer class="footer shell"><a class="brand" href="/rivune/" aria-label="Rivune home"><img class="icon" src="/rivune/assets/rivune-icon-128.png" alt="" width="32" height="32"><img class="wordmark" src="/rivune/assets/rivune-wordmark.svg" alt="Rivune" width="112" height="15"></a><nav aria-label="Project links"><a href="/rivune/council-vs-swarm/">Team guide</a><a href="https://github.com/Draven1287/rivune">Source</a><a href="https://github.com/Draven1287/rivune/blob/main/LICENSE">Apache-2.0 license</a><a href="/rivune/privacy/">Privacy</a><a href="https://github.com/Draven1287/rivune/issues">Support</a></nav><small>© 2026 Rivune contributors. Independent software, not affiliated with OpenAI, Anthropic, or Apple.</small></footer>
+  <script>
+    document.querySelectorAll('.mobile-menu a').forEach((link) => {
+      link.addEventListener('click', () => link.closest('details')?.removeAttribute('open'));
+    });
+  </script>
+</body>
+</html>

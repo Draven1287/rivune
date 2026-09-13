@@ -1,0 +1,12 @@
+{
+  "identifier": "main-window",
+  "description": "Bundled Rivune workspace and signed app updates",
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:default",
+    "updater:default",
+    "process:allow-restart"
+  ]
+}

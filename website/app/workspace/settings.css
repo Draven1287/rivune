@@ -1,0 +1,169 @@
+.rv-settings-shell {
+  display: grid; grid-template-columns: 178px minmax(0, 1fr); flex: 1; min-height: 0;
+  color: #dbe6ed; background: #03080dc9;
+}
+.rv-settings-nav { display: flex; flex-direction: column; min-height: 0; padding: 21px 12px 15px; border-right: 1px solid #b2d0e114; background: #071018a1; }
+.rv-settings-back { display: flex; align-items: center; gap: 5px; padding: 4px 3px 19px; border: 0; background: transparent; color: #a6bbc9; font-size: 11px; text-align: left; }
+.rv-settings-back > svg { transform: rotate(180deg); }
+.rv-settings-back:hover { color: #edf6fc; }
+.rv-settings-search { display: flex; align-items: center; gap: 7px; min-height: 35px; padding: 7px 8px; border: 1px solid #b6d5e820; border-radius: 8px; background: #01080b70; color: #93aab9; }
+.rv-settings-search:focus-within { border-color: #a8d2ed70; }
+.rv-settings-search > input { width: 100%; min-width: 0; border: 0; outline: 0; color: #e0edf5; background: transparent; font-size: 11px; }
+.rv-settings-search > input::placeholder { color: #8ba0af; }
+.rv-settings-search > svg { flex: 0 0 auto; }
+.rv-settings-nav > nav { display: flex; flex-direction: column; gap: 4px; margin-top: 20px; overflow: auto; }
+.rv-settings-nav > nav > button { display: flex; align-items: center; gap: 9px; min-height: 36px; padding: 9px 8px; border: 1px solid transparent; border-radius: 7px; color: #a3b6c5; background: transparent; font-size: 11px; text-align: left; }
+.rv-settings-nav > nav > button > svg { flex: 0 0 auto; color: #8da7b9; }
+.rv-settings-nav > nav > button:hover { color: #e0edf5; background: #97c8e00a; }
+.rv-settings-nav > nav > button.is-active { border-color: #c3e1f01d; background: linear-gradient(110deg, #2b455a8f, #19314572); color: #f0f6fa; }
+.rv-settings-nav > nav > button.is-active > svg { color: #c9e1ee; }
+.rv-settings-local { display: flex; gap: 6px; align-items: center; margin-top: auto; padding: 22px 7px 2px; color: #7d99ad; font-size: 10px; }
+.rv-settings-local > span:first-child { width: 4px; height: 4px; background: #718594; border-radius: 50%; }
+.rv-settings-local > .is-ready { background: #abd7c3 !important; }
+.rv-settings-scroll { min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #48617566 transparent; }
+.rv-settings-content { width: min(850px, 100%); margin: 0 auto; padding: 36px 32px 48px; }
+.rv-settings-content > header { margin-bottom: 29px; }
+.rv-settings-content > header > p { margin: 0 0 12px; color: #87a7bc; font-size: 10px; letter-spacing: .14em; }
+.rv-settings-content > header > h2 { margin: 0; color: #edf4f9; font-size: 28px; font-weight: 500; line-height: 1.2; letter-spacing: -.035em; outline: none; }
+.rv-settings-content > header > span { display: block; margin-top: 10px; color: #9bb3c4; font-size: 12px; line-height: 1.75; }
+.rv-settings-group { margin-top: 27px; }
+.rv-settings-group > h3 { margin: 0 0 11px; color: #ccdde8; font-size: 12px; font-weight: 500; }
+.rv-settings-card { overflow: hidden; padding: 0 17px; border: 1px solid #bcdaeb20; border-radius: 12px; background: linear-gradient(135deg, #13212e9c, #0a131cdc); box-shadow: 0 1px 0 #f0f8ff04 inset; }
+.rv-setting-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 18px 0; }
+.rv-setting-row + .rv-setting-row { border-top: 1px solid #c5dfef16; }
+.rv-setting-row > div:first-child { flex: 1; min-width: 0; }
+.rv-setting-row strong { color: #d5e3ec; font-size: 12px; font-weight: 450; line-height: 1.5; }
+.rv-setting-row p { max-width: 610px; margin: 5px 0 0; color: #95afc1; font-size: 11px; line-height: 1.85; }
+.rv-setting-control { display: flex; align-items: center; flex: 0 0 auto; gap: 8px; }
+.rv-settings-button { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; gap: 7px; padding: 8px 10px; min-height: 33px; border: 1px solid #cee4f02a; border-radius: 7px; color: #d9e9f3; background: #4f73842e; font-size: 11px; font-weight: 450; line-height: 1.35; cursor: pointer; }
+.rv-settings-button:hover:not(:disabled) { background: #7798a53b; border-color: #d9ecf647; color: #f4faff; }
+.rv-settings-button:disabled { color: #849baa; background: #4f6a7816; border-color: #bdd7e514; cursor: not-allowed; }
+.rv-settings-button > svg, .rv-settings-text-button > svg { flex: 0 0 auto; }
+.rv-settings-text-button { display: inline-flex; justify-content: center; align-items: center; gap: 5px; padding: 5px 0; border: 0; color: #b9d2e3; background: transparent; font-size: 11px; cursor: pointer; }
+.rv-settings-text-button:hover:not(:disabled) { color: #fff; }
+.rv-settings-text-button:disabled { opacity: .55; cursor: not-allowed; }
+.rv-settings-toggle { width: 32px; height: 19px; padding: 2px; flex: 0 0 auto; border: 1px solid #a3c1d129; border-radius: 20px; background: #3a4c5966; cursor: pointer; }
+.rv-settings-toggle > span { display: block; width: 13px; height: 13px; border-radius: 50%; background: #a4b6c3; transition: transform 150ms; }
+.rv-settings-toggle[aria-checked=true] { border-color: #cde5f350; background: #abcce0; }
+.rv-settings-toggle[aria-checked=true] > span { transform: translateX(12px); background: #122334; }
+.rv-settings-choices { display: inline-flex; gap: 2px; padding: 3px; border: 1px solid #c2dceb1b; border-radius: 8px; background: #01070d52; }
+.rv-settings-choices > button { padding: 6px 9px; border: 1px solid transparent; border-radius: 5px; background: transparent; color: #a1b8c8; font-size: 11px; cursor: pointer; white-space: nowrap; }
+.rv-settings-choices > button[aria-pressed=true] { color: #ebf4fa; border-color: #cce6f520; background: #4d6c804a; }
+.rv-settings-caption { margin: 11px 0 0; color: #8aa5b8; font-size: 11px; line-height: 1.85; }
+.rv-settings-note { display: flex; align-items: flex-start; gap: 10px; margin: 22px 0; color: #a5bdce; font-size: 11px; line-height: 1.85; }
+.rv-settings-note > svg { flex: 0 0 auto; margin-top: 2px; color: #98bed7; }
+.rv-settings-note strong { color: #c1d6e4; font-weight: 500; }
+.rv-settings-feedback { padding: 11px 13px; margin: 0 0 18px; border: 1px solid #cbe5f024; border-radius: 8px; background: #193d5440; color: #c9dfed; font-size: 12px; line-height: 1.65; overflow-wrap: anywhere; }
+.rv-account-card, .rv-device-card { display: flex; align-items: center; gap: 18px; padding: 22px; border: 1px solid #b2d6eb20; border-radius: 13px; background: linear-gradient(110deg, #1a354961, #08151fa3); }
+.rv-account-avatar { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; flex: 0 0 auto; border: 1px solid #c2e1f22c; border-radius: 50%; background: linear-gradient(130deg, #4162756e, #192d3c66); color: #dceaf4; font-size: 24px; }
+.rv-account-card > div { min-width: 0; }
+.rv-account-card h3, .rv-device-card h3 { margin: 0; color: #e5eff6; font-size: 17px; font-weight: 500; letter-spacing: -.015em; overflow-wrap: anywhere; }
+.rv-account-card p, .rv-device-card p { margin: 6px 0 0; color: #9eb9cc; font-size: 11px; line-height: 1.8; overflow-wrap: anywhere; }
+.rv-account-state { display: inline-flex; align-items: center; gap: 5px; margin-top: 11px; color: #a4bac9; font-size: 10px; }
+.rv-account-state > i, .rv-provider-health > i { width: 4px; height: 4px; border-radius: 50%; background: #7c98ad; }
+.rv-account-state.is-ready, .rv-provider-health.is-ready { color: #badfcf; }
+.rv-account-state.is-ready > i, .rv-provider-health.is-ready > i { background: #badfcf; }
+.rv-device-banner { display: flex; align-items: center; gap: 13px; padding: 17px; border: 1px solid #c0dcec24; border-radius: 11px; background: linear-gradient(120deg, #24415477, #13273652); }
+.rv-device-banner > span { display: flex; color: #adcce1; }
+.rv-device-banner > div { flex: 1; min-width: 0; }
+.rv-device-banner strong { font-size: 12px; font-weight: 500; color: #deedf7; }
+.rv-device-banner p { margin: 5px 0 0; font-size: 11px; color: #9db8cc; line-height: 1.75; }
+.rv-provider-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; margin-top: 21px; }
+.rv-setup-methods { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; margin-top: 20px; }
+.rv-setup-methods > div { padding: 18px 15px; border: 1px solid #bdd9e724; border-radius: 11px; background: linear-gradient(130deg,#1a30425c,#08131bd4); }
+.rv-setup-methods svg { display: block; margin-bottom: 16px; color: #aecce2; }
+.rv-setup-methods strong { color: #d4e5f0; font-size: 13px; font-weight: 450; }
+.rv-setup-methods p { margin: 8px 0 0; color: #98b2c5; font-size: 11px; line-height: 1.8; }
+.rv-ai-provider { min-width: 0; overflow: hidden; border: 1px solid #b2d6eb26; border-radius: 13px; background: linear-gradient(130deg, #142431ad, #071019e3); }
+.rv-ai-provider > header, .rv-model-settings-card > header { display: flex; align-items: center; gap: 10px; padding: 20px 19px 18px; }
+.rv-ai-provider > header > .ws-provider-mark, .rv-model-settings-card > header > .ws-provider-mark { width: 34px; height: 34px; flex: 0 0 auto; border-radius: 10px; }
+.rv-ai-provider > header > div, .rv-model-settings-card > header > div { flex: 1; min-width: 0; }
+.rv-ai-provider h3, .rv-model-settings-card h3 { margin: 0; font-size: 14px; font-weight: 500; color: #e2eef6; }
+.rv-ai-provider > header p, .rv-model-settings-card > header p { margin: 4px 0 0; font-size: 10px; color: #a3b9c8; }
+.rv-provider-health { display: inline-flex; align-items: center; gap: 5px; margin-left: auto; color: #9fb7c8; font-size: 10px; white-space: nowrap; }
+.rv-provider-transports { margin: 0 19px; border: 1px solid #b4d4e720; border-radius: 8px; overflow: hidden; background: #00070b57; }
+.rv-provider-transport { display: flex; align-items: center; gap: 10px; padding: 13px 12px; }
+.rv-provider-transport + .rv-provider-transport { border-top: 1px solid #afcddd18; }
+.rv-provider-transport.is-active { background: #537d9220; }
+.rv-transport-icon { display: flex; flex: 0 0 auto; color: #91b0c5; }
+.rv-provider-transport > div { min-width: 0; flex: 1; }
+.rv-provider-transport strong { color: #c9dfea; font-size: 12px; font-weight: 450; }
+.rv-provider-transport p { margin: 4px 0 0; color: #8faabc; font-size: 10px; line-height: 1.5; }
+.rv-provider-transport > span:last-child { display: flex; align-items: center; gap: 4px; color: #a2b7c6; font-size: 10px; }
+.rv-provider-transport > span.is-ready { color: #badfcb; }
+.rv-provider-current { display: flex; align-items: center; gap: 12px; padding: 15px 19px 12px; }
+.rv-provider-current > span { color: #86a5b8; font-size: 9px; letter-spacing: .085em; white-space: nowrap; }
+.rv-provider-current > strong { margin-left: auto; color: #bdd3e2; font-size: 11px; font-weight: 400; text-align: right; }
+.rv-provider-detail { margin: 0 19px 15px; }
+.rv-provider-detail > summary { display: flex; align-items: center; gap: 5px; width: fit-content; color: #8fabbe; font-size: 10px; cursor: pointer; list-style: none; }
+.rv-provider-detail[open] > summary > svg { transform: rotate(90deg); }
+.rv-provider-detail > div { margin-top: 11px; padding: 12px; border: 1px solid #b1d1e51b; border-radius: 7px; background: #01080d70; }
+.rv-provider-detail p { margin: 0; font-size: 11px; line-height: 1.75; }
+.rv-provider-detail p + p { margin-top: 10px; }
+.rv-provider-detail strong { display: block; font-weight: 450; color: #bdcedc; }
+.rv-provider-detail p > span { display: block; margin-top: 3px; color: #90abba; overflow-wrap: anywhere; }
+.rv-ai-provider > footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 13px 19px; border-top: 1px solid #bddbea15; background: #01090d26; }
+.rv-settings-empty { padding: 38px 25px; margin-top: 20px; border: 1px dashed #b8d5e426; border-radius: 12px; background: #0a172250; text-align: center; color: #8dafc7; }
+.rv-settings-empty > h3 { color: #c9ddea; font-size: 15px; font-weight: 450; margin: 16px 0 0; }
+.rv-settings-empty > p { max-width: 400px; margin: 10px auto 0; color: #98b4c7; font-size: 12px; line-height: 1.85; }
+.rv-settings-empty > button { margin-top: 18px; }
+.rv-provider-catalog { margin-top: 24px; border: 1px solid #bcd6e41c; border-radius: 11px; background: #0d1a2577; }
+.rv-provider-catalog > summary { display: flex; align-items: center; gap: 10px; padding: 16px; color: #c4d8e6; font-size: 12px; list-style: none; cursor: pointer; }
+.rv-provider-catalog > summary > span { margin-left: auto; color: #8facbe; font-size: 10px; }
+.rv-provider-catalog[open] > summary > svg { transform: rotate(90deg); }
+.rv-provider-catalog > div { padding: 0 16px 16px; }
+.rv-catalog-provider { display: flex; align-items: center; gap: 11px; padding: 14px 0; border-bottom: 1px solid #bad6e514; }
+.rv-catalog-provider > div { flex: 1; min-width: 0; }
+.rv-catalog-provider strong { color: #c4d8e7; font-size: 12px; font-weight: 450; }
+.rv-catalog-provider p { color: #87a5bc; font-size: 10px; margin: 5px 0 0; line-height: 1.6; }
+.rv-catalog-provider > span:last-child { font-size: 10px; color: #99afbe; }
+.rv-catalog-mark { display: flex; flex: 0 0 auto; width: 31px; height: 31px; align-items: center; justify-content: center; border-radius: 9px; border: 1px solid #c4dce923; background: #4768791f; color: #aecddd; font-size: 15px; }
+.rv-model-settings-list { display: flex; flex-direction: column; gap: 17px; }
+.rv-model-settings-card { border: 1px solid #bdd9ea23; border-radius: 12px; background: linear-gradient(140deg, #172b3a88, #09151ddb); overflow: hidden; }
+.rv-model-settings-card > header > span { padding: 4px 6px; border: 1px solid #bddcea24; border-radius: 5px; color: #a6c1d2; font-size: 10px; }
+.rv-model-settings-card > dl { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 0 19px 19px; }
+.rv-model-settings-card > dl > div { padding: 13px; border: 1px solid #bad6e61b; border-radius: 8px; background: #00080e55; }
+.rv-model-settings-card dt { color: #8eabba; font-size: 11px; }
+.rv-model-settings-card dd { margin: 7px 0 0; color: #d9e8f1; font-size: 13px; overflow-wrap: anywhere; }
+.rv-model-settings-card > footer { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 15px 19px; border-top: 1px solid #bbd8e51b; }
+.rv-model-settings-card > footer > p { flex: 1 1 170px; margin: 0; color: #9eb8c9; font-size: 11px; line-height: 1.7; }
+.rv-appearance-preview { display: flex; flex-direction: column; position: relative; overflow: hidden; isolation: isolate; min-height: 180px; padding: 20px; border: 1px solid #cbe5f02e; border-radius: 13px; background: #02070d; box-shadow: 0 1px 0 #ecf8ff07 inset; }
+.rv-appearance-preview.has-galaxy { background: #02070d url('/brand/rivune-workspace-milky-way.png') center/100% 100%; }
+.rv-appearance-preview.has-stars::after { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(circle at 10% 24%, #d7efff 0 1px, transparent 1.5px), radial-gradient(circle at 75% 25%, #aacdea 0 1px, transparent 1.4px), radial-gradient(circle at 66% 68%, #e1f3ff 0 1px, transparent 1.4px), radial-gradient(circle at 92% 74%, #b3d8ee 0 .7px, transparent 1.4px); opacity: .7; }
+.rv-appearance-preview > div { display: flex; align-items: center; gap: 7px; color: #dcebf5; font-size: 12px; }
+.rv-appearance-preview .ws-provider-mark { width: 21px; height: 21px; }
+.rv-appearance-sample { align-self: center; margin-top: 26px; color: #e1edf6; font-size: 19px; letter-spacing: -.035em; }
+.rv-appearance-bubble { align-self: center; margin-top: 14px; padding: 11px 15px; border: 1px solid #bddced20; border-radius: 10px; background: #102637bf; color: #a9c3d5; font-size: 11px; backdrop-filter: blur(12px); }
+.rv-settings-bottom-action { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; }
+.rv-settings-bottom-action > p { color: #87a7bc; font-size: 11px; }
+.rv-device-illustration { display: flex; flex: 0 0 auto; color: #a1c2d8; padding: 15px 8px; }
+.rv-device-card .rv-provider-health { margin: 0 0 10px; }
+.rv-about-brand { display: flex; align-items: center; gap: 17px; padding: 10px 0 15px; }
+.rv-about-brand > .ws-provider-mark { width: 55px; height: 55px; border-radius: 15px; }
+.rv-about-brand h3 { margin: 0; color: #e3eff7; font-size: 26px; font-weight: 500; letter-spacing: -.05em; }
+.rv-about-brand p { color: #b8d0e1; margin: 6px 0 0; font-size: 12px; }
+.rv-about-brand div > span { display: block; color: #82a1b8; margin-top: 12px; font-size: 10px; }
+.rv-setting-control kbd { padding: 5px 8px; border: 1px solid #bddaea24; border-radius: 5px; background: #2843563d; color: #c8ddea; font-family: inherit; font-size: 11px; white-space: nowrap; }
+.rv-settings-results { display: flex; flex-direction: column; gap: 10px; }
+.rv-settings-results > button { display: flex; align-items: center; gap: 13px; padding: 18px; border: 1px solid #c8e3f025; border-radius: 10px; background: #11233092; color: #bdd6e7; text-align: left; }
+.rv-settings-results > button > span { flex: 1; }
+.rv-settings-results strong { display: block; font-size: 13px; color: #dcebf6; font-weight: 450; }
+.rv-settings-results small { display: block; margin-top: 6px; font-size: 11px; color: #96b2c6; line-height: 1.7; }
+
+/* Only presentation preferences persist. System reduced-motion always wins. */
+.ws-app--workbench[data-stars=off] > .ws-space-field, .ws-app--workbench[data-stars=off] .ws-main > .ws-space-field { display: none; }
+.ws-app--workbench[data-galaxy=off]::before, .ws-app--workbench[data-galaxy=off] .ws-main::before { background: #03080d; }
+.ws-app[data-motion=reduced] *, .ws-app[data-motion=reduced] *::before, .ws-app[data-motion=reduced] *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+.ws-app--workbench[data-text-size=large] .ws-result-body { font-size: 17px; }
+.ws-app--workbench[data-text-size=large] .ws-user-message p { font-size: 16px; }
+.ws-app--workbench[data-text-size=large] .ws-composer textarea { font-size: 17px; }
+.ws-app--workbench[data-text-size=large] .ws-team-consent, .ws-app--workbench[data-text-size=large] .ws-composer-hint { font-size: 13px; }
+.ws-app--workbench[data-text-size=large] .rv-setting-row strong, .ws-app--workbench[data-text-size=large] .rv-provider-transport strong { font-size: 14px; }
+.ws-app--workbench[data-text-size=large] .rv-setting-row p, .ws-app--workbench[data-text-size=large] .rv-settings-caption, .ws-app--workbench[data-text-size=large] .rv-settings-note, .ws-app--workbench[data-text-size=large] .rv-settings-button, .ws-app--workbench[data-text-size=large] .rv-settings-choices > button { font-size: 13px; }
+.ws-app--workbench[data-text-size=large] .rv-settings-nav > nav > button, .ws-app--workbench[data-text-size=large] .ws-workspace-nav > button { font-size: 13px; }
+
+@media(min-width:1450px) { .rv-provider-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } .rv-provider-transport p { display: none; } .rv-provider-current { align-items: flex-start; flex-direction: column; gap: 7px; } .rv-provider-current > strong { margin-left: 0; text-align: left; } }
+@media(max-width:440px) { .rv-setup-methods { grid-template-columns: 1fr; } }
+@media(max-width:1100px) { .rv-settings-shell { grid-template-columns: 164px minmax(0,1fr); } .rv-settings-content { padding: 29px 23px 40px; } .rv-settings-nav { padding-inline: 9px; } .rv-setting-row:has(.rv-settings-choices) { flex-wrap: wrap; } .rv-setting-row:has(.rv-settings-choices) > div:first-child { flex-basis: 100%; } .rv-device-banner { flex-wrap: wrap; } .rv-device-banner > button { margin-left: 36px; } }
+@media(max-width:850px) { .rv-settings-shell { display: flex; flex-direction: column; } .rv-settings-nav { display: grid; grid-template-columns: auto 1fr; gap: 12px; padding: 13px 17px 0; flex: 0 0 auto; border: 0; border-bottom: 1px solid #b8d7e518; background: #071019e3; } .rv-settings-back { padding: 0; } .rv-settings-nav > .rv-settings-search { max-width: 270px; margin-left: auto; } .rv-settings-nav > nav { grid-column: 1/-1; flex-direction: row; gap: 4px; margin-top: 0; margin-inline: -5px; padding: 0 0 11px; } .rv-settings-nav > nav > button { flex: 0 0 auto; padding: 8px 9px; min-height: 34px; white-space: nowrap; } .rv-settings-local { display: none; } .rv-settings-scroll { flex: 1; } .rv-settings-content { padding: 26px 23px 38px; } .rv-setting-row { flex-wrap: wrap; } .rv-setting-row > div:first-child { flex-basis: 220px; } .rv-setting-row:has(.rv-settings-toggle) { flex-wrap: nowrap; } .rv-setting-row:has(.rv-settings-toggle) > div:first-child { flex-basis: auto; } }
+@media(max-width:440px) { .rv-settings-content { padding: 25px 16px 36px; } .rv-settings-content > header > h2 { font-size: 25px; } .rv-settings-nav { padding-inline: 13px; gap: 10px; } .rv-settings-back > span { max-width: 74px; line-height: 1.45; } .rv-settings-nav > .rv-settings-search { min-width: 0; } .rv-settings-card { padding-inline: 14px; } .rv-setting-row { gap: 12px; padding-block: 16px; } .rv-setting-row > div:first-child { flex-basis: 190px; } .rv-settings-choices > button { padding-inline: 8px; } .rv-device-banner { padding: 14px; } .rv-device-banner > div { flex-basis: 160px; } .rv-ai-provider > header { padding: 17px 14px; flex-wrap: wrap; gap: 8px; } .rv-ai-provider > header > div { flex-basis: 100px; } .rv-provider-health { font-size: 10px; } .rv-provider-transports { margin-inline: 13px; } .rv-provider-transport { flex-wrap: wrap; padding: 11px 10px; gap: 7px; } .rv-provider-transport > div { flex-basis: 145px; } .rv-provider-transport p { font-size: 10px; } .rv-provider-transport > span:last-child { margin-left: 24px; } .rv-provider-current { padding-inline: 14px; flex-direction: column; align-items: flex-start; gap: 7px; } .rv-provider-current > strong { text-align: left; margin: 0; } .rv-provider-detail { margin-inline: 14px; } .rv-ai-provider > footer { padding: 12px 14px; flex-wrap: wrap; } .rv-ai-provider > footer > .rv-settings-button { font-size: 10px; } .rv-account-card { padding: 18px 15px; gap: 12px; } .rv-account-avatar { width: 43px; height: 43px; } .rv-account-card h3 { font-size: 15px; } .rv-device-card { flex-direction: column; text-align: center; gap: 8px; padding: 20px; } .rv-device-illustration { padding: 7px; } .rv-model-settings-card > header { flex-wrap: wrap; padding: 16px 14px; } .rv-model-settings-card > dl { margin-inline: 14px; gap: 9px; } .rv-model-settings-card > dl > div { padding: 11px; } .rv-model-settings-card dd { font-size: 12px; } .rv-model-settings-card > footer { padding: 14px; } .rv-provider-catalog > summary { flex-wrap: wrap; } .rv-provider-catalog > summary > span { margin-left: 0; } .rv-catalog-provider { flex-wrap: wrap; } .rv-catalog-provider > div { flex-basis: 160px; } .rv-catalog-provider > span:last-child { margin-left: 42px; } }

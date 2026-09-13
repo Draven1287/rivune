@@ -1,0 +1,16 @@
+/* Isolated proposal: parent supplies desktop column or narrow replacement region. */
+.results-proposal{box-sizing:border-box;min-width:0;min-height:0;max-height:100%;overflow:auto;background:#101722;color:#e5eaf2;border-left:1px solid #526077;padding:12px;font:inherit;overflow-wrap:anywhere;color-scheme:dark}
+.results-proposal *{box-sizing:border-box}
+.results-proposal-header{display:flex;align-items:center;flex-wrap:wrap;gap:8px;background:#101722}
+.results-proposal h2{font-size:1rem;flex:1 1 120px;margin:0}
+.results-proposal button{font:inherit;color:inherit;background:#1a2637;border:1px solid #637188;border-radius:8px;min-height:44px;padding:8px 12px;white-space:normal;overflow-wrap:anywhere;cursor:pointer}
+.results-proposal button:disabled{opacity:.6;cursor:default}
+.results-proposal :focus-visible{outline:2px solid #c0d5ff;outline-offset:2px}
+.results-proposal ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.results-proposal li button{display:block;text-align:left;width:100%}
+.results-proposal li span{display:block;font-size:.85em;margin-top:6px;color:#c1cbd9}
+.results-proposal dd{margin:0 0 8px;overflow-wrap:anywhere}
+.results-proposal-text{min-width:0;min-height:0}
+.results-proposal textarea{display:block;width:100%;height:clamp(120px,35dvh,420px);min-width:0;resize:vertical;overflow:auto;white-space:pre;background:#0d1520;color:inherit;border:1px solid #637188;border-radius:6px;padding:10px;font:13px/1.5 ui-monospace,monospace}
+.results-proposal-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+@media(max-width:700px){.results-proposal{width:100%;border-left:0;padding:10px}.results-proposal-header{align-items:flex-start}.results-proposal textarea{height:30dvh}}

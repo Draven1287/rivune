@@ -1,0 +1,33 @@
+{
+  "repository": "/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/tools/symphony/source-import-candidate",
+  "branch": "codex/s00-source-import",
+  "commit": "2ea834a1e2385c34b8f516854b5317c6a08a0607",
+  "parentCommit": "c84cc2d07fffc1050c2be52ef31b62fbd3c1181a",
+  "gitTree": "9da0c197e0b5d81a0ee96398eda787984f0150fe",
+  "sourceTreeSHA256": "171ccf39b8cbee0189968505950f1085e12d5b261ecfeb61813e2e878d2c7f28",
+  "fileCount": 148,
+  "deltaFiles": [
+    "prototypes/ai-native-workspace/src/host/HostWorkspace.tsx",
+    "prototypes/ai-native-workspace/src/host/ProviderSetup.tsx",
+    "prototypes/ai-native-workspace/tests/hostRenderer.test.tsx",
+    "prototypes/ai-native-workspace/tests/rendererScenarios.ts",
+    "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/src/host.rs",
+    "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/src/main.rs"
+  ],
+  "cleanWorkingTree": false,
+  "committedBlobsMatchManifest": true,
+  "workspaceIndexUsed": false,
+  "remotes": [],
+  "assetPublicationHold": true,
+  "noticeCompletenessHold": true,
+  "excludedWorkspaceChanges": [
+    "prototypes/ai-native-workspace/src/components/chat/ChatPanel.tsx",
+    "prototypes/ai-native-workspace/src/components/sidebar/Sidebar.tsx",
+    "prototypes/ai-native-workspace/src/styles.css"
+  ],
+  "cleanTrackedWorkingTree": true,
+  "preservedUntrackedPaths": [
+    "?? prototypes/ai-native-workspace/node_modules",
+    "?? qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/gen/"
+  ]
+}

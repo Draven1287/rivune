@@ -1,0 +1,17 @@
+# S02 connection guidance review — 2026-09-10
+
+**Bounded acceptance: no actionable defect found** in frozen `d7e20910a39aab51acbe79460caac5e2d7e3f77f` against `7ff40f55b43fde56297a96b5806ee80bff3dbac9`. Inspected all five changed files and S02_CONNECTION_GUIDANCE_RECEIPT_20260910.md. This accepts guidance-only behavior, not completed onboarding, current account verification or a successful first conversation.
+
+Readiness precedence in `prototypes/ai-native-workspace/src/host/connectionGuidance.ts` checks unsupported/unavailable adapters first, then missing/unknown installation, required/unknown authentication, failed response, nonavailable catalog, unsupported defaults, untested response and finally historical success. A prior passed response cannot override those earlier blockers. Historical labels say Previously passed and explicitly deny a new connection check. Missing installation directs official installation and host executable configuration; stale metadata directs access confirmation; unsupported routes direct another connection. Unknown, unavailable and stale catalog states deliberately share one catalog message, and unavailable/unsupported adapters share one route message; they are distinct from installation/authentication guidance, not individual diagnostic codes.
+
+`HostWorkspace.tsx` adds a pure guidance call and text/definition-list labels only. No effect, event handler, bridge method or capability flag was added. There is no implicit probe, configuration save, authentication flow or send. The explicit-message suggestion is text only and follows all earlier guards. The empty-state copy discloses that this panel cannot configure connections. Native host/provider admission and discovery are outside the five-file delta and unchanged.
+
+Independent verification: copied exact frozen guidance source/tests to `s02-guidance-frozen-tests`; **5 tests passed** using Node v22.23.1. Three are owner guidance tests; two reviewer tests cover all 36 installation/authentication/adapter combinations with responseTest=passed, distinct missing/stale/unsupported messages and complete state-label coverage. Frozen inputs were used to detect accidental writes in the combination test. Reproduce from the workspace root:
+
+```sh
+node --experimental-strip-types --test qa-artifacts/constellation-state-review-20260909/s02-guidance-frozen-tests/tests/*.test.mjs
+```
+
+The selected mounted fixture source and retained mounted.json report one passed check for labels, no save/submit and focus restoration. This is owner-provided browser evidence, not an independent mounted rerun. Its configure/discovery call-name checks are weaker than their wording suggests: the fixture does not expose those methods as instrumented spies. The absence of added calls is independently supported by the production diff; the fixture alone is not proof against every optional integration side effect. Scenario selection remains explicit and skips unrelated run/shutdown suites.
+
+Limits: the frozen native catalog currently emits authentication=unknown, responseTest=notTested and catalogState=unknown, so authenticated-success and stale-catalog combinations are synthetic contract coverage, not observed current provider states. Guidance cannot make that metadata current and does not enable setup or discovery. Actual user completion of the suggested external steps, browser layout, native rendering and first conversation remain unverified. No synthesis/discovery re-review, product edits, providers, native launch/install, publication or service changes occurred.

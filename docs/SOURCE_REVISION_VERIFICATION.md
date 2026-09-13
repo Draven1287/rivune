@@ -1,0 +1,7 @@
+# Source revision verification — September 6, 2026
+
+The source exporter now verifies a supplied Git commit instead of treating `--revision` as a label. It verifies the committed allowlist and each copied file before applying the documented account-configuration transform. Missing/non-commit objects, changed sources, stale commits, altered allowlists and local Git replacement objects cannot produce a release candidate carrying that revision. Failed attempts remove only outputs acquired by that invocation; unlisted local files stay excluded.
+
+Validation: 20 exporter tests passed using disposable Git repositories and synthetic fixtures, including stale revisions with a clean working tree, a change during copying, local replacement refs, configuration sanitization and existing exclusive-output cleanup tests. A real export verified all 105 files of public commit `4082cf2f545702e01efa55040cefab9af733a055`. The existing preview 4 archive was separately checked: every manifest hash and all packaged bytes match that committed repository. The existing release remains valid and its assets were not replaced.
+
+Implementation and tests are in `scripts/prepare_open_source.py` and `scripts/test_source_export.py`. Usage is documented in `docs/BUILD_FROM_SOURCE.md`. GitHub review: https://github.com/Draven1287/rivune/pull/2 (merged after exporter tests, macOS build/tests and generic iOS Simulator build passed in run 34064497505). This report establishes export verification, not signed binary distribution or live account readiness.

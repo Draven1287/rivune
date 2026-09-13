@@ -1,0 +1,258 @@
+import Foundation
+import Testing
+@testable import SwarmFilesystemAdapter
+
+private struct InjectedFailure: Error {}
+
+private struct FailAfterFirstWrite: SwarmFilesystemFaultInjecting {
+    func check(_ step: SwarmFilesystemApplyStep) throws {
+        if step == .afterFile(index: 0, path: "a.txt") { throw InjectedFailure() }
+    }
+}
+
+private struct FailAfterFirstNestedWrite: SwarmFilesystemFaultInjecting {
+    func check(_ step: SwarmFilesystemApplyStep) throws {
+        if step == .afterFile(index: 0, path: "new/deep/a.txt") { throw InjectedFailure() }
+    }
+}
+
+private struct Fixture {
+    let root: URL
+    let project: URL
+    let staging: URL
+
+    init() throws {
+        root = FileManager.default.temporaryDirectory.appendingPathComponent("rivune-fs-test-\(UUID().uuidString)")
+        project = root.appendingPathComponent("project")
+        staging = root.appendingPathComponent("staging")
+        try FileManager.default.createDirectory(at: project, withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(at: staging, withIntermediateDirectories: true)
+    }
+
+    func write(_ path: String, _ value: String) throws {
+        let url = project.appendingPathComponent(path)
+        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try Data(value.utf8).write(to: url)
+    }
+
+    func read(_ path: String) throws -> String {
+        String(decoding: try Data(contentsOf: project.appendingPathComponent(path)), as: UTF8.self)
+    }
+
+    func cleanup() { try? FileManager.default.removeItem(at: root) }
+}
+
+@Test func stagesAndAppliesOwnedFilesWithReceipts() async throws {
+    let fixture = try Fixture(); defer { fixture.cleanup() }
+    try fixture.write("a.txt", "old")
+    let base = SwarmFilesystemApplySession.sha256(Data("old".utf8))
+    let session = try SwarmFilesystemApplySession(
+        runID: UUID(), projectRoot: fixture.project, stagingParent: fixture.staging,
+        files: [
+            .init(path: "a.txt", expectedBaseSHA256: base, proposedBytes: Data("new".utf8)),
+            .init(path: "nested/b.txt", expectedBaseSHA256: nil, proposedBytes: Data("added".utf8))
+        ])
+    let staged = try await session.stage()
+    #expect(staged.journalState == .prepared)
+    #expect(FileManager.default.fileExists(atPath: staged.stagingDirectory + "/proposed/a.txt"))
+    let applied = try await session.apply()
+    #expect(applied.journalState == .complete)
+    #expect(try fixture.read("a.txt") == "new")
+    #expect(try fixture.read("nested/b.txt") == "added")
+}
+
+@Test func rejectsTraversalAndNormalizedOwnershipOverlap() throws {
+    let fixture = try Fixture(); defer { fixture.cleanup() }
+    #expect(throws: SwarmFilesystemError.traversalRejected) {
+        _ = try SwarmFilesystemApplySession(runID: UUID(), projectRoot: fixture.project, stagingParent: fixture.staging,
+            files: [.init(path: "../escape", expectedBaseSHA256: nil, proposedBytes: Data())])
+    }
+    #expect(throws: SwarmFilesystemError.ownershipConflict) {
+        _ = try SwarmFilesystemApplySession(runID: UUID(), projectRoot: fixture.project, stagingParent: fixture.staging,
+            files: [
+                .init(path: "Styles", expectedBaseSHA256: nil, proposedBytes: Data()),
+                .init(path: "styles/site.css", expectedBaseSHA256: nil, proposedBytes: Data())
+            ])
+    }
+}
+
+@Test func rejectsSymlinkBeforeStaging() async throws {
+    let fixture = try Fixture(); defer { fixture.cleanup() }
+    try fixture.write("outside.txt", "outside")
+    try FileManager.default.createSymbolicLink(at: fixture.project.appendingPathComponent("linked.txt"),
+                                                withDestinationURL: fixture.project.appendingPathComponent("outside.txt"))
+    let session = try SwarmFilesystemApplySession(runID: UUID(), projectRoot: fixture.project, stagingParent: fixture.staging,
+        files: [.init(path: "linked.txt", expectedBaseSHA256: nil, proposedBytes: Data("bad".utf8))])
+    await #expect(throws: SwarmFilesystemError.symlinkRejected) { try await session.stage() }
+    #expect(try fixture.read("outside.txt") == "outside")
+}
+
+@Test func rejectsCaseAndUnicodeNamespaceCollisions() async throws {
+    let fixture = try Fixture(); defer { fixture.cleanup() }
+    try fixture.write("STYLES", "occupied")
+    let caseSession = try SwarmFilesystemApplySession(runID: UUID(), projectRoot: fixture.project, stagingParent: fixture.staging,
+        files: [.init(path: "styles/site.css", expectedBaseSHA256: nil, proposedBytes: Data())])
+    await #expect(throws: SwarmFilesystemError.ownershipConflict) { try await caseSession.stage() }
+
+    try FileManager.default.removeItem(at: fixture.project.appendingPathComponent("STYLES"))
+    try fixture.write("Cafe\u{301}", "occupied")
+    let unicodeSession = try SwarmFilesystemApplySession(runID: UUID(), projectRoot: fixture.project, stagingParent: fixture.staging,
+        files: [.init(path: "Caf\u{e9}/index.html", expectedBaseSHA256: nil, proposedBytes: Data())])
+    await #expect(throws: SwarmFilesystemError.ownershipConflict) { try await unicodeSession.stage() }
+}
+
+@Test func applyTimeConflictLeavesTargetUnchanged() async throws {
+    let fixture = try Fixture(); defer { fixture.cleanup() }
+    try fixture.write("a.txt", "old")
+    let base = SwarmFilesystemApplySession.sha256(Data("old".utf8))
+    let session = try SwarmFilesystemApplySession(runID: UUID(), projectRoot: fixture.project, stagingParent: fixture.staging,
+        files: [.init(path: "a.txt", expectedBaseSHA256: base, proposedBytes: Data("new".utf8))])
+    _ = try await session.stage()
+    try fixture.write("a.txt", "changed-by-user")
+    await #expect(throws: SwarmFilesystemError.targetChanged) { try await session.apply() }
+    #expect(try fixture.read("a.txt") == "changed-by-user")
+    #expect(await session.currentReceipt()?.journalState == .conflict)
+}
+
+@Test func newAncestorConflictAfterStageLeavesTargetUnchanged() async throws {
+    let fixture = try Fixture(); defer { fixture.cleanup() }
+    let session = try SwarmFilesystemApplySession(runID: UUID(), projectRoot: fixture.project, stagingParent: fixture.staging,
+        files: [.init(path: "styles/site.css", expectedBaseSHA256: nil, proposedBytes: Data("body{}".utf8))])
+    _ = try await session.stage()
+    try fixture.write("STYLES", "user file")
+    await #expect(throws: SwarmFilesystemError.targetChanged) { try await session.apply() }
+    #expect(try fixture.read("STYLES") == "user file")
+    #expect(!FileManager.default.fileExists(atPath: fixture.project.appendingPathComponent("styles/site.css").path))
+}
+
+@Test func partialApplyFailureRollsBackAndPreservesRecoveryBundle() async throws {
+    let fixture = try Fixture(); defer { fixture.cleanup() }
+    try fixture.write("a.txt", "old-a")
+    try fixture.write("b.txt", "old-b")
+    let session = try SwarmFilesystemApplySession(
+        runID: UUID(), projectRoot: fixture.project, stagingParent: fixture.staging,
+        files: [
+            .init(path: "a.txt", expectedBaseSHA256: SwarmFilesystemApplySession.sha256(Data("old-a".utf8)), proposedBytes: Data("new-a".utf8)),
+            .init(path: "b.txt", expectedBaseSHA256: SwarmFilesystemApplySession.sha256(Data("old-b".utf8)), proposedBytes: Data("new-b".utf8))
+        ],
+        faultInjector: FailAfterFirstWrite()
+    )
+    let staged = try await session.stage()
+    await #expect(throws: SwarmFilesystemError.applyFailed) { try await session.apply() }
+    #expect(try fixture.read("a.txt") == "old-a")
+    #expect(try fixture.read("b.txt") == "old-b")
+    #expect(FileManager.default.fileExists(atPath: staged.stagingDirectory + "/proposed/a.txt"))
+    #expect(FileManager.default.fileExists(atPath: staged.stagingDirectory + "/backups/a.txt"))
+    #expect(FileManager.default.fileExists(atPath: staged.stagingDirectory + "/journal.json"))
+    #expect(await session.currentReceipt()?.journalState == .rolledBack)
+}
+
+@Test func unrelatedProjectChangeDoesNotCauseFalseConflict() async throws {
+    let fixture = try Fixture(); defer { fixture.cleanup() }
+    try fixture.write("a.txt", "old")
+    try fixture.write("unrelated.txt", "one")
+    let session = try SwarmFilesystemApplySession(runID: UUID(), projectRoot: fixture.project, stagingParent: fixture.staging,
+        files: [.init(path: "a.txt", expectedBaseSHA256: SwarmFilesystemApplySession.sha256(Data("old".utf8)), proposedBytes: Data("new".utf8))])
+    _ = try await session.stage()
+    try fixture.write("unrelated.txt", "two")
+    _ = try await session.apply()
+    #expect(try fixture.read("a.txt") == "new")
+    #expect(try fixture.read("unrelated.txt") == "two")
+}
+
+@Test func rejectsWrongBaseWithoutChangingProject() async throws {
+    let fixture = try Fixture(); defer { fixture.cleanup() }
+    try fixture.write("a.txt", "old")
+    let session = try SwarmFilesystemApplySession(runID: UUID(), projectRoot: fixture.project, stagingParent: fixture.staging,
+        files: [.init(path: "a.txt", expectedBaseSHA256: String(repeating: "0", count: 64), proposedBytes: Data("new".utf8))])
+    await #expect(throws: SwarmFilesystemError.baseConflict) { try await session.stage() }
+    #expect(try fixture.read("a.txt") == "old")
+}
+
+@Test func applyTimeSymlinkIsRejectedAndExternalBytesAreUntouched() async throws {
+    let fixture = try Fixture(); defer { fixture.cleanup() }
+    let external = fixture.root.appendingPathComponent("external.txt")
+    try Data("external".utf8).write(to: external)
+    let session = try SwarmFilesystemApplySession(runID: UUID(), projectRoot: fixture.project, stagingParent: fixture.staging,
+        files: [.init(path: "target.txt", expectedBaseSHA256: nil, proposedBytes: Data("proposed".utf8))])
+    _ = try await session.stage()
+    try FileManager.default.createSymbolicLink(at: fixture.project.appendingPathComponent("target.txt"), withDestinationURL: external)
+    await #expect(throws: SwarmFilesystemError.symlinkRejected) { try await session.apply() }
+    #expect(String(decoding: try Data(contentsOf: external), as: UTF8.self) == "external")
+    #expect(await session.currentReceipt()?.journalState == .conflict)
+}
+
+@Test func failedNewNestedWriteRemovesCreatedTreeAndKeepsStaging() async throws {
+    let fixture = try Fixture(); defer { fixture.cleanup() }
+    let session = try SwarmFilesystemApplySession(
+        runID: UUID(), projectRoot: fixture.project, stagingParent: fixture.staging,
+        files: [
+            .init(path: "new/deep/a.txt", expectedBaseSHA256: nil, proposedBytes: Data("a".utf8)),
+            .init(path: "z.txt", expectedBaseSHA256: nil, proposedBytes: Data("z".utf8))
+        ], faultInjector: FailAfterFirstNestedWrite())
+    let staged = try await session.stage()
+    await #expect(throws: SwarmFilesystemError.applyFailed) { try await session.apply() }
+    #expect(!FileManager.default.fileExists(atPath: fixture.project.appendingPathComponent("new").path))
+    #expect(!FileManager.default.fileExists(atPath: fixture.project.appendingPathComponent("z.txt").path))
+    #expect(FileManager.default.fileExists(atPath: staged.stagingDirectory + "/proposed/new/deep/a.txt"))
+    #expect(await session.currentReceipt()?.journalState == .rolledBack)
+}
+
+
+@Test func independentPackageDescendantIsOverwrittenWithoutBase() async throws {
+    let fixture = try Fixture(); defer { fixture.cleanup() }
+    try fixture.write("Existing.app/Contents/valuable.txt", "existing-user-data")
+    let session = try SwarmFilesystemApplySession(runID: UUID(), projectRoot: fixture.project, stagingParent: fixture.staging,
+        files: [.init(path: "Existing.app/Contents/valuable.txt", expectedBaseSHA256: nil, proposedBytes: Data("proposal".utf8))])
+    let staged = try await session.stage()
+    #expect(!FileManager.default.fileExists(atPath: staged.stagingDirectory + "/backups/Existing.app/Contents/valuable.txt"))
+    let result = try await session.apply()
+    #expect(result.journalState == .complete)
+    #expect(try fixture.read("Existing.app/Contents/valuable.txt") == "proposal")
+    print("REPRO package: existing file overwritten under nil base, no backup")
+}
+
+private struct UserEditAfterWrite: SwarmFilesystemFaultInjecting {
+    let target: URL
+    func check(_ step: SwarmFilesystemApplyStep) throws {
+        if step == .afterFile(index: 0, path: "a.txt") {
+            try Data("new-user-edit".utf8).write(to: target, options: .atomic)
+            throw InjectedFailure()
+        }
+    }
+}
+@Test func independentRollbackOverwritesLaterUserEdit() async throws {
+    let fixture = try Fixture(); defer { fixture.cleanup() }
+    try fixture.write("a.txt", "original")
+    let session = try SwarmFilesystemApplySession(runID: UUID(), projectRoot: fixture.project, stagingParent: fixture.staging,
+        files: [.init(path: "a.txt", expectedBaseSHA256: SwarmFilesystemApplySession.sha256(Data("original".utf8)), proposedBytes: Data("proposal".utf8))],
+        faultInjector: UserEditAfterWrite(target: fixture.project.appendingPathComponent("a.txt")))
+    _ = try await session.stage()
+    await #expect(throws: SwarmFilesystemError.applyFailed) { try await session.apply() }
+    #expect(try fixture.read("a.txt") == "original")
+    #expect(await session.currentReceipt()?.journalState == .rolledBack)
+    print("REPRO rollback: new-user-edit lost; original restored with rolledBack status")
+}
+
+private struct RemoveTargetAfterWrite: SwarmFilesystemFaultInjecting {
+    let target: URL
+    func check(_ step: SwarmFilesystemApplyStep) throws {
+        if step == .afterFile(index: 0, path: "a.txt") {
+            try FileManager.default.removeItem(at: target)
+            try FileManager.default.createDirectory(at: target, withIntermediateDirectories: false)
+            try Data("user-content".utf8).write(to: target.appendingPathComponent("keep.txt"))
+            throw InjectedFailure()
+        }
+    }
+}
+@Test func independentRollbackDeletesReplacementDirectory() async throws {
+    let fixture = try Fixture(); defer { fixture.cleanup() }
+    let session = try SwarmFilesystemApplySession(runID: UUID(), projectRoot: fixture.project, stagingParent: fixture.staging,
+        files: [.init(path: "a.txt", expectedBaseSHA256: nil, proposedBytes: Data("proposal".utf8))],
+        faultInjector: RemoveTargetAfterWrite(target: fixture.project.appendingPathComponent("a.txt")))
+    _ = try await session.stage()
+    await #expect(throws: SwarmFilesystemError.applyFailed) { try await session.apply() }
+    #expect(!FileManager.default.fileExists(atPath: fixture.project.appendingPathComponent("a.txt").path))
+    #expect(await session.currentReceipt()?.journalState == .rolledBack)
+    print("REPRO rollback: recursively removed user replacement directory and keep.txt")
+}

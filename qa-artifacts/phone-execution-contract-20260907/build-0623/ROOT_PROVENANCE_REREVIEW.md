@@ -1,0 +1,13 @@
+# Root re-review — corrected0623 API provenance
+
+Verdict: **ACCEPT the provenance correction in the exact frozen staging candidate.** The reported labeling blocker is closed. This is a focused delta acceptance, not physical-phone/live-provider or installation acceptance. The independent reviewer retains ownership of the consolidated candidate verdict.
+
+Reviewed staging root: `/private/tmp/rivune-phone-descriptor-0623.bXGPu5`. All eight supplied source hashes matched. Changed provenance source hashes: RivuneStore `5931ae7e2ab0ef28ce1cff71c675837c0fbdfaf8e4c33f39db2b3d4e423d111f`; StartupReadiness `a470feb3005982325403a27d46f99d6b77ca3a1838263a0f5201612ff7831195`; StartupReadinessTests `2c5ed93b2dcb28280f969097bb2818302b4db863b6fe85e2f37ea266ff2ff072`. Accepted receiptV2 remains unchanged at `884d1af71174edf0a8bc3955fa8d4f82f75f177d9e561a1e3ac183516f0f7cd9`.
+
+API answer provenance now explicitly says `response model unavailable`, and the prior probe label is separately introduced as `connection check`. Startup routes use only the connection-check label. Both providers follow these branches. The code no longer claims the probe is the current response's resolved or requested model. CLI labels continue to say requested model/reasoning. The exact-string regression verifies the answer and startup labels. Corrected owner SOURCE_REVIEW.md under `/private/tmp/rivune-artifacts-0623-corrected` accurately describes this distinction.
+
+Independently extracted corrected Xcode summaries: 40 focused tests passed, zero failed/skipped; 323 full native tests passed, zero failed/skipped. This review read the existing results rather than rerunning passing suites. Mac/iOS Release and47browser results remain owner-recorded in this delta review. No provider calls, installed-app or shared source changes were made.
+
+Shared RivuneStore and StartupReadinessTests hashes also matched. Reads of shared StartupReadiness.swift and older workspace review artifacts stalled and were cancelled; the exact staging copy was readable. This file-read condition is not a code failure, but do not infer all shared files are verified from staging alone. Before packaging/installing, the native owner must ensure the build input matches the accepted frozen hashes and retain the final review/build evidence. No installation clearance is implied by an unresolved shared-source identity check.
+
+Result paths: `/private/tmp/rivune-dd-0623-provenance-local/Logs/Test/Test-Rivune Mac-2026.09.07_06-52-34--0600.xcresult`; `/private/tmp/rivune-dd-0623-full-corrected/Logs/Test/Test-Rivune Mac-2026.09.07_06-53-41--0600.xcresult`.

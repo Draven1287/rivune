@@ -1,0 +1,726 @@
+import Foundation
+import CryptoKit
+import Darwin
+
+public enum RemoteJournalError: Error, Equatable, Sendable {
+    case corruptOrUnreadable
+    case storageUnavailable
+    case journalFull
+    case unknownRequest
+    case identityConflict
+    case invalidMetadata
+    case invalidTransition
+    case journalAlreadyOwned
+}
+
+public enum RemoteStorageError: Error, Equatable, Sendable {
+    case writerAlreadyOwned
+    case lockUnavailable
+}
+
+public struct SHA256Digest: Codable, Equatable, Hashable, Sendable {
+    public let hex: String
+
+    public init(hex: String) throws {
+        guard hex.utf8.count == 64, hex.unicodeScalars.allSatisfy({
+            (48...57).contains($0.value) || (97...102).contains($0.value)
+        }) else { throw RemoteJournalError.invalidMetadata }
+        self.hex = hex
+    }
+
+    public static func hash(data: Data) -> Self {
+        // CryptoKit always emits a lowercase, 64-character SHA-256 value.
+        try! Self(hex: CryptoKit.SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined())
+    }
+
+    public static func hash(string: String) -> Self { hash(data: Data(string.utf8)) }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        try self.init(hex: container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(hex)
+    }
+}
+
+public enum RemoteModeIdentity: String, Codable, Equatable, Sendable {
+    case chatGPT, claude, together
+}
+
+public struct RemoteRouteIdentity: Codable, Equatable, Sendable {
+    public let canonicalDigest: SHA256Digest
+
+    public init(providerID: String, transportID: String, adapterID: String) {
+        let canonical = [providerID, transportID, adapterID]
+            .map { "\($0.utf8.count):\($0)" }
+            .joined(separator: "|")
+        self.canonicalDigest = .hash(string: canonical)
+    }
+}
+
+/// Non-secret identity admitted by the Mac. Prompt text, history, document
+/// contents, provider credentials, provider output, and raw diagnostics are
+/// deliberately not representable here.
+public struct RemoteAcceptedIdentity: Codable, Equatable, Sendable {
+    public let requestID: UUID
+    public let turnID: UUID
+    public let mode: RemoteModeIdentity
+    public let routes: [RemoteRouteIdentity]
+    public let requestedModelDigests: [SHA256Digest]
+    public let requestedEffortDigests: [SHA256Digest]
+    public let contextVersion: Int
+    public let attachmentSetDigest: SHA256Digest
+
+    public init(
+        requestID: UUID,
+        turnID: UUID,
+        mode: RemoteModeIdentity,
+        routes: [RemoteRouteIdentity],
+        requestedModelIDs: [String],
+        requestedEfforts: [String],
+        contextVersion: Int,
+        attachmentSetDigest: SHA256Digest
+    ) {
+        self.requestID = requestID
+        self.turnID = turnID
+        self.mode = mode
+        self.routes = routes
+        self.requestedModelDigests = requestedModelIDs.map(SHA256Digest.hash(string:))
+        self.requestedEffortDigests = requestedEfforts.map(SHA256Digest.hash(string:))
+        self.contextVersion = contextVersion
+        self.attachmentSetDigest = attachmentSetDigest
+    }
+}
+
+/// Points back into the existing local workspace journal. The phone journal
+/// does not duplicate answer text or artifacts.
+public struct RemoteResultReference: Codable, Equatable, Sendable {
+    public let workspaceRunID: UUID
+    public let revision: Int
+    public let resultDigest: SHA256Digest
+
+    public init(workspaceRunID: UUID, revision: Int, resultDigest: SHA256Digest) throws {
+        guard revision >= 0 else { throw RemoteJournalError.invalidMetadata }
+        self.workspaceRunID = workspaceRunID
+        self.revision = revision
+        self.resultDigest = resultDigest
+    }
+
+    private enum CodingKeys: String, CodingKey { case workspaceRunID, revision, resultDigest }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        try self.init(
+            workspaceRunID: values.decode(UUID.self, forKey: .workspaceRunID),
+            revision: values.decode(Int.self, forKey: .revision),
+            resultDigest: values.decode(SHA256Digest.self, forKey: .resultDigest)
+        )
+    }
+}
+
+public enum RemoteJournalState: Equatable, Sendable {
+    case running
+    case completed(RemoteResultReference)
+    case interruptedUnknown
+    case stopRequested
+    case cancelled
+    case failed
+}
+
+extension RemoteJournalState: Codable {
+    private enum CodingKeys: String, CodingKey { case kind, result }
+    private enum Kind: String, Codable { case running, completed, interruptedUnknown, stopRequested, cancelled, failed }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        switch try values.decode(Kind.self, forKey: .kind) {
+        case .running: self = .running
+        case .completed: self = .completed(try values.decode(RemoteResultReference.self, forKey: .result))
+        case .interruptedUnknown: self = .interruptedUnknown
+        case .stopRequested: self = .stopRequested
+        case .cancelled: self = .cancelled
+        case .failed: self = .failed
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var values = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case .running: try values.encode(Kind.running, forKey: .kind)
+        case .completed(let result):
+            try values.encode(Kind.completed, forKey: .kind)
+            try values.encode(result, forKey: .result)
+        case .interruptedUnknown: try values.encode(Kind.interruptedUnknown, forKey: .kind)
+        case .stopRequested: try values.encode(Kind.stopRequested, forKey: .kind)
+        case .cancelled: try values.encode(Kind.cancelled, forKey: .kind)
+        case .failed: try values.encode(Kind.failed, forKey: .kind)
+        }
+    }
+}
+
+public struct RemoteJournalRecord: Codable, Equatable, Sendable {
+    public let identity: RemoteAcceptedIdentity
+    public let requestFingerprint: SHA256Digest
+    public var state: RemoteJournalState
+    public let acceptedAt: Date
+    public var updatedAt: Date
+}
+
+public enum RemoteAdmissionDisposition: Equatable, Sendable {
+    /// Persistence succeeded. The caller may dispatch exactly once.
+    case dispatch(RemoteJournalRecord)
+    /// Same ID and immutable identity. Attach to the existing durable run.
+    case reattach(RemoteJournalRecord)
+    /// Same ID and completed result. Resolve the reference from the workspace.
+    case replay(RemoteResultReference)
+    /// The detailed result was pruned, but the ID remains consumed. Never rerun.
+    case expiredResult
+    /// Same ID with different content or accepted identity. Never dispatch.
+    case conflict
+}
+
+public enum RemoteStopDisposition: Equatable, Sendable {
+    case cancelProvider
+    case alreadyTerminal
+    case conflict
+}
+
+public protocol RemoteJournalStorage: AnyObject, Sendable {
+    /// Stable for the lifetime of the underlying store. Two journal snapshots
+    /// over the same storage must present the same key.
+    var journalLeaseKey: String { get }
+    func read() throws -> Data?
+    func writeAtomically(_ data: Data) throws
+}
+
+private final class WriterOwnershipRegistry: @unchecked Sendable {
+    static let shared = WriterOwnershipRegistry()
+    private let lock = NSLock()
+    private var paths: Set<String> = []
+
+    func claim(_ path: String) -> Bool {
+        lock.lock(); defer { lock.unlock() }
+        return paths.insert(path).inserted
+    }
+
+    func release(_ path: String) {
+        lock.lock(); defer { lock.unlock() }
+        paths.remove(path)
+    }
+}
+
+/// A file-backed storage owns an OS advisory lock and an in-process path lease
+/// for its entire lifetime. A second writer cannot obtain a stale snapshot.
+public final class FileRemoteJournalStorage: RemoteJournalStorage, @unchecked Sendable {
+    public let url: URL
+    private let ownershipPath: String
+    private let lockDescriptor: Int32
+    public var journalLeaseKey: String { "file:\(ownershipPath)" }
+
+    public init(url: URL) throws {
+        self.url = url.standardizedFileURL
+        ownershipPath = self.url.path
+        guard WriterOwnershipRegistry.shared.claim(ownershipPath) else {
+            throw RemoteStorageError.writerAlreadyOwned
+        }
+        do {
+            let directory = self.url.deletingLastPathComponent()
+            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+            let descriptor = open(self.url.path + ".writer-lock", O_CREAT | O_RDWR, S_IRUSR | S_IWUSR)
+            guard descriptor >= 0 else { throw RemoteStorageError.lockUnavailable }
+            guard flock(descriptor, LOCK_EX | LOCK_NB) == 0 else {
+                close(descriptor)
+                throw RemoteStorageError.writerAlreadyOwned
+            }
+            lockDescriptor = descriptor
+        } catch {
+            WriterOwnershipRegistry.shared.release(ownershipPath)
+            throw error
+        }
+    }
+
+    deinit {
+        flock(lockDescriptor, LOCK_UN)
+        close(lockDescriptor)
+        WriterOwnershipRegistry.shared.release(ownershipPath)
+    }
+
+    public func read() throws -> Data? {
+        guard FileManager.default.fileExists(atPath: url.path) else { return nil }
+        return try Data(contentsOf: url, options: [.mappedIfSafe])
+    }
+
+    public func writeAtomically(_ data: Data) throws {
+        let directory = url.deletingLastPathComponent()
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        try data.write(to: url, options: [.atomic])
+    }
+}
+
+final class JournalStateLease: @unchecked Sendable {
+    let key: String
+    let token: UUID
+    private let registry: JournalStateOwnershipRegistry
+
+    init(key: String, token: UUID, registry: JournalStateOwnershipRegistry) {
+        self.key = key
+        self.token = token
+        self.registry = registry
+    }
+
+    deinit {
+        registry.release(key, ownedBy: token)
+    }
+}
+
+final class JournalStateOwnershipRegistry: @unchecked Sendable {
+    static let shared = JournalStateOwnershipRegistry()
+    private let lock = NSLock()
+    private var owners: [String: UUID] = [:]
+
+    func claim(_ key: String) -> JournalStateLease? {
+        lock.lock(); defer { lock.unlock() }
+        guard owners[key] == nil else { return nil }
+        let token = UUID()
+        owners[key] = token
+        return JournalStateLease(key: key, token: token, registry: self)
+    }
+
+    /// Token comparison makes late or duplicated release attempts harmless.
+    func release(_ key: String, ownedBy token: UUID) {
+        lock.lock(); defer { lock.unlock() }
+        guard owners[key] == token else { return }
+        owners.removeValue(forKey: key)
+    }
+}
+
+public final class RemoteRequestJournal: @unchecked Sendable {
+    private struct Tombstone: Codable, Equatable {
+        let requestID: UUID
+        let requestFingerprint: SHA256Digest
+        let identityDigest: SHA256Digest
+        let consumedAt: Date
+    }
+
+    private struct Snapshot: Codable, Equatable {
+        var schemaVersion = 1
+        var records: [RemoteJournalRecord]
+        var tombstones: [Tombstone]
+    }
+
+    private let storage: any RemoteJournalStorage
+    private let journalStateLease: JournalStateLease
+    private let maxRecords: Int
+    private let maxTombstones: Int
+    private let maximumBytes: Int
+    private let now: @Sendable () -> Date
+    private let lock = NSLock()
+    private var snapshot: Snapshot
+
+    public init(
+        storage: any RemoteJournalStorage,
+        maxRecords: Int = 1_024,
+        maxTombstones: Int = 100_000,
+        maximumBytes: Int = 8 * 1_024 * 1_024,
+        now: @escaping @Sendable () -> Date = { Date() }
+    ) throws {
+        guard maxRecords > 0, maxTombstones > 0, maximumBytes > 0 else {
+            throw RemoteJournalError.invalidMetadata
+        }
+        self.storage = storage
+        self.maxRecords = maxRecords
+        self.maxTombstones = maxTombstones
+        self.maximumBytes = maximumBytes
+        self.now = now
+        guard let lease = JournalStateOwnershipRegistry.shared.claim(storage.journalLeaseKey) else {
+            throw RemoteJournalError.journalAlreadyOwned
+        }
+        journalStateLease = lease
+
+        do {
+            if let data = try storage.read() {
+                guard data.count <= maximumBytes else { throw RemoteJournalError.corruptOrUnreadable }
+                let decoded = try JSONDecoder().decode(Snapshot.self, from: data)
+                guard decoded.schemaVersion == 1,
+                      Set(decoded.records.map(\.identity.requestID)).count == decoded.records.count,
+                      Set(decoded.tombstones.map(\.requestID)).count == decoded.tombstones.count,
+                      Set(decoded.records.map(\.identity.requestID)).isDisjoint(with: Set(decoded.tombstones.map(\.requestID))) else {
+                    throw RemoteJournalError.corruptOrUnreadable
+                }
+                snapshot = decoded
+            } else {
+                snapshot = Snapshot(records: [], tombstones: [])
+            }
+        } catch let error as RemoteJournalError {
+            throw error
+        } catch {
+            throw RemoteJournalError.corruptOrUnreadable
+        }
+
+        do {
+            try validateAll(snapshot)
+            let changed = recoverUnfinishedRuns()
+            if changed { try persistCurrentSnapshot() }
+        } catch let error as RemoteJournalError {
+            throw error
+        } catch {
+            throw RemoteJournalError.corruptOrUnreadable
+        }
+    }
+
+    /// Persists the immutable binding and running state before returning
+    /// `.dispatch`. A thrown storage error means provider dispatch is forbidden.
+    public func admit(
+        identity: RemoteAcceptedIdentity,
+        requestFingerprint: SHA256Digest
+    ) throws -> RemoteAdmissionDisposition {
+        try withLock {
+            try validate(identity: identity, fingerprint: requestFingerprint)
+            if let record = snapshot.records.first(where: { $0.identity.requestID == identity.requestID }) {
+                guard record.requestFingerprint == requestFingerprint, record.identity == identity else { return .conflict }
+                if case .completed(let reference) = record.state { return .replay(reference) }
+                return .reattach(record)
+            }
+            if let tombstone = snapshot.tombstones.first(where: { $0.requestID == identity.requestID }) {
+                guard tombstone.requestFingerprint == requestFingerprint,
+                      tombstone.identityDigest == Self.identityDigest(identity) else { return .conflict }
+                return .expiredResult
+            }
+
+            let pruneIndex = try terminalIndexToPruneIfNeeded()
+            let timestamp = now()
+            let record = RemoteJournalRecord(
+                identity: identity,
+                requestFingerprint: requestFingerprint,
+                state: .running,
+                acceptedAt: timestamp,
+                updatedAt: timestamp
+            )
+            try commit { candidate in
+                if let pruneIndex {
+                    let removed = candidate.records.remove(at: pruneIndex)
+                    candidate.tombstones.append(Tombstone(
+                        requestID: removed.identity.requestID,
+                        requestFingerprint: removed.requestFingerprint,
+                        identityDigest: Self.identityDigest(removed.identity),
+                        consumedAt: timestamp
+                    ))
+                }
+                candidate.records.append(record)
+            }
+            return .dispatch(record)
+        }
+    }
+
+    public func complete(
+        requestID: UUID,
+        requestFingerprint: SHA256Digest,
+        result: RemoteResultReference
+    ) throws {
+        try validate(result: result)
+        try transition(requestID: requestID, fingerprint: requestFingerprint) { state in
+            guard state == .running || state == .stopRequested else { throw RemoteJournalError.invalidTransition }
+            return .completed(result)
+        }
+    }
+
+    public func fail(requestID: UUID, requestFingerprint: SHA256Digest) throws {
+        try transition(requestID: requestID, fingerprint: requestFingerprint) { state in
+            guard state == .running || state == .stopRequested else { throw RemoteJournalError.invalidTransition }
+            return .failed
+        }
+    }
+
+    public func confirmCancelled(requestID: UUID, requestFingerprint: SHA256Digest) throws {
+        try transition(requestID: requestID, fingerprint: requestFingerprint) { state in
+            guard state == .stopRequested else { throw RemoteJournalError.invalidTransition }
+            return .cancelled
+        }
+    }
+
+    /// View changes and transport disconnects call this. It is intentionally
+    /// read-only and must not request provider cancellation.
+    public func detachObservation(
+        requestID: UUID,
+        requestFingerprint: SHA256Digest
+    ) throws -> RemoteJournalRecord {
+        try withLock {
+            guard let record = snapshot.records.first(where: { $0.identity.requestID == requestID }) else {
+                throw RemoteJournalError.unknownRequest
+            }
+            guard record.requestFingerprint == requestFingerprint else { throw RemoteJournalError.identityConflict }
+            return record
+        }
+    }
+
+    /// Only an explicit user Stop command calls this. The host sends provider
+    /// cancellation only after this state is durably committed.
+    public func requestStop(
+        requestID: UUID,
+        requestFingerprint: SHA256Digest
+    ) throws -> RemoteStopDisposition {
+        try withLock {
+            guard let index = snapshot.records.firstIndex(where: { $0.identity.requestID == requestID }) else {
+                throw RemoteJournalError.unknownRequest
+            }
+            guard snapshot.records[index].requestFingerprint == requestFingerprint else { return .conflict }
+            switch snapshot.records[index].state {
+            case .running:
+                try commit {
+                    $0.records[index].state = .stopRequested
+                    $0.records[index].updatedAt = now()
+                }
+                return .cancelProvider
+            case .stopRequested:
+                return .cancelProvider
+            case .completed, .interruptedUnknown, .cancelled, .failed:
+                return .alreadyTerminal
+            }
+        }
+    }
+
+    public func record(requestID: UUID) -> RemoteJournalRecord? {
+        withLockNoThrow { snapshot.records.first { $0.identity.requestID == requestID } }
+    }
+
+    /// Read-only consumed-ID probe covering live records and pruned tombstones.
+    /// Callers use this before fresh route admission so a tombstoned duplicate
+    /// can never be mistaken for a new dispatchable request.
+    public func hasConsumedRequestID(_ requestID: UUID) -> Bool {
+        withLockNoThrow {
+            snapshot.records.contains { $0.identity.requestID == requestID } ||
+            snapshot.tombstones.contains { $0.requestID == requestID }
+        }
+    }
+
+    private func transition(
+        requestID: UUID,
+        fingerprint: SHA256Digest,
+        change: (RemoteJournalState) throws -> RemoteJournalState
+    ) throws {
+        try withLock {
+            guard let index = snapshot.records.firstIndex(where: { $0.identity.requestID == requestID }) else {
+                throw RemoteJournalError.unknownRequest
+            }
+            guard snapshot.records[index].requestFingerprint == fingerprint else {
+                throw RemoteJournalError.identityConflict
+            }
+            let next = try change(snapshot.records[index].state)
+            try commit {
+                $0.records[index].state = next
+                $0.records[index].updatedAt = now()
+            }
+        }
+    }
+
+    private func recoverUnfinishedRuns() -> Bool {
+        var changed = false
+        for index in snapshot.records.indices {
+            if snapshot.records[index].state == .running || snapshot.records[index].state == .stopRequested {
+                snapshot.records[index].state = .interruptedUnknown
+                snapshot.records[index].updatedAt = now()
+                changed = true
+            }
+        }
+        return changed
+    }
+
+    private func terminalIndexToPruneIfNeeded() throws -> Int? {
+        guard snapshot.records.count >= maxRecords else { return nil }
+        let terminalIndices = snapshot.records.indices.filter {
+            switch snapshot.records[$0].state {
+            case .completed, .interruptedUnknown, .cancelled, .failed: true
+            case .running, .stopRequested: false
+            }
+        }
+        guard let oldestIndex = terminalIndices.min(by: {
+            snapshot.records[$0].updatedAt < snapshot.records[$1].updatedAt
+        }), snapshot.tombstones.count < maxTombstones else {
+            throw RemoteJournalError.journalFull
+        }
+        return oldestIndex
+    }
+
+    private func commit(_ mutation: (inout Snapshot) throws -> Void) throws {
+        let previous = snapshot
+        do {
+            try mutation(&snapshot)
+            try validateAll(snapshot)
+            try persistCurrentSnapshot()
+        } catch let error as RemoteJournalError {
+            snapshot = previous
+            throw error
+        } catch {
+            snapshot = previous
+            throw RemoteJournalError.storageUnavailable
+        }
+    }
+
+    private func persistCurrentSnapshot() throws {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
+        let data = try encoder.encode(snapshot)
+        guard data.count <= maximumBytes else { throw RemoteJournalError.journalFull }
+        do { try storage.writeAtomically(data) }
+        catch { throw RemoteJournalError.storageUnavailable }
+    }
+
+    private func validateAll(_ candidate: Snapshot) throws {
+        guard candidate.records.count <= maxRecords,
+              candidate.tombstones.count <= maxTombstones else { throw RemoteJournalError.journalFull }
+        for record in candidate.records {
+            try validate(identity: record.identity, fingerprint: record.requestFingerprint)
+            if case .completed(let reference) = record.state {
+                try validate(result: reference)
+            }
+        }
+    }
+
+    private func validate(identity: RemoteAcceptedIdentity, fingerprint: SHA256Digest) throws {
+        guard identity.contextVersion > 0,
+              !identity.routes.isEmpty,
+              identity.routes.count <= 8,
+              identity.requestedModelDigests.count <= 8,
+              identity.requestedEffortDigests.count <= 8 else {
+            throw RemoteJournalError.invalidMetadata
+        }
+    }
+
+    private func validate(result: RemoteResultReference) throws {
+        guard result.revision >= 0 else { throw RemoteJournalError.invalidMetadata }
+    }
+
+    /// Canonical SHA-256 binding for the typed, non-secret identity record.
+    private static func identityDigest(_ identity: RemoteAcceptedIdentity) -> SHA256Digest {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
+        let data = (try? encoder.encode(identity)) ?? Data()
+        return .hash(data: data)
+    }
+
+    private func withLock<T>(_ body: () throws -> T) rethrows -> T {
+        lock.lock(); defer { lock.unlock() }
+        return try body()
+    }
+
+    private func withLockNoThrow<T>(_ body: () -> T) -> T {
+        lock.lock(); defer { lock.unlock() }
+        return body()
+    }
+}
+
+struct BridgePeerContext { let principal: String; let generation: UUID }
+struct BridgeStopRequest { let requestID: UUID; let requestFingerprint: String }
+enum TerminalState { case interrupted, cancelled, failed }
+struct BridgeStopUpdate { let requestID: UUID; let accepted: Bool; let message: String; var terminalState: TerminalState? = nil }
+typealias WorkspaceRunStatus = String
+typealias CouncilStage = String
+extension String { static var running: String { "running" } }
+struct ChatTurn: Codable { let id: UUID; let answer: String }
+struct WorkspaceRun { let id: UUID; let conversationID: UUID; let requestKey: String; let turn: ChatTurn; let status: String; let stage: String; let durableRevision: Int? }
+enum WorkspaceRunError: Error { case storageUnavailable }
+final class Bridge { func isCurrent(_ context: BridgePeerContext) -> Bool { true } }
+final class Coordinator {
+ var cancelCount = 0; var snapshot: WorkspaceRun?; var resolves = 0
+ func requestCancel(_ id: UUID) { cancelCount += 1 }
+ func existing(id: UUID, requestKey: String) throws -> WorkspaceRun? { resolves += 1; guard let snapshot, snapshot.id == id, snapshot.requestKey == requestKey else { return nil }; return snapshot }
+    func resolve(reference: RemoteResultReference, requestKey: String) throws -> WorkspaceRun {
+        guard let run = try existing(id: reference.workspaceRunID, requestKey: requestKey),
+              run.status != .running,
+              (run.durableRevision ?? 0) == reference.revision,
+              SHA256Digest.hash(data: Self.terminalReferenceData(run)) == reference.resultDigest else {
+            throw WorkspaceRunError.storageUnavailable
+        }
+        return run
+    }
+    static func terminalReferenceData(_ run: WorkspaceRun) -> Data {
+        struct Payload: Codable {
+            let id: UUID; let conversationID: UUID; let requestKey: String
+            let turn: ChatTurn; let status: WorkspaceRunStatus; let stage: CouncilStage; let revision: Int
+        }
+        let payload = Payload(id: run.id, conversationID: run.conversationID, requestKey: run.requestKey,
+                              turn: run.turn, status: run.status, stage: run.stage,
+                              revision: run.durableRevision ?? 0)
+        let encoder = JSONEncoder(); encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
+        return (try? encoder.encode(payload)) ?? Data()
+    }
+}
+final class Memory: RemoteJournalStorage, @unchecked Sendable { let journalLeaseKey=UUID().uuidString; var data: Data?; func read() throws -> Data? { data };func writeAtomically(_ data:Data) throws {self.data=data} }
+final class Host {
+ let remotePrincipalOverride: String? = nil; let bridge=Bridge(); let remoteJournal: RemoteRequestJournal?
+ struct Observation { let fingerprint: String; let peer: BridgePeerContext }
+ var remoteObservations: [UUID: Observation] = [:]; let runCoordinator=Coordinator(); var answers:[String]=[]; var notices:[BridgeStopUpdate]=[]
+ init(_ journal: RemoteRequestJournal) {remoteJournal=journal}
+ static func remoteDeviceIdentity(principal:String) -> RemoteRouteIdentity { .init(providerID:"rivune-paired-device",transportID:principal,adapterID:"paired-principal-v1") }
+ static func bridgeUpdate(run: WorkspaceRun) -> String {run.turn.answer}
+ func sendBridgeUpdate(_ answer:String,peerContext:BridgePeerContext) {answers.append(answer)}
+ func sendStopUpdate(_ update:BridgeStopUpdate,peerContext:BridgePeerContext) {notices.append(update)}
+    func handleRemoteStop(_ stop: BridgeStopRequest, peerContext: BridgePeerContext) {
+        if remotePrincipalOverride == nil && !bridge.isCurrent(peerContext) { return }
+        guard let fingerprint = try? SHA256Digest(hex: stop.requestFingerprint),
+              let journal = remoteJournal,
+              journal.record(requestID: stop.requestID)?.identity.routes.first == Self.remoteDeviceIdentity(principal: peerContext.principal) else {
+            sendStopUpdate(.init(requestID: stop.requestID, accepted: false, message: "Rivune could not authorize this stop request"), peerContext: peerContext)
+            return
+        }
+        do {
+            switch try journal.requestStop(requestID: stop.requestID, requestFingerprint: fingerprint) {
+            case .cancelProvider:
+                remoteObservations[stop.requestID] = .init(fingerprint: stop.requestFingerprint, peer: peerContext)
+                runCoordinator.requestCancel(stop.requestID)
+            case .alreadyTerminal:
+                guard let state = journal.record(requestID: stop.requestID)?.state else {
+                    sendStopUpdate(.init(requestID: stop.requestID, accepted: true, message: "The saved terminal state is unavailable. Rivune did not run the request again.", terminalState: .interrupted), peerContext: peerContext)
+                    return
+                }
+                switch state {
+                case .completed(let reference):
+                    do {
+                        let run = try runCoordinator.resolve(reference: reference, requestKey: stop.requestFingerprint)
+                        sendBridgeUpdate(Self.bridgeUpdate(run: run), peerContext: peerContext)
+                    } catch {
+                        sendStopUpdate(.init(requestID: stop.requestID, accepted: true, message: "The saved result could not be verified. Rivune did not disclose or run it again.", terminalState: .interrupted), peerContext: peerContext)
+                    }
+                case .cancelled:
+                    sendStopUpdate(.init(requestID: stop.requestID, accepted: true, message: "The local Rivune task was already stopped.", terminalState: .cancelled), peerContext: peerContext)
+                case .failed:
+                    sendStopUpdate(.init(requestID: stop.requestID, accepted: true, message: "This request already failed on your Mac. It was not run again.", terminalState: .failed), peerContext: peerContext)
+                case .interruptedUnknown:
+                    sendStopUpdate(.init(requestID: stop.requestID, accepted: true, message: "Rivune closed before this request finished. It was not run again.", terminalState: .interrupted), peerContext: peerContext)
+                case .running, .stopRequested:
+                    sendStopUpdate(.init(requestID: stop.requestID, accepted: false, message: "Rivune could not confirm this request's terminal state."), peerContext: peerContext)
+                }
+            case .conflict:
+                sendStopUpdate(.init(requestID: stop.requestID, accepted: false, message: "Stop request did not match the active request"), peerContext: peerContext)
+            }
+        } catch {
+            sendStopUpdate(.init(requestID: stop.requestID, accepted: false, message: "Rivune could not verify this stop request"), peerContext: peerContext)
+        }
+    }
+}
+let journal=try RemoteRequestJournal(storage:Memory()), id=UUID(), fp=SHA256Digest.hash(string:"request")
+let identity=RemoteAcceptedIdentity(requestID:id,turnID:UUID(),mode:.chatGPT,routes:[Host.remoteDeviceIdentity(principal:"A")],requestedModelIDs:[],requestedEfforts:[],contextVersion:2,attachmentSetDigest:.hash(string:"none"))
+_ = try journal.admit(identity:identity,requestFingerprint:fp)
+let host=Host(journal), stop=BridgeStopRequest(requestID:id,requestFingerprint:fp.hex), peer=BridgePeerContext(principal:"A",generation:UUID())
+host.handleRemoteStop(stop,peerContext:.init(principal:"B",generation:UUID()))
+precondition(host.runCoordinator.cancelCount==0 && journal.record(requestID:id)?.state == .running)
+print("PASS: foreign Stop rejected without cancellation")
+let run=WorkspaceRun(id:id,conversationID:UUID(),requestKey:fp.hex,turn:.init(id:UUID(),answer:"verified"),status:"complete",stage:"complete",durableRevision:1)
+let ref=try RemoteResultReference(workspaceRunID:id,revision:1,resultDigest:.hash(data:Coordinator.terminalReferenceData(run)))
+try journal.complete(requestID:id,requestFingerprint:fp,result:ref)
+host.runCoordinator.snapshot=run
+host.handleRemoteStop(stop,peerContext:peer)
+precondition(host.answers == ["verified"])
+let bad=WorkspaceRun(id:id,conversationID:run.conversationID,requestKey:fp.hex,turn:.init(id:run.turn.id,answer:"tampered"),status:"complete",stage:"complete",durableRevision:1)
+precondition(Coordinator.terminalReferenceData(run) != Coordinator.terminalReferenceData(bad))
+host.runCoordinator.snapshot=bad
+host.handleRemoteStop(stop,peerContext:peer)
+precondition(host.answers == ["verified"] && host.notices.last?.terminalState == .interrupted && host.notices.last?.accepted == true)
+host.runCoordinator.snapshot=nil
+host.handleRemoteStop(stop,peerContext:peer)
+host.handleRemoteStop(stop,peerContext:peer)
+precondition(host.answers == ["verified"] && host.notices.last?.terminalState == .interrupted && host.runCoordinator.cancelCount==0)
+print("PASS: Stop resolves full-result hash, sends only valid result, settles altered/missing/repeated terminal result without dispatch")

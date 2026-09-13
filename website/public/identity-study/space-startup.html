@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#000000">
+  <title>Rivune — Arrival</title>
+  <link rel="preload" as="image" href="silver-orbit-space.png">
+  <style>
+    :root { color-scheme:dark; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:#000; color:#edf2f7; --stars:0; --outline:0; --reveal:100%; --wordmark:0; --peripheral:0; --settle:1.018; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#000; }
+    button,a,input { -webkit-tap-highlight-color:transparent; }
+    button,a { font:inherit; }
+    button { cursor:pointer; }
+    a { color:inherit; text-decoration:none; }
+    button:focus-visible,a:focus-visible,input:focus-visible { outline:2px solid #b2d8ee; outline-offset:5px; }
+    button:disabled { opacity:.4; cursor:default; }
+    .stage { position:relative; min-height:520px; height:100svh; overflow:hidden; isolation:isolate; background:#000; }
+    .stars { position:absolute; inset:0; pointer-events:none; opacity:var(--stars); z-index:-2; }
+    .star { position:absolute; border-radius:50%; background:#d9eafa; box-shadow:0 0 4px #8bbddd44; }
+    .haze { position:absolute; inset:0; pointer-events:none; z-index:-1; opacity:var(--stars); background:radial-gradient(ellipse at 50% 46%,#08213244 0%,transparent 49%); }
+    .toolbar { position:absolute; inset:24px 30px auto; z-index:5; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .study-title { display:flex; flex-direction:column; gap:7px; font:10px ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:2px; color:#778893; text-transform:uppercase; }
+    .study-title strong { color:#cad6de; font-weight:500; letter-spacing:2.7px; }
+    .actions { display:flex; gap:8px; }
+    .control { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:36px; border:1px solid #ffffff21; background:#080b0eaa; color:#a9bac6; border-radius:8px; padding:8px 12px; font-size:11px; }
+    .control:hover { border-color:#68808f; background:#111b23; color:#eff8ff; }
+    .control svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+    .identity { position:absolute; left:50%; top:47%; transform:translate(-50%,-50%); width:min(90vw,110vh,1040px); aspect-ratio:3/2; }
+    .image-surface { position:absolute; inset:0; mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent),linear-gradient(to bottom,transparent,#000 5%,#000 92%,transparent); mask-composite:intersect; }
+    .art { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; mix-blend-mode:screen; pointer-events:none; transform:scale(var(--settle)); }
+    .ghost { opacity:var(--outline); clip-path:inset(14% 18% 26% 18%); filter:grayscale(1) brightness(.5); }
+    .reveal { clip-path:inset(0 0 26%); mask-image:linear-gradient(to top,#fff calc(100% - var(--reveal) - 3%),transparent calc(100% - var(--reveal) + 3%)); }
+    .lettering { clip-path:inset(74% 0 0); opacity:var(--wordmark); }
+    .counter { position:absolute; top:42%; color:#d8e9f5; font:14px ui-monospace,SFMono-Regular,Menlo,monospace; font-variant-numeric:tabular-nums; letter-spacing:1px; opacity:.95; }
+    .counter.left { right:calc(100% + 3px); }
+    .counter.right { left:calc(100% + 3px); }
+    .peripheral { position:absolute; z-index:2; font:9px ui-monospace,SFMono-Regular,Menlo,monospace; text-transform:uppercase; letter-spacing:2px; color:#829baa; opacity:var(--peripheral); }
+    .north { top:18%; left:50%; transform:translateX(-50%); white-space:nowrap; }
+    .west { left:7%; top:49%; }
+    .east { right:7%; top:49%; }
+    .footer { position:absolute; bottom:28px; left:20px; right:20px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:15px; }
+    .timeline { width:min(260px,65vw); }
+    .loading-label { display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;color:#c4dae9;font:10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:2px;font-variant-numeric:tabular-nums; }
+    input[type=range] { display:block; width:100%; height:18px; margin:0; accent-color:#c4dae9; cursor:pointer; }
+    .timeline-label { display:flex; justify-content:space-between; gap:20px; margin-top:5px; color:#657d8c; font:8px ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:1.5px; }
+    .caption { color:#607482; font-size:10px; margin:0; line-height:1.5; }
+    .status { color:#afc7d5; min-height:17px; font-size:11px; letter-spacing:.4px; margin:0; }
+    .error { position:absolute; top:40%; left:15%; right:15%; text-align:center; line-height:1.6; }
+    [hidden] { display:none!important; }
+    .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
+    @media (max-width:1100px) { .west,.east { top:72%; font-size:8px; letter-spacing:1.3px; } .west{left:8%;} .east{right:8%;} }
+    @media (max-width:600px) { .stage { min-height:650px; } .toolbar { inset:20px 18px auto; align-items:flex-start; } .study-title { font-size:8px; letter-spacing:1px; } .control { padding:8px 10px; min-height:36px; font-size:10px; } .back-label { display:none; } .identity { width:89vw; top:44%; } .counter { top:45%; font-size:10px; } .counter.left { right:auto; left:0; } .counter.right { left:auto; right:0; } .north { top:23%; font-size:8px; letter-spacing:1.4px; } .west,.east { top:69%; font-size:7px; letter-spacing:1px; } .footer{bottom:26px;gap:13px;} }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; } }
+    .image-surface { mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent),linear-gradient(to bottom,transparent,#000 16%,#000 88%,transparent); }
+    .continuous { mask-image:linear-gradient(to bottom,#000 45%,transparent 60%);mask-size:100% 300%;mask-position:0 var(--reveal); }
+  </style>
+</head>
+<body>
+  <main class="stage" aria-label="Rivune space startup animation preview">
+    <div class="stars" aria-hidden="true"></div><div class="haze" aria-hidden="true"></div>
+    <header class="toolbar">
+      <div class="study-title"><strong>Rivune</strong><span>Arrival · motion study</span></div>
+      <div class="actions">
+        <a class="control" href="index.html?review=halo-r" aria-label="Back to logo studies"><span aria-hidden="true">←</span><span class="back-label">Logo studies</span></a>
+        <button class="control" id="pause" disabled>Pause</button>
+        <button class="control" id="replay" disabled><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5a5 5 0 1 1-1 4M3 1v4h4"/></svg>Replay</button>
+      </div>
+    </header>
+    <span class="peripheral north" aria-hidden="true">Connected intelligence</span>
+    <span class="peripheral west" aria-hidden="true">Your ideas</span>
+    <div class="identity" role="img" aria-label="Slender silver Rivune R with a luminous pearl and bright blue silver ring, surrounded by galaxies and stars">
+      <div class="image-surface">
+      <img class="art continuous" id="artwork" src="silver-orbit-space.png" alt="" width="1536" height="1024">
+      </div>
+      <span class="counter left" aria-hidden="true">0%</span><span class="counter right" aria-hidden="true">0%</span>
+    </div>
+    <span class="peripheral east" aria-hidden="true">Multiple perspectives</span>
+    <p class="error" hidden>The artwork could not load.<br>Try refreshing the preview.</p>
+    <footer class="footer">
+      <p class="status" id="status" role="status" aria-live="polite">Preparing preview</p>
+      <div class="timeline"><div class="loading-label" aria-hidden="true"><span id="loading-label">LOADING</span><span id="loading-percentage">0%</span></div><label class="sr-only" for="timeline">Preview position</label><input id="timeline" type="range" min="0" max="100" value="0" step="1" disabled aria-valuetext="0 percent"><div class="timeline-label" aria-hidden="true"><span>REVEAL</span><span>ARRIVAL</span></div></div>
+      <p class="caption">12-second motion study · percentage is illustrative</p>
+    </footer>
+  </main>
+  <script>
+    (() => {
+      const stage = document.querySelector('.stage');
+      const field = document.querySelector('.stars');
+      const artwork = document.querySelector('#artwork');
+      const pause = document.querySelector('#pause');
+      const replay = document.querySelector('#replay');
+      const slider = document.querySelector('#timeline');
+      const status = document.querySelector('#status');
+      const loadingLabel = document.querySelector('#loading-label');
+      const loadingPercentage = document.querySelector('#loading-percentage');
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+      const duration = 12000;
+      let frame = 0, elapsed = 0, lastTime = 0, running = false, ready = false, waitingForVisibility = false;
+      let seed = 2049;
+      const random = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+      // Fixed positions keep replay calm and prevent a distracting star reshuffle.
+      for (let i = 0; i < 155; i++) {
+        const star = document.createElement('i');
+        star.className = 'star';
+        const size = i % 23 === 0 ? 1.7 : .6 + random() * .7;
+        Object.assign(star.style, { left:random()*100+'%', top:random()*100+'%', width:size+'px', height:size+'px', opacity:String(.12+random()*.43) });
+        field.appendChild(star);
+      }
+      const clamp = x => Math.max(0,Math.min(1,x));
+      const ease = x => x*x*(3-2*x);
+      function render() {
+        const fraction = clamp(elapsed / duration);
+        const progress = Math.floor(fraction * 100);
+        // Reduced motion keeps the artwork still, without skipping the countdown.
+        const t = reduced.matches ? 1 : fraction;
+        stage.style.setProperty('--stars', ease(clamp(t/.23)).toFixed(4));
+        // Reveal rises through the emblem, whose bottom is above 74% of the landscape artwork.
+        const logo = ease(clamp((t-.16)/.65));
+        stage.style.setProperty('--outline', (.16 * ease(clamp((t-.09)/.17)) * (1-logo)).toFixed(4));
+        stage.style.setProperty('--reveal', (100 - (26 + logo*74) * (t >= .16 ? 1 : 0))+'%');
+        stage.style.setProperty('--wordmark', ease(clamp((t-.69)/.22)).toFixed(4));
+        stage.style.setProperty('--peripheral', (.62 * ease(clamp((t-.3)/.45))).toFixed(4));
+        stage.style.setProperty('--settle', String(reduced.matches ? 1 : 1.018-logo*.018));
+        document.querySelectorAll('.counter').forEach(el => el.textContent=progress+'%');
+        loadingPercentage.textContent = progress+'%';
+        loadingLabel.textContent = progress === 100 ? 'ARRIVED' : running ? 'LOADING' : 'PAUSED';
+        slider.value = String(progress);
+        slider.setAttribute('aria-valuetext',progress+' percent');
+      }
+      function stop() { cancelAnimationFrame(frame); frame=0; running=false; }
+      function complete() { stop(); elapsed=duration; render(); pause.textContent='Play'; status.textContent=reduced.matches?'Arrival complete · reduced motion':'A little more perspective.'; }
+      function tick(now) {
+        if (!running) return;
+        elapsed=Math.min(duration,elapsed+Math.max(0,now-lastTime)); lastTime=now;
+        render();
+        if (elapsed>=duration) complete(); else frame=requestAnimationFrame(tick);
+      }
+      function play(fromStart=false) {
+        if (!ready) return;
+        stop();
+        if (fromStart || elapsed>=duration) elapsed=0;
+        waitingForVisibility = document.hidden;
+        if (waitingForVisibility) { render(); pause.textContent='Resume'; status.textContent='Ready when you return'; return; }
+        running=true; lastTime=performance.now(); pause.textContent='Pause'; status.textContent=reduced.matches?'Preparing Rivune · reduced motion':'Bringing Rivune into view'; render(); frame=requestAnimationFrame(tick);
+      }
+      replay.addEventListener('click',()=>play(true));
+      pause.addEventListener('click',()=>{
+        if (running) {stop();render();pause.textContent='Resume';status.textContent='Preview paused';}
+        else play();
+      });
+      slider.addEventListener('input',()=>{
+        stop();waitingForVisibility=false;elapsed=Number(slider.value)/100*duration;render();pause.textContent=elapsed>=duration?'Play':'Resume';status.textContent='Preview paused';
+      });
+      document.addEventListener('visibilitychange',()=>{
+        if(document.hidden&&running){stop();waitingForVisibility=true;render();pause.textContent='Resume';status.textContent='Ready when you return';}
+        else if(!document.hidden&&waitingForVisibility){waitingForVisibility=false;play();}
+      });
+      reduced.addEventListener('change',()=>{if(ready)render();});
+      addEventListener('pagehide',stop);
+      function start() {
+        if(ready)return; ready=true; pause.disabled=false;replay.disabled=false;slider.disabled=false;
+        play(true);
+      }
+      function fail() {
+        stop();document.querySelector('.identity').hidden=true;document.querySelector('.error').hidden=false;status.textContent='Artwork unavailable';
+      }
+      if(artwork.complete){if(artwork.naturalWidth)start();else fail();}
+      else {artwork.addEventListener('load',start,{once:true});artwork.addEventListener('error',fail,{once:true});}
+    })();
+  </script>
+</body>
+</html>

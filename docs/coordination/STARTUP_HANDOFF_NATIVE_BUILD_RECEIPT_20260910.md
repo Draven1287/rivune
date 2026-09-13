@@ -1,0 +1,15 @@
+# Startup Handoff QA — isolated unlaunched debug build
+
+Built once from exact accepted candidate commit `2ea834a1e2385c34b8f516854b5317c6a08a0607`, Git tree `9da0c197e0b5d81a0ee96398eda787984f0150fe`,148-file manifest aggregate `171ccf39b8cbee0189968505950f1085e12d5b261ecfeb61813e2e878d2c7f28`. Independent export identity PASS read before building. All148 candidate source hashes verified before and after without drift.
+
+Artifact: `/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/qa-artifacts/startup-handoff-native-build-20260910/Rivune Startup Handoff QA.app`. Binary SHA-256 `37c8751c631631477579ce848c90620d375495181394471a3214fe07be261c86`. Bundle identifier `com.rivune.desktop.qa.startuphandoff20260910`, version2026091006. Reserved isolated profile `/Users/Aaravshah/Documents/ChatGPT/App for me to integrate all my AI/qa-artifacts/startup-handoff-native-build-20260910/profile-reserved-not-launched` is configured in Info.plist and remains absent. Bundle is unlaunched.
+
+Existing reviewed build driver reused with distinct output/name/identifier/profile. Frontend desktop build passed; one Cargo build --locked --offline --features custom-protocol --bin rivune passed using existing shared toolchain/cache. Output is dev/debug, unoptimized with debug information. Native log records the existing unused variable in constellation_projection.rs and an unused admitted_startup_ui helper warning. Accepted source was not changed to suppress warnings. No additional tests or bundle build performed.
+
+Exact commands, sanitized environment, Cargo/rustc versions, override config and timestamps are in build-receipt.json. All7 frontend assets and3 bundle files have recorded/reverified hashes. Bridge matches accepted source. Native dependency record references this isolated frontend path. CSS and galaxy/icon images retain prior Sent Draft build bytes; JavaScript reflects the accepted handoff frontend. Config override changes QA identity/title/frontend path only.
+
+Preservation comparison covers 525 files: installed Rivune bundle, discovered prior QA app bundles/profile directories and manifest-addressable live source. Before/after captured paths and hashes match. Candidate tracked state is clean with the same2 pre-existing untracked paths. No process inventory/control operation requested or issued. Prior bundles were not overwritten.
+
+Evidence: qa-artifacts/startup-handoff-native-build-20260910/ contains build.py, verify.py, source-manifest.json, source-before/after.json, build-progress/receipt.json, frontend/native logs, frontend-assets.json, tauri-override.json, native-asset-dependencies.d, preserved-before/after.json and identity-verification.json.
+
+This is an unlaunched debug/review artifact, not an installer or release. Input mapping and embedded-path identity do not prove native runtime, startup contention exit, a second-window outcome, provider access or handoff behavior. No launch/restart, process control, installed replacement, provider, signing/notarization action, new cache/server/dependency, installer or publication. Stopped for independent artifact identity review; no further build is the next step.

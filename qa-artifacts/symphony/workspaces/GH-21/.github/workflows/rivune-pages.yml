@@ -1,0 +1,68 @@
+name: Rivune project site
+on:
+  push:
+    branches: [main]
+    paths: ['pages-site/**', '.github/workflows/rivune-pages.yml']
+  pull_request:
+    paths: ['pages-site/**', '.github/workflows/rivune-pages.yml']
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Reviewed artifact: informational preview or validated Mac beta'
+        type: choice
+        required: true
+        default: preview
+        options: [preview, validated-beta]
+      publish:
+        description: 'Publish this explicitly approved target (otherwise build/test only)'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: rivune-pages-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Test static navigation and separate publication gates
+        working-directory: pages-site
+        run: python3 -m unittest -v
+      - name: Build review artifact without publishing
+        if: github.event_name != 'workflow_dispatch'
+        run: python3 pages-site/build.py
+      - name: Build the explicitly selected publication target
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          PUBLISH_TARGET: ${{ inputs.target }}
+        run: python3 pages-site/build.py --publish-target "$PUBLISH_TARGET"
+      - name: Require target-specific launch approval before publishing
+        if: github.event_name == 'workflow_dispatch' && inputs.publish
+        env:
+          PUBLISH_TARGET: ${{ inputs.target }}
+          PREVIEW_APPROVED: ${{ vars.RIVUNE_PAGES_PREVIEW_APPROVED }}
+          BETA_APPROVED: ${{ vars.RIVUNE_PAGES_BETA_APPROVED }}
+          PUBLISH_REQUESTED: ${{ inputs.publish }}
+        run: python3 pages-site/check_publish.py
+      - name: Upload static site only
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: pages-site/dist
+  deploy:
+    if: github.event_name == 'workflow_dispatch' && inputs.publish && github.ref == 'refs/heads/main' && ((inputs.target == 'preview' && vars.RIVUNE_PAGES_PREVIEW_APPROVED == 'true') || (inputs.target == 'validated-beta' && vars.RIVUNE_PAGES_BETA_APPROVED == 'true'))
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure existing Pages publishing
+        uses: actions/configure-pages@v5
+      - name: Publish the approved static site
+        id: deployment
+        uses: actions/deploy-pages@v4

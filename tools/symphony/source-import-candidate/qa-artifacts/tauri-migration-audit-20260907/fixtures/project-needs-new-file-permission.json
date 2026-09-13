@@ -1,0 +1,36 @@
+{
+  "id": "project-needs-new-file-permission",
+  "sourceKind": "projects.json",
+  "input": {
+    "schemaVersion": 1,
+    "projects": [
+      {
+        "id": "30000000-0000-4000-8000-000000000001",
+        "name": "Fictional reading project",
+        "instructions": "Keep accessible typography.",
+        "createdAt": 810000000,
+        "updatedAt": 810000001,
+        "isArchived": false,
+        "defaultMode": "Together",
+        "files": [
+          {
+            "id": "40000000-0000-4000-8000-000000000001",
+            "name": "fixture.txt",
+            "path": "/synthetic-not-a-real-user-path/fixture.txt",
+            "bookmark": "U1lOVEhFVElDX05PVF9BX1ZBTElEX0JPT0tNQVJL",
+            "byteCount": 22,
+            "fingerprint": "d7cdbc3868d32acc5a01fd2c41dc6fc458dd527c82f51dbcd1b00494d2217ee6",
+            "included": true
+          }
+        ]
+      }
+    ]
+  },
+  "expect": {
+    "preserveInstructionsAndMetadata": true,
+    "filePermissionState": "reauthorization-required",
+    "doNotResolveSyntheticBookmark": true,
+    "doNotReadReferencedPaths": true,
+    "dispatchCount": 0
+  }
+}

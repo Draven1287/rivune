@@ -1,0 +1,25 @@
+# Desktop identity and lifecycle audit
+
+Source audit for Rivune App builder and lead, 2026-09-09. Read the current design direction and chat-first preview receipt. Inspected current React preview and existing Tauri source; no app launch, browser interaction, build, installation, or user-data inspection. Severity describes future desktop integration, not a claimed defect in an installed build.
+
+Paths below: `preview/` means `prototypes/ai-native-workspace/`; `desktop/` means `qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/`.
+
+## Findings
+
+1. **P1 — Chat-first frontend has no desktop lifecycle bridge.** `desktop/src-tauri/tauri.conf.json:7` still packages `../web`, not the React frontend. `preview/src/hooks/workspaceAdapter.ts:1` exposes only an interface assertion; `preview/src/App.tsx:35` opens local Settings with no native event subscription. Existing `desktop/src-tauri/src/main.rs:53` emits `rivune://open-settings`; line 58 starts a renderer-mediated shutdown handshake. Reproduction by source: trace these emitted events into the new preview; no receiver/flush/completion path exists. Merely repointing frontendDist would leave native Settings and graceful Quit unconnected. **Acceptance:** one explicit frontend/host integration binds Settings, shutdown admission/flush/completion/recovery, preserves drafts and selection, and packages the reviewed React output. Verify close/reopen, Settings, and failed-save Quit in one later authorized desktop build. Current synthetic preview must remain labelled unconnected.
+
+2. **P2 — Tray status is not connected to task transitions.** `desktop/src-tauri/src/main.rs:334` sets Idle at startup. A source-wide search for `tray::set_status` finds startup and error paths only; `TrayStatus::Running` exists in `tray.rs:13` but has no production caller. **Reproduction:** follow any run-start/completion path and inspect tray update call sites. **Acceptance:** derive count and attention state from authoritative runs, updating on start, finish, failure and recovery; do not use demo agent activity as real task status.
+
+3. **P2 — One tray per process does not establish one app across invocations.** `main.rs:325` installs one managed tray; `host.rs:867` locks a profile, but there is no single-instance activation forwarding in the inspected source. A second invocation on the same profile can fail rather than focus the existing window; different allowed profiles can own separate trays. `main.rs:376` hides on close, while its event match has no explicit macOS Reopen handler. **Acceptance:** define one production identity/profile and forward subsequent activations to its existing window; verify Dock reopen after close and minimize without a duplicate process/tray. Keep development copies out of the user-facing installation flow. This audit did not enumerate or alter installed apps.
+
+4. **P2 — Tray artwork requires small-size and appearance verification.** `tray.rs` uses the full application icon with `icon_as_template(false)`. Visual inspection of `desktop/src-tauri/icons/icon.png` confirms silver R/orbit/galaxy artwork, but the detailed square is not evidence of readable menu-bar artwork on light/dark backgrounds. The React and legacy web 128px icon files have identical SHA-256 `3f4a35786f677e0cddc9a4fa71f15269344cb330b65530022584778814b0aba4`. **Acceptance:** inspect actual menu-bar rendering at supported scales and appearances, approve a legible Rivune asset treatment, and inspect embedded ICNS/ICO sizes in the eventual bundle. Do not infer packaged identity from a source PNG alone.
+
+## Existing behavior worth preserving
+
+`main.rs:41` restores, unminimizes and focuses the authoritative main window. Close hides it; Quit is gated until host cleanup succeeds. There is no always-on-top secondary panel in the inspected source. Tray Settings uses the main window, not a separate product. The React frontend imports Rivune artwork and exposes chat-first conversation navigation with optional artifacts. Its Settings explicitly describes synthetic execution and preview storage. These are source observations; native interaction and installed state were not verified.
+
+## Later packaging gate
+
+The Tauri config declares development identity `com.rivune.desktop.development`, version `0.0.1`, and ICNS/ICO/PNG inputs. Before any authorized installation, select the intended production identity/version and reviewed frontend output, verify exact bundled icons and platform metadata, and establish one replacement/rollback procedure that preserves existing data. Signing, notarization, installer behavior, update behavior, and clean-machine acceptance remain unverified by this audit. No new application copy or desktop build is needed for the current browser design review.
+
+Builder priority: retain the current chat-first preview; when desktop integration is explicitly authorized, address lifecycle bridge first, then activation/status wiring, followed by one asset and packaging acceptance pass. Traycer is not a design reference. No additional Review feature or screenshot ingestion is proposed.

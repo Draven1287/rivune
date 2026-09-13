@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Rivune</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div class="mark" aria-hidden="true">R</div>
+      <div><p class="eyebrow">RIVUNE</p><h1>One workspace. Your models.</h1></div>
+      <p id="connection-status" class="status" role="status">Connecting…</p>
+    </header>
+    <section class="workspace" aria-label="Desktop workspace prototype">
+      <aside>
+        <div class="aside-title"><h2>Conversations</h2><button id="new-conversation" class="icon-button" type="button" aria-label="New conversation">+</button></div>
+        <div id="conversations" class="conversation-list"></div>
+        <button id="retry" class="secondary" type="button">Retry host</button>
+        <details class="provider-settings">
+          <summary>Local provider</summary>
+          <label for="provider-kind">Adapter</label>
+          <select id="provider-kind"><option value="codex">Codex</option><option value="claude">Claude</option></select>
+          <label for="provider-path">Executable path</label>
+          <input id="provider-path" autocomplete="off" placeholder="/absolute/path/to/codex">
+          <label for="provider-model">Model override <span>(optional)</span></label>
+          <input id="provider-model" autocomplete="off" placeholder="Use provider default">
+          <button id="connect-provider" class="secondary" type="button">Connect locally</button>
+        </details>
+      </aside>
+      <article>
+        <p class="prototype">Local workspace</p>
+        <h2>Continue your work</h2>
+        <p id="run-status" class="run-status">No task status reported</p>
+        <section id="answer" class="answer" aria-live="polite" hidden></section>
+        <form id="prompt-form">
+          <label for="prompt">Message</label>
+          <textarea id="prompt" rows="6" placeholder="Connect the Rivune host to continue a conversation."></textarea>
+          <div class="actions">
+            <button id="reconcile" class="secondary" type="button" hidden>Reconcile request</button>
+            <button id="cancel" class="secondary" type="button" hidden>Stop</button>
+            <button id="retry-run" class="secondary" type="button" hidden>Retry task</button>
+            <button id="submit" type="submit">Send once</button>
+          </div>
+        </form>
+      </article>
+    </section>
+  </main>
+  <script type="module" src="desktop-host.mjs"></script>
+  <script type="module" src="app.mjs"></script>
+</body>
+</html>

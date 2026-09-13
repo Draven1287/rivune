@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rivune — proposed experience</title>
+  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="reference.css">
+</head>
+<body>
+  <header class="reviewbar">
+    <a class="reviewbrand" href="#home">Rivune <span>Design review · 03</span></a>
+    <label class="screen-select">Screen <select id="screen" aria-label="Review screen">
+      <option value="home">01 / New conversation</option><option value="active">02 / Team at work</option>
+      <option value="decision">03 / Decision answer</option><option value="project">04 / Website workspace</option>
+      <option value="connections">05 / Connections & models</option><option value="settings">06 / Settings</option>
+      <option value="approval">07 / Access approval</option><option value="error">08 / Interrupted work</option>
+      <option value="website">09 / Website concept</option><option value="walkthrough">10 / Build walkthrough</option>
+      <option value="contract">11 / Scope & review notes</option>
+    </select></label>
+    <div class="reviewtools"><button id="compact" aria-pressed="false">Compact window</button><button id="textsize" aria-pressed="false">Larger text</button><a href="#contract">Review notes</a></div>
+  </header>
+  <p class="designnotice">PROPOSED DESIGN <span>Interactive mockup. All accounts, activity, outputs and checks are fixtures. No models or project commands run.</span></p>
+  <div id="stage"></div>
+  <footer class="reviewfooter"><span>Chat-first · optional work panel · Mac first <b>Recommended, awaiting approval</b></span><a href="REVIEW.md">Product contract & design notes ↗</a></footer>
+  <dialog id="dialog" aria-labelledby="dialog-title"></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script><script src="reference.js"></script>
+</body>
+</html>

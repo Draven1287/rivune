@@ -1,0 +1,17 @@
+:root {
+  --rivune-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --rivune-space-xs: 4px;
+  --rivune-space-sm: 8px;
+  --rivune-space-md: 16px;
+  --rivune-space-lg: 24px;
+  --rivune-radius-control: 8px;
+  --rivune-radius-panel: 18px;
+  --rivune-radius-composer: 25px;
+  --rivune-surface-panel: #121923;
+  --rivune-text-primary: #e8edf7;
+  --rivune-text-secondary: #a7b6cb;
+  --rivune-border: #ffffff29;
+  --rivune-elevation-panel: 0 32px 100px #000b;
+  --rivune-duration-feedback: .18s;
+  --rivune-content-width: 820px;
+}

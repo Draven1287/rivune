@@ -1,0 +1,13 @@
+# PASS3 bounded recheck
+
+Original renderer P1 closed at renderer scope. All nine PASS3 hashes matched at the initial read; final rehash found only tests/integrated-browser.cjs changed, as the owner reported for broader regression corrections. Product source remained unchanged; app.mjs is `2ec13dc06a1b8a2209b54a09d0e92f4a9d282ee4391c82c393e74da61f946cc6`. Receipt records final hashes. Owner receipt reports 33 focused browser checks, all passing, no errors; their fixture source includes initial selected/background conflicts, post-begin conflict, uncertain begin, failed/successful abort and subsequent shutdown. Reviewer did not rerun browser/Node tests or perform native execution.
+
+Persistent hostShutdownToken is set before awaiting begin acknowledgement, retained across callbacks and cleared only after abortShutdown resolves. Normal pending writes/conflicts are checked before first begin. Failed abort does not unfreeze. The recovery control is outside the inert shell. Actual bridge invokes registered Rust abort_shutdown, which validates the token and calls recover_failed_shutdown before clearing the gate. Recovery rejects active cancellations, operations and nonterminal runs. This is verified source availability, not matching-build runtime acceptance.
+
+## Separate P2: lost successful abort reply cannot recover by retry
+
+Actual main.rs::abort_shutdown clears gate.request after successful host recovery. If that successful IPC response is lost, the renderer catch conservatively retains its token and frozen state. Pressing Keep working again sends the same token, but the real command rejects because current is now None. Thus the displayed retry instruction cannot reconcile the completed abort; repeated clicks remain frozen. The browser stub's failed abort rejects before applying state changes, so it does not cover this lost-response sequence.
+
+Reproduction schedule derived from exact source: current token T → recover_failed_shutdown succeeds → gate.request=None → lose IPC response → renderer retains T → repeat abort_shutdown(T) → token mismatch rejection. No live fault injection was performed. Source hashes are in PASS3_RECHECK_RECEIPT.json.
+
+Required host correction: preserve a successful abort receipt keyed to the old token or provide authoritative lifecycle reconciliation that can establish the outcome without accidentally aborting a newer shutdown. Do not unfreeze on generic error or absent token alone. Acceptance: apply abort/drop reply/retry same token succeeds idempotently; a stale token cannot cancel a newer shutdown; a failed recovery keeps both host and renderer frozen. This remains an integrated recovery gap, separate from the corrected renderer cross-callback P1.

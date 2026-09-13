@@ -1,0 +1,10 @@
+[
+  "prototypes/ai-native-workspace/CONVERSATION_CONNECTION.md",
+  "prototypes/ai-native-workspace/src/host/HostWorkspace.tsx",
+  "prototypes/ai-native-workspace/src/host/HostSettings.css",
+  "prototypes/ai-native-workspace/src/host/ConversationConnection.tsx",
+  "prototypes/ai-native-workspace/src/host/workspaceController.ts",
+  "prototypes/ai-native-workspace/tests/hostController.test.mjs",
+  "prototypes/ai-native-workspace/tests/hostRenderer.test.tsx",
+  "prototypes/ai-native-workspace/tests/rendererScenarios.ts"
+]

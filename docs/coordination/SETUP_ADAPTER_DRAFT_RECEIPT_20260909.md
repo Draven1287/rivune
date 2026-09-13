@@ -1,0 +1,11 @@
+# Read-only setup adapter and draft fallback
+
+Implemented in existing browser preview; no Tauri repoint, desktop/provider operations or additional server.
+
+- workspaceAdapter.ts now exposes typed async createSetupAdapter(bridge,timeout). Its only bridge calls are discovery, model catalog and setup projection of snapshot. Absent/partial bridge returns unavailable. Strict catalog/discovery validation distinguishes their authentication wire enums. Identity joins use exact ID or unique kind/path match. Installation/configuration/authentication/response test/readiness stay distinct; readiness is explicitly host-reported, never a new test. Errors/timeouts discard rows and sanitize messages. No configure/send/cancel methods exposed in this slice.
+- Settings connection section inspects only on explicit button action. Existing browser bridge-unavailable state was verified via CUA; Check again does not create provider rows or imply connection. Conversation remains a synthetic demo; no host results are inserted.
+- Shared draftStore retains drafts in memory independent of keyed component mounts. Read/write/quota failures keep current text across conversation switches and show a saving notice. Unreadable stored drafts are not automatically overwritten by empty fallback. App notice/settings no longer silently promise successful saving after a draft-store failure.
+
+Verification: 18/18 Node tests passed (11 adapter, 7 draft-store). Includes absent bridge, errors, timeout, malformed catalog, identity mismatch, configured/auth-unknown/not-ready, host-reported-ready fixture, exact discovery auth enum; isolated storage read/write/quota errors, cached reads, switching/remount, notification behavior. No real user-storage corruption. npm run build passed (TypeScript/Vite). CUA verified unavailable setup and no connected rows, Settings Escape, and exact draft restoration after switching conversations.
+
+User's latest visual feedback superseded all-glass: stars behind sustained prose were distracting. New placement proposal keeps sharp artwork around edges/welcome, subdued navigation and dark translucent reading/composer/editor surfaces. Rendered after reload and updated RIVUNE_DESIGN_DIRECTION.md. No claim of visual approval or measured contrast compliance.

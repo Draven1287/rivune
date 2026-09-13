@@ -1,0 +1,12 @@
+{
+  "name": "rivune-desktop-runtime",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "test:keyboard": "node tests/keyboard.test.cjs",
+    "test:wire": "node tests/wire.test.mjs",
+    "check": "node --check web/core.mjs && node --check web/app.mjs && node --check web/desktop-host.mjs"
+  }
+}

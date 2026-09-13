@@ -1,0 +1,13 @@
+# Configuration operation recovery contract
+
+Use the existing private host WorkspaceSnapshot and atomic generation persistence, not browser storage or a separate journal. Reserve an immutable provider/select/guard intent before applying it. The host issues a monotonically increasing operation ID in the same snapshot. Only one unacknowledged operation is allowed; legacy configuration calls remain compatible when none is unresolved and are fenced while recovery is required.
+
+Reservation persists no credentials, prompts, draft text or provider responses. Apply requires the exact operation ID and intent. Same-ID/different-payload is rejected; an already applied operation may re-establish durability without applying its configuration again. Configuration and applied state commit atomically. Reservation alone never executes anything.
+
+On renderer mount, read the outstanding operation. This read is visible state, not proof of crash durability. Explicit reconciliation persists an applied record again or changes a reserved record to rejected, fencing delayed application. Only a successful atomic persistence acknowledgement permits durable wording. Acknowledgement marks terminal state as handled; new explicit reservations get a fresh host ID. No automatic replay on mount or reconciliation. A lost reservation reply is recovered through the host record.
+
+Native adapter methods: reserveProviderConfiguration(intent), getProviderConfigurationOperation(), applyProviderConfiguration(intent, operationID), reconcileProviderConfiguration(operationID), acknowledgeProviderConfiguration(operationID). The older configureSelectedProvider remains available to legacy callers. The new UI uses the persistent methods only when the complete capability is present; the old volatile path must remain clearly identified and must not be presented as restart recovery.
+
+Synthetic verification covers: lost apply acknowledgement followed by host/renderer restart; reservation lost acknowledgement; same ID/different payload; delayed apply after reconciliation rejection; persistence faults before and after rename; applied reconciliation cannot revert a subsequent configuration; native record load validation. No provider process is necessary.
+
+The frontend does not automatically retry reservation, application or reconciliation. Legacy bridges retain their existing explicit flow with a visible warning that operation recovery does not survive renderer restart. Partial capability is not advertised as persistent recovery. Acknowledging a terminal record permits a new host-issued identity; historical IDs cannot apply after acknowledgement or replacement.

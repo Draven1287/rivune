@@ -1,0 +1,34 @@
+{
+  "baselineTreeSHA256": "f91c7f9771a83bcc0ba42a6008b349d1bc293ff6a73eb09d14bf858a6f589fda",
+  "currentTreeSHA256": "ab1d34946ad5d3ba96c30726032f2c32dde12e703f4e1cbcba1c28d7a57f5518",
+  "changed": [
+    "prototypes/ai-native-workspace/package.json",
+    "qa-artifacts/cross-platform-shell-20260907/candidate4-runtime-r2/src-tauri/tauri.conf.json"
+  ],
+  "added": [
+    "prototypes/ai-native-workspace/scripts/build-desktop.mjs",
+    "prototypes/ai-native-workspace/tests/desktopBuild.test.mjs",
+    "prototypes/ai-native-workspace/DESKTOP_BUILD.md",
+    "prototypes/ai-native-workspace/.gitignore"
+  ],
+  "allOtherSourceUnchanged": true,
+  "focusedTestsPassed": 3,
+  "desktopWebBuild": "passed with existing dependencies",
+  "nativeBuildOrLaunch": false,
+  "nativeAppSecurityAndCapabilitiesUnchanged": true,
+  "bridgeByteIdentical": true,
+  "desktopOutputFiles": {
+    "assets/index-DpWmbRoa.js": "d6664ed2eeae0f21ea35e14d140fd19cab50a8a6eea8b20a1d73266e82d275d9",
+    "assets/index-IYU2PT5X.css": "6f32989ee8f955787d5ab1ed760b3790f4039d2dc32b176fccde7ef82cc5a6e0",
+    "assets/rivune-icon-128-CAp6CRB1.png": "3f4a35786f677e0cddc9a4fa71f15269344cb330b65530022584778814b0aba4",
+    "assets/rivune-workspace-milky-way-B-psVFJf.png": "0e758d81cd77a3ad9e73fe3db997e45eb91c34107cf538dfa95254996fe0878f",
+    "desktop-entry.mjs": "d31c54e15bbfee60540b923567248f1974ee83ce1608487d79553c58718ffc8d",
+    "desktop-host.mjs": "fd6b9a3acd7f3a55fef961503d9f2172edf232acf727f6b80a60cc3ef90e10e6",
+    "index.html": "10eb5728831e538b411f209360b1b6ef61923f6c176ef4fb435c0cf8b176da13"
+  },
+  "limitations": [
+    "Native runtime CSP/asset loading not tested",
+    "Source rights and fresh-checkout audit still pending",
+    "Browser preview configuration and existing browser dist untouched"
+  ]
+}
