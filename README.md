@@ -5,6 +5,10 @@ CLI/API connections, and inspectable multi-model collaboration. The website is
 for product information and downloads. An internal browser workspace is a local
 QA tool, not the shipped public product.
 
+For the product vision, an honest per-capability maturity status, and the
+points where this README and the marketing site currently disagree, see
+[docs/PRODUCT_OVERVIEW.md](docs/PRODUCT_OVERVIEW.md).
+
 ## Current source and distribution
 
 The public repository is the current source of record. Verified, revision-bound
