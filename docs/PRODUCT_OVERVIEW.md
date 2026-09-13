@@ -69,119 +69,108 @@ starts believing its own marketing.
 
 ## 3. What is in this repository
 
-`Draven1287/rivune` contains exactly two implementations:
+As of the 2026-09-13 source sync (`0228885`), the repository holds several
+distinct implementations. Identify the right one before changing anything.
 
-| Path | What it is | Rung |
-| --- | --- | --- |
-| `Rivune/` + `Rivune.xcodeproj` | SwiftUI macOS/iOS client. 29 Swift source files, ~4,800 lines of tests, CI builds and tests both targets on `macos-26`. | Working native |
-| `pages-site/` | Marketing site and an interactive design preview. | Simulated / browser-tested |
-
-`docs/ARCHITECTURE.md` describes the SwiftUI client in detail and is accurate to
-that source. `scripts/` holds a deterministic source exporter and a macOS DMG
-packaging path that fails closed without Developer ID signing and notarization.
+| Path | What it is | Files | Rung |
+| --- | --- | --- | --- |
+| `rivune-tauri/` | Shared TypeScript/Vite workspace; Tauri is the cross-platform desktop direction. **The README names this the current workspace.** | 166 | Browser-tested / designed |
+| `Rivune/` + `Rivune.xcodeproj` | SwiftUI macOS/iOS client, retained as a separate implementation. | 65 | Working native |
+| `rivune-tauri/macos-preview/` | Swift-wrapped WebKit shell around the same frontend. Own bundle ID and data store; ad hoc signed. | 16 | Working native (preview) |
+| `prototypes/ai-native-workspace/` | React prototype. Its desktop build references a historical Tauri runtime under `qa-artifacts/`. | 109 | Prototype |
+| `website/` | Marketing site plus `/workspace`, a browser client for the local Mac app. | 69 | Browser-tested |
+| `pages-site/` | Older marketing site. Still present and still calls the SwiftUI client "legacy". | 26 | Superseded — see §5.1 |
+| `qa-artifacts/` | Historical source and captured evidence. | 2,503 | Archive |
 
 ### Capability status
 
 Evidence is cited so each row can be re-checked rather than trusted.
 
+**The central fact:** real multi-model orchestration runs only in the Swift
+client; real provider chat in the new workspace runs only in a browser dev
+server. Neither line currently has both. That gap is the project's actual
+position, and closing it is what §6 is about.
+
 | Capability | Rung | Evidence / caveat |
 | --- | --- | --- |
-| Single-provider chat via Codex CLI and Claude Code CLI | Working native | `TerminalAIService.swift`; `ProviderRegistry.swift` grants execution only through a reviewed `executionRoute`. |
-| OpenAI / Anthropic API transports, compatible-endpoint API workspace | Working native | `APIRuntimeService.swift`, `UniversalAPI.swift`, `UniversalAPITests.swift`. |
-| Multi-model collaboration: plan → contribute → review → integrate | Working native | `RivuneCollaborationRunner.swift` is a real phase machine with cancellation, per-phase failure, and retained partial contributions. **Two providers only** (Codex + Claude). |
-| Local history, projects, search, snapshot recovery after interrupted writes | Working native | `RivuneStore.swift`, `ProjectWorkspace.swift`, revisioned primary/recovery snapshots. |
-| Blind Evaluation Lab (Codex vs Claude vs Rivune, shuffled) | Working native | `EvaluationLab.swift`. A preference aid, not an objective judge. |
-| Provider discovery that never launches a CLI; honest "Adapter needed" state | Working native | `ProviderRegistry.swift`; covered by `RivuneDeterministicTests.swift`. |
-| Mac↔iPhone bridge over TLS-PSK, QR/manual pairing, credential rotation | Working native (partial) | `PeerBridge.swift`, `LocalWorkspaceServer.swift`. **Relay to a physical iPhone remains unverified** — the test device was offline during the recorded run. |
-| Interactive app preview (`pages-site/app.html`) | Simulated | Labeled in-page: "Sample content, no AI requests." Drafts clear on reload. Correctly honest. |
-| Constellation Engine as a named, shipped experience | Designed | Appears only in `pages-site/`. No occurrence anywhere in Swift source. |
-| Council and Swarm as distinct selectable strategies | Designed | The site describes both; source implements one fixed workflow. |
-| Auto strategy selection with validation before dispatch | Designed | `council-vs-swarm.html` states Auto is "the target default after both execution paths qualify." |
-| Teams beyond two providers | Designed | The catalog models arbitrary participants; only Codex and Claude execute. |
-| Project execution — building a site, running tests, working preview | Designed | Not implemented. README lists repository editing, shell commands, and autonomous tools as explicit non-features. |
-| Tauri desktop for macOS / Windows / Linux | Designed | Named only on the marketing site. No Tauri code in this repository. |
-| Any signed, downloadable build | **Not released** | `pages-site/release.json` is `{"status": "coming-soon"}`. Only a source preview (`v0.2.0-source-preview.4`) exists. |
+| Claude subscription chat — real streamed replies, model and usage reported | Browser-tested | `rivune-tauri/docs/claude-local-chat.md`. Verified 2026-09-12: two live account requests, a remembered `observatory` follow-up. **Vite dev server on loopback 1420 only** — not a native bridge, not packaged, not an API-key path. |
+| Continuation that sends only completed *real* exchanges, never simulated ones | Browser-tested | Same adapter. Rebuilds explicit history each request; does not resume a CLI session. |
+| Hardened local adapter: allowlisted env, no tools/MCP/skills, temp cwd, 3-min deadline, single global request | Browser-tested | Same doc. Refuses detected managed/enterprise policy rather than bypassing it. |
+| Council example in the shared workspace | Simulated | `rivune-tauri/docs/quiet-preview.md`. Authored, streams locally, explicitly labeled; no provider is represented as having answered. |
+| Council / Swarm as live orchestration in the new workspace | Designed | `CONSTELLATION_ENGINE_DIRECTION.md` defines them; the checkpoint lists live orchestration as future work. |
+| Packaged desktop provider execution (Tauri) | Designed | Listed as remaining in the 2026-09-12 checkpoint. |
+| Multi-model collaboration: plan → contribute → review → integrate | Working native (Swift only) | `RivuneCollaborationRunner.swift` is a real phase machine with cancellation, per-phase failure, and retained partial contributions. **Two providers only** (Codex + Claude). |
+| Single-provider chat via Codex CLI and Claude Code CLI | Working native (Swift only) | `TerminalAIService.swift`; `ProviderRegistry.swift` grants execution only through a reviewed `executionRoute`. |
+| OpenAI / Anthropic API transports, compatible-endpoint API workspace | Working native (Swift only) | `APIRuntimeService.swift`, `UniversalAPI.swift`. |
+| Local history, projects, search, snapshot recovery | Working native (Swift) / browser-tested (Tauri) | `RivuneStore.swift`; `rivune-tauri/src/services/storage/`, covered by `storage.test.mjs`. |
+| Blind Evaluation Lab (Codex vs Claude vs Rivune) | Working native (Swift only) | `EvaluationLab.swift`. A preference aid, not an objective judge. |
+| Mac↔iPhone bridge over TLS-PSK | Working native (partial) | `PeerBridge.swift`. **Relay to a physical iPhone remains unverified** — the test device was offline during the recorded run. |
+| Windows / Linux packaging | Designed | The checkpoint states it was not executed. |
+| Any signed, downloadable build | **Not released** | `pages-site/release.json` is `coming-soon`. Only a source preview exists; `macos-preview` is ad hoc signed and explicitly not for publication. |
 
-## 4. What the handoff referenced and is not here
+## 4. Verification performed for this document
 
-The following were cited as starting points. None exist in this repository, on
-any branch, and `Draven1287/rivune` is the only repository this session can
-reach:
+Run here on 2026-09-13 against merge head, not quoted from a checkpoint:
 
-- `rivune-tauri/` — the TypeScript/Vite workspace
-- `rivune-tauri/docs/product-quality-direction.md`
-- `rivune-tauri/docs/quiet-preview.md`
-- `rivune-tauri/docs/claude-local-chat.md`
-- `prototypes/ai-native-workspace/` — the React prototype
-- The separate macOS preview
-- The 12 September development checkpoint
+- `npm ci && npm test` in `rivune-tauri/` → **88/88 pass**, three consecutive
+  runs, ~800 ms each. All fixtures; no model or paid API calls.
+- `npm run typecheck` → clean.
+- `python3 scripts/test_source_export.py` → 20/20.
+- Swift CI (`build-and-test`) → green on `macos-26` under Xcode 26.6: export
+  test, `Rivune Mac` build, `Rivune Mac` tests, `Rivune iOS` build.
 
-That checkpoint is the sole reported evidence for real Claude replies and a
-remembered follow-up in the local Vite preview. Because neither the code nor the
-checkpoint is present, **the Tauri line of work is unverifiable from here** and
-is recorded above as *Designed* — not as a judgment about the work, only about
-what can be checked.
-
-If that workspace lives in another repository or locally, it needs to be
-attached before anyone can reconcile it. Until then, the SwiftUI client is the
-only Rivune implementation with evidence behind it.
+One caveat worth recording: the **first** `npm test` run, immediately after
+`npm ci` on a loaded machine, took 180 s and failed 2 of 88 on timing-sensitive
+assertions. Three warm runs since have been clean. The suite is sound but has a
+small cold-start fragility that will read as a flake in CI.
 
 ## 5. Reconciliation findings
 
-Three real contradictions, in priority order.
+### 5.1 The platform question is now answered — the artifacts have not caught up
 
-### 5.1 The site and the app disagree about what Rivune is
+The README added by `0228885` states it plainly: `rivune-tauri/` is the current
+shared workspace, Tauri is the cross-platform desktop direction, and the SwiftUI
+client is "retained as a separate implementation." That resolves the question
+this document previously recorded as open.
 
-`pages-site/download.html` describes the SwiftUI client as "the **legacy**
-SwiftUI Mac code… not the forthcoming Tauri app," and
-`council-vs-swarm.html` states "Connected AI features are not available yet" and
-"Single-AI chat is being built first."
+What has not caught up:
 
-`README.md` describes that same client under **"Working now"**, with live Codex
-and Claude runs, a seven-request collaboration workflow, and 67/67 passing tests.
+- **Two marketing sites now coexist.** `website/` and `pages-site/` are both
+  present. `pages-site/` still calls the SwiftUI client "legacy… not the
+  forthcoming Tauri app" and still gates downloads on `release.json`. One of
+  them should be retired or clearly marked historical.
+- **The README describes both implementations in the present tense**, with the
+  Swift client's "Working now" section intact below the new preamble. That
+  section is accurate about the Swift app — but a reader arriving at a
+  Tauri-first project will read Swift capabilities as the product's.
 
-Both are in `main`. The site is the newer commit. So the public position has
-already re-baselined Rivune onto Tauri and demoted the only working
-implementation to legacy — while the README still presents it as the product.
-Whichever is true, one of them is currently misleading a reader.
+Neither is a code defect. Both are the kind of drift this document exists to
+catch.
 
-**Decision needed:** is the SwiftUI client the product, a reference
-implementation for the Tauri app, or deprecated? Everything downstream — the
-README, the download page, the release gate, where effort goes — follows from
-that answer and cannot be settled inside this document.
+### 5.2 Vocabulary now has one authority, and it should be used
 
-### 5.2 Three vocabularies for one idea
+`rivune-tauri/CONSTELLATION_ENGINE_DIRECTION.md` settles it: Constellation
+Engine is the whole experience; Council is the independent-perspectives
+strategy; Swarm is the build-and-review strategy; Orbit and backgrounds are
+visual presentation, not strategies. This matches the product brief.
 
-| Source | Vocabulary |
-| --- | --- |
-| Swift source | "Rivune mode"; `council` as an internal participant array; legacy `Together` values kept for serialization compatibility |
-| Marketing site | "Constellation" used for *both* independent perspectives and divided work |
-| This handoff | "Constellation Engine" as the whole experience, with **Council** and **Swarm** as its two internal strategies |
+Remaining drift is outside that document: `pages-site/council-vs-swarm.html`
+uses "Constellation" for *both* perspectives and divided work, collapsing the
+one distinction that matters. Swift source uses "Rivune mode" and an internal
+`council`; serialized `Together` and `Alloy` values must stay untouched as
+compatibility identifiers — renaming them breaks saved history.
 
-The handoff's model is the clearest and should win. The site's single
-"Constellation" for both behaviors is the drift most worth correcting, since it
-collapses the one distinction that matters. Serialized `Together` and `Alloy`
-values must stay as compatibility identifiers — renaming them breaks saved
-history.
+### 5.3 Two different things are dated together, and should be separated
 
-### 5.3 Verification is dated and should be labeled as such
+- **Automated checks are current.** Both suites pass today (§4).
+- **Live provider runs are not, and differ per implementation.** The Tauri
+  Claude chat was verified 2026-09-12 in a browser dev server. The Swift
+  client's live Codex/Claude runs, timings, adversarial tool-disable check and
+  pairing exercise date to 2026-09-02 and need signed-in CLIs on a real Mac, so
+  neither CI nor this session can reproduce them.
 
-README's detailed results are headed "Historical verification — 2026-09-02" and
-the README itself says they describe an earlier checkout and are "not acceptance
-of the current source candidate." That honesty is correct and should be kept.
-The risk is that a reader skims the "Working now" section and treats those
-numbers as current. Re-running the documented checks against the exact extracted
-archive is what converts them back into present-tense claims.
-
-Two different things are dated together, and they should be separated:
-
-- **The automated suite is current.** CI ran the source-export test, the
-  `Rivune Mac` build, the `Rivune Mac` test suite, and the `Rivune iOS` build
-  against head `91a676b` on 2026-09-13 under Xcode 26.6, and all four passed.
-- **The live provider runs are not.** The recorded Codex and Claude sessions,
-  the timings, the adversarial tool-disable check, and the pairing exercise all
-  need signed-in CLIs on a real Mac, so CI cannot reproduce them. Those remain
-  as of 2026-09-02 and are the part that needs re-running and re-dating.
+A passing frontend build is not release acceptance, and the checkpoint says so
+itself. That discipline should survive contact with a shipping deadline.
 
 ## 6. What to do next
 
@@ -190,20 +179,37 @@ prompt, get a real answer, continue the conversation, keep the work, and recover
 cleanly from an interruption.** Verified collaboration and real project
 execution build on that, not beside it.
 
-1. **Settle §5.1.** Pick the platform of record. This unblocks everything else.
-2. **Attach or locate the Tauri workspace.** Nothing about it can be verified,
-   preserved, or reconciled while it is outside this repository.
-3. **Re-run the SwiftUI verification** against the current candidate and
-   re-date it, so the README states present-tense facts.
-4. **Align the site with the ladder in §2.** The app preview is already labeled
-   honestly; the download and strategy pages should distinguish designed from
-   working just as clearly.
-5. **Adopt one vocabulary** (§5.2) across README, site, and new source, leaving
-   legacy serialized identifiers untouched.
+The single most valuable next step is the one the checkpoint already names:
+**get the Claude adapter out of the Vite dev server and into the packaged
+app.** Today the only real provider chat in the new workspace depends on a
+loopback development server. Until that runs packaged, the Tauri line has no
+end-to-end story, and the honest status of the desktop product stays
+*designed*.
+
+In order:
+
+1. **Packaged desktop provider execution.** Port the hardened local adapter to
+   the Tauri runtime, keeping its guarantees intact — allowlisted environment,
+   no tools or MCP, temp working directory, bounded output, single in-flight
+   request, managed-policy refusal. These are the properties that make it safe
+   to ship, not incidental details.
+2. **Retire or mark `pages-site/`** (§5.1) so one site describes the product,
+   and align its claims with the ladder in §2.
+3. **Re-run and re-date the Swift live verification**, or state plainly that
+   the Swift client is frozen and its results are historical. Either is fine;
+   leaving it ambiguous is not.
+4. **Carry `CONSTELLATION_ENGINE_DIRECTION.md` vocabulary** into the site and
+   any new UI, leaving serialized identifiers untouched.
+5. **Fix the cold-start test fragility** (§4) before it reads as CI flake.
 6. **Then extend:** real Council and Swarm as distinct validated strategies,
-   participants beyond two providers, and evidence-based verification —
-   tests, sources, a working preview — so that a result is trusted because it
-   was checked, not because the models agreed.
+   participants beyond two providers, and evidence-based verification — tests,
+   sources, a working preview — so a result is trusted because it was checked,
+   not because the models agreed.
+
+The Swift client already proves the hard part is achievable: a real
+plan/contribute/review/integrate cycle with failure states that hold. Treat it
+as the reference the new orchestration must match, not as code to leave behind
+unread.
 
 ## 7. Rules this project holds itself to
 
