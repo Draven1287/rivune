@@ -8,6 +8,10 @@ const help = [...SAFE_FLAGS, '--print', '--output-format', '--include-partial-me
 const valid = { prompt: 'Hello', history: [], model: 'default' };
 const auth = JSON.stringify({ loggedIn: true, authMethod: 'claude.ai', apiProvider: 'firstParty', subscriptionType: 'max', email: 'must-never-leak@example.test' });
 const tick = () => new Promise(resolve => setImmediate(resolve));
+// Spawning awaits locate, readiness and a real mkdtemp, so a fixed tick count is not a wait:
+// on a cold machine those ticks drain long before the filesystem replies. Bound the poll by
+// wall-clock instead, so a genuinely missing child still fails and a merely slow one does not.
+const waitFor = async (ready, timeoutMs = 10000) => { const deadline = Date.now() + timeoutMs; while (!ready() && Date.now() < deadline) await tick(); return ready(); };
 const result = { type: 'result', subtype: 'success', is_error: false, result: 'hello', usage: { input_tokens: 10, cache_read_input_tokens: 20, cache_creation_input_tokens: 30, output_tokens: 5 } };
 function request(body = valid, changes = {}) {
   const req = new PassThrough();
@@ -84,10 +88,16 @@ test('concurrent request is rejected and closing response terminates running Cla
   let child;
   const handler = createClaudeChatMiddleware({ ...fixtureOptions, spawnProcess: processFixture(c => { child = c; }) });
   const res = response(), pending = handler(request(), res);
-  for (let i = 0; !child && i < 100; i++) await tick();
-  assert.ok(child);
-  const second = response(); await handler(request(), second); assert.equal(second.statusCode, 409);
-  res.emit('close'); await pending; assert.deepEqual(child.kills, ['SIGTERM']); assert.ok(!res.data.includes('"type":"done"'));
+  try {
+    assert.ok(await waitFor(() => child), 'Claude child process did not spawn');
+    const second = response(); await handler(request(), second); assert.equal(second.statusCode, 409);
+  } finally {
+    // Always end the request. An abandoned handler keeps the module-global lock and its
+    // three-minute deadline timer, so one failure here would also fail the next test and
+    // hold the whole run open until that timer fires.
+    res.emit('close'); await pending;
+  }
+  assert.deepEqual(child.kills, ['SIGTERM']); assert.ok(!res.data.includes('"type":"done"'));
 });
 test('unready and invalid requests do not spawn; process failures expose no raw stderr', async () => {
   const noSpawn = () => { throw new Error('must not spawn'); };

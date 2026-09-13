@@ -83,6 +83,7 @@ docs/ARTWORK_PROVENANCE.md
 docs/BUILD_FROM_SOURCE.md
 docs/MACOS_RELEASE.md
 docs/OPEN_SOURCE_STRATEGY.md
+docs/PRODUCT_OVERVIEW.md
 scripts/configure_update_release.py
 scripts/generate_app_icon.swift
 scripts/open_source_files.txt
